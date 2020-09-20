@@ -10,16 +10,16 @@ Class view{
     function __construct(){ 
         $this->titulo= "J&J Electrodomesticos";
         $this->html='<!DOCTYPE html>
-        <html lang="en">
-        <head>
+            <html lang="en">
+            <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" 
             integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
             <title>'.$this->titulo.'</title>
-        </head>
-        <body> 
-        <h1>'.$this->titulo.'</h1>';
+            </head>
+            <body> 
+            <h1>'.$this->titulo.'</h1>'; 
         $this->finHtml='<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
@@ -52,7 +52,9 @@ Class view{
                 <th scope='col'>Precio</th>
                 <th scope='col'>Stock</th>
                 <th scope='col'>Categoria</th>
-                <th scope='col'>Ver detalle</th>
+                <th scope='col'>Ver detalle</th> 
+                <th scope='col'>Editar</th>
+                <th scope='col'>Eliminar</th>
             </tr>
         <thead>
         <tbody>";
@@ -64,7 +66,11 @@ Class view{
                 <td>$producto->stock</td> 
                 <td>$producto->name</td> 
                 <td><button class='btn btn-secondary' type='button'><a class='btn btn-secondary btn-lg active'
-                 href=".BASE_URL."verDetalle/".$producto->id.">Detalle</a></button></td>  
+                 href=".BASE_URL."verDetalle/".$producto->id.">Detalle</a></button></td> 
+                 <td><button class='btn btn-secondary' type='button'><a class='btn btn-warning btn-lg active'
+                 href=".BASE_URL."formEditar/".$producto->id.">Editar</a></button></td> 
+                <td><button class='btn btn-secondary' type='button'><a class='btn btn-outline-danger btn-lg active'
+                href=".BASE_URL."eliminarProducto/".$producto->id.">Eliminar</a></button></td>
             </tr>";
         }
         $this->html.= " </tbody>    
@@ -106,7 +112,7 @@ Class view{
         echo $this->html;
     } 
 
-    function showDetalleItem($detalles){ 
+    function showDetalleItem($detalle){ 
         $this->html.="
         <div class='container'>
             <div class='row'> 
@@ -130,22 +136,16 @@ Class view{
                 <th scope='col'>Categoria</th>
             </tr>
         <thead>
-        <tbody>";
-        foreach($detalles as $detalle) { 
-        $descripcion=$detalle->descripcion; 
+        <tbody>"; 
         $this->html.= "
             <tr>
                 <th scope='row'>$detalle->id</th>
-                <td>$detalle->nombre</td>";
-                if($descripcion==null){ 
-                    $descripcion= "---";
-                }
-        $this->html.="<td>$descripcion</td> 
+                <td>$detalle->nombre</td>
+                <td>$detalle->descripcion</td> 
                 <td>$detalle->precio</td> 
                 <td>$detalle->stock</td> 
                 <td>$detalle->name</td>  
             </tr>";
-        }
         $this->html.= " </tbody>    
         </table>"; 
         echo $this->html; 
@@ -175,6 +175,45 @@ Class view{
     function home(){ 
         header("Location: ".BASE_URL."");
     } 
+
+    function showFormEditar($id_producto,$categorias,$producto){ 
+        $this->formUpdateProducto=$this->html;
+        $this->formUpdateProducto.= 
+        '<div class="container">
+            <h1> Editar Producto </h1>
+                <form action="'.BASE_URL.'editar" method="POST">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="hidden" name="id_producto" value="'.$id_producto.'">
+                    <input type="text" class="form-control" name="nombre" placeholder="'.$producto->nombre.'">
+                </div>
+                <div class="form-group">
+                    <label> Descripcion </label>
+                    <input class="form-control" name="descripcion" type="text" placeholder="'.$producto->descripcion.'">
+                </div>
+                <div class="form-group">
+                    <label>Precio</label>
+                    <input placeholder='.$producto->precio.' name="precio" class="form-control" type="text">
+                </div>
+                <div class="form-group">
+                    <label>Stock</label>
+                    <input placeholder='.$producto->stock.' type="text" class="form-control" name="stock">
+                </div>
+                <div class="form-group">
+                    <label>Categoria</label>
+                    <select name="nameCategoria" class="form-control">';
+                        foreach($categorias as $categoria){
+                        $this->formUpdateProducto.='<option>'.$categoria->name.'</option>'; 
+                        }
+                        $this->formUpdateProducto.=        
+                    '</select>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                </form> 
+        </div>';
+        $this->formUpdateProducto.=$this->finHtml; 
+        echo $this->formUpdateProducto;    
+    }
 
     function error($error){ 
         $this->html.=

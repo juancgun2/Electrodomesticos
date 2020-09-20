@@ -16,7 +16,10 @@ Class controller{
     } 
 
     function showDetalleItem($params=null){ 
-        $id_producto=$params[':ID'];  
+        $id_producto=$params[':ID'];   
+        //$producto=$this->model->getItem($id_producto); 
+        //print_r($producto); 
+        //die();
         $this->view->showDetalleItem($this->model->getItem($id_producto));
     } 
 
@@ -44,5 +47,36 @@ Class controller{
             $error="Por favor complete todos los campos";
             $this->view->error($error);
         } 
+    } 
+
+    function eliminarProducto($params=null){ 
+        $id_producto=$params[":ID"]; 
+        $this->model->eliminarProducto($id_producto);
+        $this->view->home();
+    }
+
+    function showFormEditar($params=null){ 
+        $id_producto=$params[":ID"]; 
+        $categorias=$this->model->getCategorias(); 
+        $producto=$this->model->getItem($id_producto);
+        $this->view->showFormEditar($id_producto,$categorias,$producto);
+    }
+
+    function editarProducto(){ 
+        if(!empty($_POST["id_producto"])&&!empty($_POST["nombre"])&&!empty($_POST["descripcion"])
+            &&!empty($_POST["precio"])&&!empty($_POST["stock"])&&!empty($_POST["nameCategoria"])){     
+            $nombre=$_POST["nombre"]; 
+            $descripcion=$_POST["descripcion"]; 
+            $precio=$_POST["precio"];
+            $stock=$_POST["stock"];
+            $nombreCategoria=$_POST["nameCategoria"]; 
+            $idProducto=$_POST["id_producto"];
+            $idCategoria= $this->model->getIdCategoria($nombreCategoria);
+            $this->model->editarProducto($idProducto,$nombre,$descripcion,$precio,$stock,$idCategoria->id); 
+            $this->view->home(); 
+        }else{ 
+            $error="Por favor complete todos los campos";
+            $this->view->error($error);
+        }
     }
 }

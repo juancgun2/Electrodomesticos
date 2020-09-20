@@ -16,10 +16,11 @@ Class model{
     } 
 
     function getItem($id_producto){ 
-        $consulta=$this->db->prepare("SELECT * from producto join categoria on producto.id_categoria=categoria.id
+        $consulta=$this->db->prepare("SELECT producto.nombre,producto.precio,producto.stock,producto.id,
+        categoria.name,producto.descripcion from producto join categoria on producto.id_categoria=categoria.id
         WHERE producto.id=?");
         $consulta->execute(array($id_producto)); 
-        return $consulta->fetchAll(PDO::FETCH_OBJ);
+        return $consulta->fetch(PDO::FETCH_OBJ);
     }
 
     function getCategorias(){ 
@@ -48,6 +49,14 @@ Class model{
         $consulta->execute(array($nombre,$descripcion,$precio,$stock,$idCategoria));
     }
 
+    function eliminarProducto($id_producto){ 
+        $consulta=$this->db->prepare("DELETE from producto WHERE id=?");
+        $consulta->execute(array($id_producto));
+    } 
 
-
-}
+    function editarProducto($idProducto,$nombre,$descripcion,$precio,$stock,$idCategoria){ 
+        $consulta=$this->db->prepare("UPDATE producto SET nombre=?,descripcion=?,precio=?,stock=?,
+        id_categoria=? WHERE producto.id=?"); 
+        $consulta->execute(array($nombre,$descripcion,$precio,$stock,$idCategoria,$idProducto));
+        }
+    }
