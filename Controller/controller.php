@@ -29,4 +29,20 @@ Class controller{
         $this->view->showAllItems($this->model->getItemsInOrder($id_categoria),$this->model->getCategorias());
     }
 
+    function insertarProducto(){ 
+        if(!empty($_POST["nombre"])&&!empty($_POST["descripcion"])&&!empty($_POST["precio"])&&
+            !empty($_POST["stock"])&&!empty($_POST["nameCategoria"])){ 
+            $nombre=$_POST["nombre"]; 
+            $descripcion=$_POST["descripcion"]; 
+            $precio=$_POST["precio"]; 
+            $stock=$_POST["stock"]; 
+            $nombreCategoria=$_POST["nameCategoria"]; 
+            $id_categoria= $this->model->getIdCategoria($nombreCategoria);
+            $this->model->insertarProducto($nombre,$descripcion,$precio,$stock,$id_categoria->id);
+            $this->view->home();       
+        }else{ 
+            $error="Por favor complete todos los campos";
+            $this->view->error($error);
+        } 
+    }
 }

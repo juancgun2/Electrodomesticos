@@ -4,6 +4,8 @@ Class view{
     private $titulo;
     private $html; 
     private $finHtml;
+    private $formInsertProducto;
+    private $formUpdateProducto;
 
     function __construct(){ 
         $this->titulo= "J&J Electrodomesticos";
@@ -38,9 +40,9 @@ Class view{
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">'; 
                 foreach($categorias as $categoria){
                     $this->html.='<a class="dropdown-item" href='.BASE_URL.'Categoria/'.$categoria->id.'>'.$categoria->name.'</a>';
-                }
-                $this->html.='
-                </div>
+                }   
+                $this->html.=
+                '</div>
             </div>
         </div>';
         $this->html.="<table class='table table-hover table-dark'>
@@ -67,6 +69,39 @@ Class view{
         }
         $this->html.= " </tbody>    
         </table>"; 
+        $this->formInsertProducto=' 
+            <div class="container">
+            <h1> Insertar Producto </h1>
+                <form action="insertProducto" method="POST">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" class="form-control" name="nombre">
+                </div>
+                <div class="form-group">
+                    <label>Descripcion</label>
+                    <input type="text" class="form-control" name="descripcion">
+                </div>
+                <div class="form-group">
+                    <label>Precio</label>
+                    <input type="text" class="form-control" name="precio">
+                </div>
+                <div class="form-group">
+                    <label>Stock</label>
+                    <input type="text" class="form-control" name="stock" >
+                </div>
+                <div class="form-group">
+                    <label>Categoria</label>
+                    <select name="nameCategoria" class="form-control">';
+                        foreach($categorias as $categoria){
+                        $this->formInsertProducto.='<option>'.$categoria->name.'</option>'; 
+                        }
+                        $this->formInsertProducto.=        
+                    '</select>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                </form> 
+            </div>';
+        $this->html.=$this->formInsertProducto;
         $this->html.=$this->finHtml;
         echo $this->html;
     } 
@@ -140,5 +175,15 @@ Class view{
     function home(){ 
         header("Location: ".BASE_URL."");
     } 
+
+    function error($error){ 
+        $this->html.=
+        "<div class='container'>
+        <h1>".$error."</h1>
+        <button type='button' class='btn btn-outline-danger'>
+            <a class='btn btn-outline-danger btn-lg active' href=".BASE_URL."home>Home</a></button>"; 
+        $this->html.=$this->finHtml; 
+        echo $this->html;
+    }
 
 }

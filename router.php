@@ -9,7 +9,12 @@ $r = new router();
 $r->addRoute("home","GET","controller","Home"); 
 $r->addRoute("verDetalle/:ID","GET","controller","showDetalleItem"); 
 $r->addRoute("Categorias","GET","controller","showCategorias"); 
-$r->addRoute("Categoria/:ID","GET","controller","categoriasInOrder");
+$r->addRoute("Categoria/:ID","GET","controller","categoriasInOrder"); 
+$r->addRoute("insertProducto","POST","controller","insertarProducto"); 
+//$r->addRoute("Categoria/:ID","GET","controller","categoriasInOrder");
+//$r->addRoute("Categoria/:ID","GET","controller","categoriasInOrder");
+//$r->addRoute("Categoria/:ID","GET","controller","categoriasInOrder");
+
 
 $r->setDefaultRoute("controller","Home");
 
