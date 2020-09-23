@@ -180,24 +180,32 @@ Class view{
         $this->formUpdateProducto=$this->html;
         $this->formUpdateProducto.= 
         '<div class="container">
-            <h1> Editar Producto </h1>
+            <div class="row"> 
+                <div class="col">
+                    <h1> Editar producto '.$producto->nombre.' </h1>   
+                </div> 
+            </div>    
                 <form action="'.BASE_URL.'editar" method="POST">
                 <div class="form-group">
                     <label>Nombre</label>
                     <input type="hidden" name="id_producto" value="'.$id_producto.'">
-                    <input type="text" class="form-control" name="nombre" placeholder="'.$producto->nombre.'">
+                    <input type="text" class="form-control" value="'.$producto->nombre.'" 
+                        name="nombre" placeholder="'.$producto->nombre.'">
                 </div>
                 <div class="form-group">
                     <label> Descripcion </label>
-                    <input class="form-control" name="descripcion" type="text" placeholder="'.$producto->descripcion.'">
+                    <input class="form-control" value="'.$producto->descripcion.'"
+                         name="descripcion" type="text" placeholder="'.$producto->descripcion.'">
                 </div>
                 <div class="form-group">
                     <label>Precio</label>
-                    <input placeholder='.$producto->precio.' name="precio" class="form-control" type="text">
+                    <input placeholder='.$producto->precio.' value="'.$producto->precio.'"
+                         name="precio" class="form-control" type="text">
                 </div>
                 <div class="form-group">
                     <label>Stock</label>
-                    <input placeholder='.$producto->stock.' type="text" class="form-control" name="stock">
+                    <input placeholder='.$producto->stock.' value="'.$producto->stock.'" 
+                        type="text" class="form-control" name="stock">
                 </div>
                 <div class="form-group">
                     <label>Categoria</label>
@@ -207,8 +215,14 @@ Class view{
                         }
                         $this->formUpdateProducto.=        
                     '</select>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                </div> 
+                <div class="row"> 
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Submit</button>         
+                        <button type="button" class="btn">
+                        <a class="btn btn-danger" href='.BASE_URL.'home>Cancelar</a></button>
+                    </div> 
+                </div>    
                 </form> 
         </div>';
         $this->formUpdateProducto.=$this->finHtml; 
