@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-09-2020 a las 01:18:24
+-- Tiempo de generación: 24-09-2020 a las 19:43:17
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.6
 
@@ -37,8 +37,9 @@ CREATE TABLE `categoria` (
 --
 
 INSERT INTO `categoria` (`id`, `name`) VALUES
-(1, 'muebles'),
-(3, 'televisores');
+(3, 'televisores'),
+(5, 'computacion'),
+(7, 'musica');
 
 -- --------------------------------------------------------
 
@@ -60,10 +61,10 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`id`, `nombre`, `descripcion`, `precio`, `stock`, `id_categoria`) VALUES
-(1, 'televisor', NULL, 5000, 3, 3),
-(3, 'mesa', NULL, 2333, 1, 1),
-(5, 'radio', NULL, 55000, 10, 3),
-(6, 'teleevisor', NULL, 55000, 10, 3);
+(1, 'televisor', '42 pulgadas smart ', 69000, 17, 3),
+(5, 'radio', 'inalambrica usb', 3444, 10, 7),
+(6, 'teleevisor', '47 pulgadas smart', 55000, 10, 3),
+(8, 'pc', 'amd radeon', 50000, 34, 5);
 
 --
 -- Índices para tablas volcadas
@@ -80,7 +81,7 @@ ALTER TABLE `categoria`
 --
 ALTER TABLE `producto`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `id_categoria` (`id_categoria`);
+  ADD KEY `id_categoria` (`id_categoria`) USING BTREE;
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
@@ -90,13 +91,13 @@ ALTER TABLE `producto`
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Restricciones para tablas volcadas

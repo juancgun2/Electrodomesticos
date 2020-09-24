@@ -30,9 +30,16 @@ Class model{
     }
 
     function getIdCategoria($nombreCategoria){ 
-        $consulta=$this->db->prepare("SELECT id,name from categoria WHERE name=? "); 
+        $consulta=$this->db->prepare("SELECT id from categoria WHERE name=? "); 
         $consulta->execute(array($nombreCategoria)); 
         return $consulta->fetch(PDO::FETCH_OBJ);
+    }
+
+    function getCategoria($idCategoria){ 
+        $consulta=$this->db->prepare("SELECT name,id from categoria where id=?"); 
+        $consulta->execute(array($idCategoria));
+        return $consulta->fetch(PDO::FETCH_OBJ);
+
     }
 
     function getItemsInOrder($id_categoria){ 
@@ -57,20 +64,20 @@ Class model{
         $consulta=$this->db->prepare("UPDATE producto SET nombre=?,descripcion=?,precio=?,stock=?,
         id_categoria=? WHERE producto.id=?"); 
         $consulta->execute(array($nombre,$descripcion,$precio,$stock,$idCategoria,$idProducto));
-        }
-    } 
+    }
 
     function editarCategoria($id_categoria,$nombre){ 
-        $consulta=$this->db->prepare("UPDATE categoria SET name=? WHERE id=?"); 
-        $consulta->execute(array($id_categoria,$nombre)); 
+        $consulta=$this->db->prepare("UPDATE categoria SET categoria.name=? WHERE id=?"); 
+        $consulta->execute(array($nombre,$id_categoria)); 
     } 
 
     function insertarCategoria($nombre){ 
-        $consulta=$this->db->prepare("INSERT INTO categoria(nombre) VALUES(?)"); 
+        $consulta=$this->db->prepare("INSERT INTO categoria(name) VALUES(?)"); 
         $consulta->execute(array($nombre));
     } 
 
     function eliminarCategoria($id_categoria){ 
-        $consulta=$this->db->prepare("DELETE categoria WHERE id=?"); 
+        $consulta=$this->db->prepare("DELETE from categoria WHERE id=?"); 
         $consulta->execute(array($id_categoria));
-    }
+    } 
+}

@@ -38,12 +38,14 @@ Class view{
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Mostrar Por Categorias
                 </button>
-                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">'; 
+                <div class="dropdown-menu list-group-item-warning" aria-labelledby="btnGroupDrop1">'; 
                 foreach($categorias as $categoria){
-                    $this->html.='<a class="dropdown-item" href=Categoria/'.$categoria->id.'>'.$categoria->name.'</a>';
+                    $this->html.='<a class="dropdown-item"
+                         href=Categoria/'.$categoria->id.'>'.$categoria->name.'</a>';
                 }   
                 $this->html.=
-                '</div>
+                '<a class="dropdown-item" href=home>Todas</a>
+                </div>
             </div>
         </div>';
         $this->html.="<table class='table table-hover table-dark'>
@@ -57,7 +59,7 @@ Class view{
                 <th scope='col'>Editar</th>
                 <th scope='col'>Eliminar</th>
             </tr>
-        <thead>
+        </thead>
         <tbody>";
         foreach($productos as $producto) {
         $this->html.= "
@@ -155,23 +157,59 @@ Class view{
     function showCategorias($categorias){ 
         $this->html.=" 
         <div class='container'>
-        <div class='row'> 
-            <div class='col'>
-            <h1> Lista de categorias </h1>
-            </div> 
-            <div class='col'>
-            <button type='button' class='btn btn-outline-danger'>
-            <a class='btn btn-outline-danger btn-lg active' href=home>Home</a></button>
-            </div> 
-        </div>    
-            <ul class='list-group'>"; 
-            foreach($categorias as $categoria){ 
-                $this->html.="<li class='list-group-item list-group-item-dark'>$categoria->name</li>";
-            } 
-            "</ul>
-            </div>";
+            <div class='row'> 
+                <div class='col'>
+                    <h1> Lista de categorias </h1>
+                </div> 
+                <div class='col'>
+                    <button type='button' class='btn btn-outline-danger'>
+                    <a class='btn btn-outline-danger btn-lg active' href=home>Home</a></button>
+                </div> 
+            </div>
+        </div> 
+        <div class='container'>
+            <table class='table table-sm table-hover'>
+                <thead>
+                    <tr>
+                        <th scope='col'>Nombre</th>
+                        <th scope='col'>Editar</th>
+                        <th scope='col'>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>";
+                    foreach($categorias as $categoria){ 
+                    $this->html.="
+                    <tr>
+                        <th>$categoria->name</th>
+                        <td><button class='btn' type='button'>
+                            <a class='btn btn-warning'
+                            href=formEditarCategoria/".$categoria->id.">Editar</a></button></td> 
+                        <td ><button class='btn'
+                            type='button'><a class='btn btn-danger'
+                            href=eliminarCategoria/".$categoria->id.">Eliminar</a></button></td>
+                    </tr>";
+                } 
+                $this->html.="</tbody>
+            </table>
+        </div>";
+        $this->html.=
+        '<div class="container">
+            <h1> Insertar Categoria </h1>
+                <form action="insertCategoria" method="POST">
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" class="form-control" name="nombreCategoria">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form> 
+        </div>'; 
+            $this->html.=$this->finHtml;
             echo $this->html;
     } 
+
+    function alertDeleteCategoria($nombreCategoria){ 
+       //aca va un alert y despues se elimina la categoria
+    }
 
     function redirectionCategorias(){ 
         header("Location: ".BASE_URL."Categorias");
@@ -232,15 +270,55 @@ Class view{
         </div>';
         $this->formUpdateProducto.=$this->finHtml; 
         echo $this->formUpdateProducto;    
+    } 
+
+    function showFormEditarCategoria($categoria){ 
+        $this->html.='<div class="container">
+            <div class="row"> 
+                <div class="col">
+                    <h1> Editar categoria '.$categoria->name.' </h1>   
+                </div> 
+            </div>    
+                <form action="editarCategoria" method="POST">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="hidden" name="id_categoria" value="'.$categoria->id.'">
+                    <input type="text" class="form-control" value="'.$categoria->name.'" 
+                        name="nombreCategoria" placeholder="'.$categoria->name.'">
+                </div> 
+                <div class="row"> 
+                    <div class="col">
+                        <button type="submit" class="btn btn-primary">Submit</button>         
+                        <button type="button" class="btn">
+                        <a class="btn btn-danger" href=Categorias>Cancelar</a></button>
+                    </div> 
+                </div>    
+                </form> 
+        </div>'; 
+        $this->html.=$this->finHtml; 
+        echo $this->html;
     }
 
-    function error($error){ 
+    function error($error=null,$insertCategoria=null,$update=null,$idCategoria=null){ 
+        if($error==null){ 
+            $error="Por favor complete todos los campos";
+        }
         $this->html.=
-        "<div class='container'>
+            "<div class='container'>
 
-        <h1>Error ".$error."</h1>
-        <button type='button' class='btn btn-outline-danger'>
-            <a class='btn btn-outline-danger btn-lg active' href=home>Home</a></button>"; 
+            <h1>Error ".$error."</h1>
+            <button type='button' class='btn btn-outline-danger'>
+                <a class='btn btn-outline-danger btn-lg active' href=home>Home</a></button>";
+        if($insertCategoria!=null){
+            $this->html.="
+            <button type='button' class='btn btn-outline-danger'>
+                <a class='btn btn-outline-danger btn-lg active' href=Categorias>Categorias</a></button>"; 
+        }
+        if($update!=null){ 
+            $this->html.="
+            <button type='button' class='btn btn-outline-danger'>
+                <a class='btn btn-outline-danger btn-lg active' href=".$update.$idCategoria.">Back</a></button>";
+        }
         $this->html.=$this->finHtml; 
         echo $this->html;
     }

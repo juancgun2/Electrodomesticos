@@ -44,8 +44,7 @@ Class controller{
             $this->model->insertarProducto($nombre,$descripcion,$precio,$stock,$id_categoria->id);
             $this->view->home();       
         }else{ 
-            $error="Por favor complete todos los campos";
-            $this->view->error($error);
+            $this->view->error();
         } 
     } 
 
@@ -63,7 +62,8 @@ Class controller{
     }
 
     function editarProducto(){ 
-        if(!empty($_POST["id_producto"])&&!empty($_POST["nombre"])&&!empty($_POST["descripcion"])
+        $idProducto=$_POST["id_producto"];
+        if(!empty($_POST["nombre"])&&!empty($_POST["descripcion"])
             &&!empty($_POST["precio"])&&!empty($_POST["stock"])&&!empty($_POST["nameCategoria"])){     
             $nombre=$_POST["nombre"]; 
             $descripcion=$_POST["descripcion"]; 
@@ -75,26 +75,58 @@ Class controller{
             $this->model->editarProducto($idProducto,$nombre,$descripcion,$precio,$stock,$idCategoria->id); 
             $this->view->home(); 
         }else{ 
-            $error="Por favor complete todos los campos";
-            $this->view->error($error);
+            $this->view->error(null,null,"formEditar/",$idProducto);
         }
     } 
 
     function showFormEditarCategoria($params=null){ 
         $id_categoria=$params[":ID"]; 
-        $this->view->showFormEditarCategoria($id_categoria);
+        $categoria=$this->model->getCategoria($id_categoria); 
+        $this->view->showFormEditarCategoria($categoria);
     } 
 
     function editarCategoria(){ 
+        $id_categoria=$_POST["id_categoria"];
         if(!empty($_POST["nombreCategoria"])){ 
-            $id_categoria=$_POST["id_categoria"]; 
             $nombreCategoria=$_POST["nombreCategoria"]; 
             $this->model->editarCategoria($id_categoria,$nombreCategoria); 
             $this->view->redirectionCategorias();
 
+        } else {  
+            $this->view->error(null,null,"formEditarCategoria/",$id_categoria);
+        }
+    } 
+
+    function eliminarCategoria($params=null){ 
+        $id_categoria=$params[":ID"]; 
+        $categoria=$this->model->getCategoria($id_categoria); 
+        //$this->view->alertDeleteCategoria($categoria->name);
+        $this->model->eliminarCategoria($id_categoria); 
+        $this->view->redirectionCategorias();
+    }
+
+    function existeCategoria($nombre){ 
+        $idCategoria=$this->model->getIdCategoria($nombre); 
+        if($idCategoria===false){ 
+            return false;
+        } else{ 
+            return true;
+        }
+    }
+
+    function insertarCategoria(){ 
+        if(!empty($_POST["nombreCategoria"])){
+            $nose=$this->existeCategoria($_POST["nombreCategoria"]);
+            if(!$this->existeCategoria($_POST["nombreCategoria"])){  
+                $this->model->insertarCategoria($_POST["nombreCategoria"]); 
+                $this->view->redirectionCategorias();
+            }else{ 
+                $error="La categoria ingresada ya existe";
+                $this->view->error($error,true,null,null);
+            }
+            
         } else { 
-            $error= "Por favor complete todos los campos"; 
-            $this->view->error($error);
+            $this->view->error(null,true,null,null);
         }
     }
 }
