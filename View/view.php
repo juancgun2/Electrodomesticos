@@ -1,5 +1,5 @@
 <?php 
-
+// <base href="'.BASE_URL.'"> todos los href tienen base_url como base de la url 
 Class view{ 
     private $titulo;
     private $html; 
@@ -11,7 +11,8 @@ Class view{
         $this->titulo= "J&J Electrodomesticos";
         $this->html='<!DOCTYPE html>
             <html lang="en">
-            <head>
+            <head> 
+            <base href="'.BASE_URL.'">
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" 
@@ -31,7 +32,7 @@ Class view{
         $this->html.='
         <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
             <button type="button" class="btn btn-secondary"><a class="btn btn-secondary" 
-             href='.BASE_URL.'Categorias>Categorias</a></button>
+             href=Categorias>Categorias</a></button>
             <div class="btn-group" role="group">
                 <button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" 
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -39,7 +40,7 @@ Class view{
                 </button>
                 <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">'; 
                 foreach($categorias as $categoria){
-                    $this->html.='<a class="dropdown-item" href='.BASE_URL.'Categoria/'.$categoria->id.'>'.$categoria->name.'</a>';
+                    $this->html.='<a class="dropdown-item" href=Categoria/'.$categoria->id.'>'.$categoria->name.'</a>';
                 }   
                 $this->html.=
                 '</div>
@@ -66,11 +67,11 @@ Class view{
                 <td>$producto->stock</td> 
                 <td>$producto->name</td> 
                 <td><button class='btn btn-secondary' type='button'><a class='btn btn-secondary btn-lg active'
-                 href=".BASE_URL."verDetalle/".$producto->id.">Detalle</a></button></td> 
+                 href=verDetalle/".$producto->id.">Detalle</a></button></td> 
                  <td><button class='btn btn-secondary' type='button'><a class='btn btn-warning btn-lg active'
-                 href=".BASE_URL."formEditar/".$producto->id.">Editar</a></button></td> 
+                 href=formEditar/".$producto->id.">Editar</a></button></td> 
                 <td><button class='btn btn-secondary' type='button'><a class='btn btn-outline-danger btn-lg active'
-                href=".BASE_URL."eliminarProducto/".$producto->id.">Eliminar</a></button></td>
+                href=eliminarProducto/".$producto->id.">Eliminar</a></button></td>
             </tr>";
         }
         $this->html.= " </tbody>    
@@ -121,7 +122,7 @@ Class view{
                 </div> 
                 <div class='col'>              
                     <button type='button' class='btn btn-outline-danger'>
-                    <a class='btn btn-outline-danger btn-lg active' href=".BASE_URL."home>Home</a></button>
+                    <a class='btn btn-outline-danger btn-lg active' href=home>Home</a></button>
                 </div>
             </div>
         </div>
@@ -160,7 +161,7 @@ Class view{
             </div> 
             <div class='col'>
             <button type='button' class='btn btn-outline-danger'>
-            <a class='btn btn-outline-danger btn-lg active' href=".BASE_URL."home>Home</a></button>
+            <a class='btn btn-outline-danger btn-lg active' href=home>Home</a></button>
             </div> 
         </div>    
             <ul class='list-group'>"; 
@@ -171,6 +172,10 @@ Class view{
             </div>";
             echo $this->html;
     } 
+
+    function redirectionCategorias(){ 
+        header("Location: ".BASE_URL."Categorias");
+    }
 
     function home(){ 
         header("Location: ".BASE_URL."");
@@ -185,7 +190,7 @@ Class view{
                     <h1> Editar producto '.$producto->nombre.' </h1>   
                 </div> 
             </div>    
-                <form action="'.BASE_URL.'editar" method="POST">
+                <form action="editar" method="POST">
                 <div class="form-group">
                     <label>Nombre</label>
                     <input type="hidden" name="id_producto" value="'.$id_producto.'">
@@ -220,7 +225,7 @@ Class view{
                     <div class="col">
                         <button type="submit" class="btn btn-primary">Submit</button>         
                         <button type="button" class="btn">
-                        <a class="btn btn-danger" href='.BASE_URL.'home>Cancelar</a></button>
+                        <a class="btn btn-danger" href=home>Cancelar</a></button>
                     </div> 
                 </div>    
                 </form> 
@@ -232,9 +237,10 @@ Class view{
     function error($error){ 
         $this->html.=
         "<div class='container'>
-        <h1>".$error."</h1>
+
+        <h1>Error ".$error."</h1>
         <button type='button' class='btn btn-outline-danger'>
-            <a class='btn btn-outline-danger btn-lg active' href=".BASE_URL."home>Home</a></button>"; 
+            <a class='btn btn-outline-danger btn-lg active' href=home>Home</a></button>"; 
         $this->html.=$this->finHtml; 
         echo $this->html;
     }

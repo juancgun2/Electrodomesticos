@@ -14,6 +14,11 @@ $r->addRoute("insertProducto","POST","controller","insertarProducto");
 $r->addRoute("eliminarProducto/:ID","GET","controller","eliminarProducto");
 $r->addRoute("formEditar/:ID","GET","controller","showFormEditar");
 $r->addRoute("editar","POST","controller","editarProducto");
+$r->addRoute("editarCategoria","POST","controller","editarCategoria");
+$r->addRoute("formEditarCategoria/:ID","GET","controller","showFormEditarCategoria");
+//$r->addRoute("editar","POST","controller","editarProducto");
+//$r->addRoute("editar","POST","controller","editarProducto");
+
 
 
 $r->setDefaultRoute("controller","Home");

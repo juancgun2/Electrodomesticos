@@ -78,5 +78,23 @@ Class controller{
             $error="Por favor complete todos los campos";
             $this->view->error($error);
         }
+    } 
+
+    function showFormEditarCategoria($params=null){ 
+        $id_categoria=$params[":ID"]; 
+        $this->view->showFormEditarCategoria($id_categoria);
+    } 
+
+    function editarCategoria(){ 
+        if(!empty($_POST["nombreCategoria"])){ 
+            $id_categoria=$_POST["id_categoria"]; 
+            $nombreCategoria=$_POST["nombreCategoria"]; 
+            $this->model->editarCategoria($id_categoria,$nombreCategoria); 
+            $this->view->redirectionCategorias();
+
+        } else { 
+            $error= "Por favor complete todos los campos"; 
+            $this->view->error($error);
+        }
     }
 }

@@ -24,22 +24,21 @@ Class model{
     }
 
     function getCategorias(){ 
-        $consulta=$this->db->prepare("SELECT categoria.name,categoria.id from categoria "); 
+        $consulta=$this->db->prepare("SELECT categoria.name,categoria.id from categoria ORDER BY categoria.name"); 
         $consulta->execute(); 
         return $consulta->fetchAll(PDO::FETCH_OBJ);
     }
 
     function getIdCategoria($nombreCategoria){ 
-        $consulta=$this->db->prepare("SELECT id from categoria WHERE name=? "); 
+        $consulta=$this->db->prepare("SELECT id,name from categoria WHERE name=? "); 
         $consulta->execute(array($nombreCategoria)); 
         return $consulta->fetch(PDO::FETCH_OBJ);
     }
 
     function getItemsInOrder($id_categoria){ 
-        $consulta=$this->db->prepare("SELECT producto.nombre,producto.precio,producto.stock,categoria.name,
-        producto.id,producto.id_categoria from producto join categoria 
-        WHERE producto.id_categoria=categoria.id ORDER BY producto.id_categoria=? DESC"); 
-        $consulta->execute(array($id_categoria)); 
+        $consulta=$this->db->prepare("SELECT * from producto JOIN categoria WHERE producto.id_categoria=? 
+            and categoria.id=? ORDER BY producto.nombre"); 
+        $consulta->execute(array($id_categoria,$id_categoria)); 
         return $consulta->fetchAll(PDO::FETCH_OBJ);
     } 
 
@@ -59,4 +58,19 @@ Class model{
         id_categoria=? WHERE producto.id=?"); 
         $consulta->execute(array($nombre,$descripcion,$precio,$stock,$idCategoria,$idProducto));
         }
+    } 
+
+    function editarCategoria($id_categoria,$nombre){ 
+        $consulta=$this->db->prepare("UPDATE categoria SET name=? WHERE id=?"); 
+        $consulta->execute(array($id_categoria,$nombre)); 
+    } 
+
+    function insertarCategoria($nombre){ 
+        $consulta=$this->db->prepare("INSERT INTO categoria(nombre) VALUES(?)"); 
+        $consulta->execute(array($nombre));
+    } 
+
+    function eliminarCategoria($id_categoria){ 
+        $consulta=$this->db->prepare("DELETE categoria WHERE id=?"); 
+        $consulta->execute(array($id_categoria));
     }
