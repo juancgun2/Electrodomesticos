@@ -1,0 +1,36 @@
+.nameLogo{ 
+    overflow-x: hidden;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-style: oblique;   
+    animation: logo 5s infinite; 
+    font-size: 341%;  
+    display: inline-flex; 
+    margin: 2%;
+    } 
+    @keyframes logo  {
+        from{ 
+            color: initial;
+        } 
+        to{ 
+            color: rgba(255, 68, 0, 0.623);
+        }
+    }
+    #jyj{ 
+        display: flex;
+        justify-content: center;
+    }
+
+.logo{  
+    display: flex; 
+    background-image: url(../img/electrodomesticos.jpg);
+    background-position: center;
+    background-color: saddlebrown; 
+    justify-content: center; 
+    margin: 0px; 
+    overflow-x: hidden;
+}  
+
+body .background{ 
+    width: 100%; 
+    background-color: #343a40;
+}
