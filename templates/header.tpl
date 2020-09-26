@@ -25,7 +25,7 @@
                     </button>
                     <div class="dropdown-menu list-group-item-warning" aria-labelledby="btnGroupDrop1"> 
                         {foreach from=$categorias item=categoria}
-                            <a class="dropdown-item"href="Categoria/{$categoria->id}">{$categoria->name}</a>
+                            <a class="dropdown-item"href="Categoria/{$categoria->name}">{$categoria->name}</a>
                         {/foreach}   
                         <a class="dropdown-item" href="home">Todas</a>
                     </div>
@@ -39,6 +39,33 @@
                         </div>
                     </div>
                 </div> 
+            {elseif $position == "intoCategorias"} 
+                <div class='container'>
+                    <div class='row'>  
+                        <div class='col'>              
+                            <button type='button' class='btn btn-outline-danger'>
+                            <a class='btn btn-outline-danger btn-lg active' href="home">Home</a></button>
+                        </div>
+                        <div class='col'>              
+                            <button type='button' class='btn btn-outline-danger'>
+                            <a class='btn btn-outline-danger btn-lg active' href="Categorias">Categorias</a></button>
+                        </div>
+                    </div>
+                </div> 
+            {elseif $position == "error"} 
+                <div class='container'>
+                    <div class='row'>  
+                        <div class='col'>              
+                            <button type='button' class='btn btn-outline-danger'>
+                            <a class='btn btn-outline-danger btn-lg active' href="home">Home</a></button>
+                        </div>
+                        <div class='col'>              
+                            <button type='button' class='btn btn-outline-danger'>
+                            <a class='btn btn-outline-danger btn-lg active' href="{$update}{$id}">Back</a></button>
+                        </div>
+                    </div>
+                </div>  
+            <h1 class="error"> {$error} <h1>
             {/if}
-            </div> 
+            </div>
         </div> 

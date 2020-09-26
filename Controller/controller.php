@@ -17,9 +17,6 @@ Class controller{
 
     function showDetalleItem($params=null){ 
         $id_producto=$params[':ID'];   
-        //$producto=$this->model->getItem($id_producto); 
-        //print_r($producto); 
-        //die();
         $this->view->showDetalleItem($this->model->getItem($id_producto));
     } 
 
@@ -27,9 +24,17 @@ Class controller{
         $this->view->showCategorias($this->model->getCategorias());
     }
 
-    function categoriasInOrder($params=null){ 
-        $id_categoria=$params[":ID"]; 
-        $this->view->showAllItems($this->model->getItemsInOrder($id_categoria),$this->model->getCategorias());
+    function filtrarPorCategorias($params=null){ 
+        $nombreCategoria=$params[":NOMBRE"];
+        $id_categoria= $this->model->getIdCategoria($nombreCategoria); 
+        $this->view->showAllItems($this->model->getItemsInOrder($id_categoria->id),$this->model->getCategorias());
+    }
+    //estas dos son muy parecidas. Revisar
+    function productosPorCategoria($params=null){ 
+        $nombreCategoria=$params[":CATEGORIA"]; 
+        $idCategoria= $this->model->getIdCategoria($nombreCategoria);
+        $productosFiltrados= $this->model->getItemsInOrder($idCategoria->id); 
+        $this->view->showProductosPorCategoria($productosFiltrados); 
     }
 
     function insertarProducto(){ 
@@ -40,11 +45,18 @@ Class controller{
             $precio=$_POST["precio"]; 
             $stock=$_POST["stock"]; 
             $nombreCategoria=$_POST["nameCategoria"]; 
-            $id_categoria= $this->model->getIdCategoria($nombreCategoria);
-            $this->model->insertarProducto($nombre,$descripcion,$precio,$stock,$id_categoria->id);
-            $this->view->home();       
+            if(!$this->existeProducto($nombre,$precio,$descripcion)){
+                $id_categoria= $this->model->getIdCategoria($nombreCategoria);
+                $this->model->insertarProducto($nombre,$descripcion,$precio,$stock,$id_categoria->id); 
+            }else{ 
+                $idProducto = $this->model->getIdProducto($nombre,$precio,$descripcion);
+                $producto= $this->model->getItem($idProducto->id);
+                $stock = $stock + $producto->stock;
+                $this->model->setStock($idProducto->id,$stock);
+            } 
+            $this->view->home();          
         }else{ 
-            $this->view->error();
+            $this->view->error(null,true,"home","");
         } 
     } 
 
@@ -103,6 +115,15 @@ Class controller{
         //$this->view->alertDeleteCategoria($categoria->name);
         $this->model->eliminarCategoria($id_categoria); 
         $this->view->redirectionCategorias();
+    }
+
+    function existeProducto($nombre,$precio,$descripcion){ 
+        $producto= $this->model->getIdProducto($nombre,$precio,$descripcion);
+        if($producto===false){ 
+            return false;
+        } else {
+            return true;
+        }
     }
 
     function existeCategoria($nombre){ 

@@ -9,7 +9,7 @@ $r = new router();
 $r->addRoute("home","GET","controller","Home"); 
 $r->addRoute("verDetalle/:ID","GET","controller","showDetalleItem"); 
 $r->addRoute("Categorias","GET","controller","showCategorias"); 
-$r->addRoute("Categoria/:ID","GET","controller","categoriasInOrder"); 
+$r->addRoute("Categoria/:NOMBRE","GET","controller","filtrarPorCategorias"); 
 $r->addRoute("insertProducto","POST","controller","insertarProducto"); 
 $r->addRoute("eliminarProducto/:ID","GET","controller","eliminarProducto");
 $r->addRoute("formEditar/:ID","GET","controller","showFormEditar");
@@ -18,6 +18,7 @@ $r->addRoute("editarCategoria","POST","controller","editarCategoria");
 $r->addRoute("formEditarCategoria/:ID","GET","controller","showFormEditarCategoria");
 $r->addRoute("eliminarCategoria/:ID","GET","controller","eliminarCategoria");
 $r->addRoute("insertCategoria","POST","controller","insertarCategoria");
+$r->addRoute("productos/:CATEGORIA","GET","controller","productosPorCategoria");
 
 
 

@@ -10,15 +10,24 @@ Class view{
         $this->titulo= "J&J Electrodomesticos";
     }
 
-    function showAllItems($productos,$categorias){ 
+    function showAllItems($productos,$categorias=null){ 
         $smarty = new Smarty();
         $smarty->assign('titulo' , $this->titulo); 
         $smarty->assign('BASE_URL' , BASE_URL); 
         $smarty->assign('position' , "home");
-        $smarty->assign('categorias' , $categorias);
+        $smarty->assign('productos' , $productos);
+        $smarty->assign('categorias' , $categorias);  
+        $smarty->display('./templates/formInsert.tpl');
+    } 
+
+    function showProductosPorCategoria($productos){ 
+        $smarty = new Smarty();
+        $smarty->assign('titulo' , $this->titulo); 
+        $smarty->assign('BASE_URL' , BASE_URL); 
+        $smarty->assign('position' , "intoCategorias");
         $smarty->assign('productos' , $productos); 
         $smarty->display('./templates/allItems.tpl');
-    } 
+    }
 
     function showDetalleItem($detalle){ 
         $smarty = new Smarty();
@@ -54,6 +63,7 @@ Class view{
         $smarty = new Smarty();
         $smarty->assign('titulo' , $this->titulo); 
         $smarty->assign('BASE_URL' , BASE_URL); 
+        $smarty->assign('position' , "home");
         $smarty->assign('categorias' , $categorias);
         $smarty->assign('producto' , $producto);
         $smarty->assign('id_producto' , $id_producto); 
@@ -69,28 +79,31 @@ Class view{
         $smarty->display('./templates/formEditcategoria.tpl');
     }
 
-    function error($error=null,$insertCategoria=null,$update=null,$idCategoria=null){ 
+    function error($error=null,$insertCategoria=null,$update=null,$id=null){ 
         if($error==null){ 
             $error="Por favor complete todos los campos";
         }
-        $this->html.=
-            "<div class='container'>
-
-            <h1>Error ".$error."</h1>
-            <button type='button' class='btn btn-outline-danger'>
-                <a class='btn btn-outline-danger btn-lg active' href=home>Home</a></button>";
-        if($insertCategoria!=null){
-            $this->html.="
-            <button type='button' class='btn btn-outline-danger'>
-                <a class='btn btn-outline-danger btn-lg active' href=Categorias>Categorias</a></button>"; 
+        if($insertCategoria!=null && $update==null){
+            $smarty = new Smarty();
+            $smarty->assign('titulo' , $this->titulo); 
+            $smarty->assign('BASE_URL' , BASE_URL);
+            $smarty->assign('position' , "error"); 
+            $smarty->assign('error' , $error);
+            $smarty->assign('categoria' , "");
+            $smarty->assign('update' , "Categorias");
+            $smarty->assign('id' , "");
+            $smarty->display('./templates/header.tpl');
+        }elseif ($update!=null){ 
+            $smarty = new Smarty();
+            $smarty->assign('titulo' , $this->titulo); 
+            $smarty->assign('BASE_URL' , BASE_URL);
+            $smarty->assign('position' , "error"); 
+            $smarty->assign('error' , $error);
+            $smarty->assign('categoria' , "");
+            $smarty->assign('update' , $update);
+            $smarty->assign('id' , $id);
+            $smarty->display('./templates/header.tpl');
         }
-        if($update!=null){ 
-            $this->html.="
-            <button type='button' class='btn btn-outline-danger'>
-                <a class='btn btn-outline-danger btn-lg active' href=".$update.$idCategoria.">Back</a></button>";
-        }
-        $this->html.=$this->finHtml; 
-        echo $this->html;
     }
 
 }

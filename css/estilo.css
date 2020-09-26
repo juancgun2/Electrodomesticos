@@ -33,4 +33,57 @@
 body .background{ 
     width: 100%; 
     background-color: #343a40;
+} 
+
+.categorias{ /*categorias cambie*/
+    display: grid; 
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 2%;
+    /*flex-direction: row;
+    flex-wrap: wrap; 
+    overflow: hidden;
+    justify-content: space-evenly; 
+    margin: 0px; 
+    padding: 0px;*/
+} 
+
+/*section.container.categorias .link{ 
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr; 
+    gap: 2px;
+}*/
+
+.textCategoria{  
+    display: flex;
+    flex-direction: column;
+    width: auto; /*285*/ 
+    font-family: Georgia, 'Times New Roman', Times, serif;   
+    font-size: 200%;
+    margin-top: 2%;
+    background-color: lightgray;
+    justify-content: center; 
+    align-items: center;
+}   
+
+.box{ 
+    display: flex;
+}
+
+.container h1 { 
+    display: flex;
+    justify-content: center;
+} 
+
+.link{ 
+    display: inherit;
+    text-decoration: none; 
+    color: black;
+}
+
+article{ 
+    width: 100%;
+} 
+
+body div.background div.error h1{ 
+    color: yellow;
 }

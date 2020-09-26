@@ -23,6 +23,17 @@ Class model{
         return $consulta->fetch(PDO::FETCH_OBJ);
     }
 
+    function getIdProducto($nombre,$precio,$descripcion){ 
+        $consulta=$this->db->prepare("SELECT id FROM producto WHERE nombre=? and precio=? and descripcion=?");
+        $consulta->execute(array($nombre,$precio,$descripcion));
+        return $consulta->fetch(PDO::FETCH_OBJ);
+    }
+
+    function setStock($id,$stock){ 
+        $consulta=$this->db->prepare("UPDATE producto SET stock=? WHERE id=?"); 
+        $consulta->execute(array($stock,$id));
+    }
+
     function getCategorias(){ 
         $consulta=$this->db->prepare("SELECT categoria.name,categoria.id from categoria ORDER BY categoria.name"); 
         $consulta->execute(); 
@@ -43,8 +54,8 @@ Class model{
     }
 
     function getItemsInOrder($id_categoria){ 
-        $consulta=$this->db->prepare("SELECT * from producto JOIN categoria WHERE producto.id_categoria=? 
-            and categoria.id=? ORDER BY producto.nombre"); 
+        $consulta=$this->db->prepare("SELECT p.id,p.nombre,p.descripcion,p.precio,p.stock,p.id_categoria,
+        c.name from producto p JOIN categoria c WHERE p.id_categoria=? and c.id=? ORDER BY p.nombre"); 
         $consulta->execute(array($id_categoria,$id_categoria)); 
         return $consulta->fetchAll(PDO::FETCH_OBJ);
     } 
