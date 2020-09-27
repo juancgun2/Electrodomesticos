@@ -59,11 +59,15 @@ body .background{
     width: auto; /*285*/ 
     font-family: Georgia, 'Times New Roman', Times, serif;   
     font-size: 200%;
-    margin-top: 2%;
+    margin-top: 0;
     background-color: lightgray;
     justify-content: center; 
     align-items: center;
 }   
+
+/*.textCategoria:hover{ 
+
+}*/
 
 .box{ 
     display: flex;
@@ -74,11 +78,15 @@ body .background{
     justify-content: center;
 } 
 
-.link{ 
+.container section.container.categorias div a.link { 
     display: inherit;
-    text-decoration: none; 
+    text-decoration: none;
     color: black;
-}
+} 
+/*.container section.container.categorias div a.link:hover{ 
+    font-weight: bold; 
+    box-shadow: 0 0 10px whitesmoke;
+}*/
 
 article{ 
     width: 100%;
@@ -86,4 +94,14 @@ article{
 
 body div.background div.error h1{ 
     color: yellow;
+} 
+
+div.container section.container.categorias div.animacion:hover{ 
+    border: 1px solid transparent;
+    border-radius: 2%;
+    box-shadow: 0 0 10px rgba(24, 23, 23, 0.411);
 }
+
+/*.animacion:hover{ 
+    box-shadow: 0 0 10px whitesmoke;
+}*/

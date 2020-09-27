@@ -3,10 +3,9 @@
     <h1> Categorias </h1>   
         <section class="container categorias">
             {foreach from=$categorias item=categoria}
-                <div> 
+                <div class="animacion"> 
                 <a class="link" href="productos/{$categoria->name}">
                     <article class="textCategoria"> {$categoria->name} 
-                </a>
                         <div class="box">
                             <button class='btn' type='button'>
                                 <a class='btn btn-warning'
@@ -16,6 +15,7 @@
                                 href="eliminarCategoria/{$categoria->id}">Eliminar</a></button>
                         </div> 
                     </article>
+                    </a>
                 </div>
             {/foreach} 
         </section>
