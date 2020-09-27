@@ -32,13 +32,14 @@
 
 body .background{ 
     width: 100%; 
-    background-color: #343a40;
+    background-color: #e4e5e7;
 } 
 
 .categorias{ /*categorias cambie*/
     display: grid; 
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 2%;
+    row-gap: 1%;
     /*flex-direction: row;
     flex-wrap: wrap; 
     overflow: hidden;
@@ -91,17 +92,21 @@ body .background{
 article{ 
     width: 100%;
 } 
-
-body div.background div.error h1{ 
-    color: yellow;
+div.containerError{ 
+    display: flex; 
+    justify-content: center; 
+    align-content: center; 
+    margin-top: 6%;
+}
+body div.containerError{ 
+    width: 100%;
+    color: rgb(175, 19, 19); 
+    font-size: 80px;
+    justify-content: center;
 } 
 
 div.container section.container.categorias div.animacion:hover{ 
     border: 1px solid transparent;
     border-radius: 2%;
     box-shadow: 0 0 10px rgba(24, 23, 23, 0.411);
-}
-
-/*.animacion:hover{ 
-    box-shadow: 0 0 10px whitesmoke;
-}*/
+} 

@@ -24,7 +24,7 @@ Class view{
         $smarty = new Smarty();
         $smarty->assign('titulo' , $this->titulo); 
         $smarty->assign('BASE_URL' , BASE_URL); 
-        $smarty->assign('position' , "intoCategorias");
+        $smarty->assign('position' , "notHome");
         $smarty->assign('productos' , $productos); 
         $smarty->display('./templates/allItems.tpl');
     }
@@ -33,7 +33,7 @@ Class view{
         $smarty = new Smarty();
         $smarty->assign('titulo' , $this->titulo); 
         $smarty->assign('BASE_URL' , BASE_URL);
-        $smarty->assign('position' , "detalleItem");
+        $smarty->assign('position' , "notHome");
         $smarty->assign('detalle' , $detalle); 
         $smarty->display('./templates/detalleItem.tpl');
     } 
@@ -42,7 +42,7 @@ Class view{
         $smarty = new Smarty();
         $smarty->assign('titulo' , $this->titulo); 
         $smarty->assign('BASE_URL' , BASE_URL); 
-        $smarty->assign('position' , "categorias");
+        $smarty->assign('position' , "notHome");
         $smarty->assign('categorias' , $categorias); 
         $smarty->display('./templates/categorias.tpl');
     } 
@@ -63,7 +63,7 @@ Class view{
         $smarty = new Smarty();
         $smarty->assign('titulo' , $this->titulo); 
         $smarty->assign('BASE_URL' , BASE_URL); 
-        $smarty->assign('position' , "home");
+        $smarty->assign('position' , "notHome");
         $smarty->assign('categorias' , $categorias);
         $smarty->assign('producto' , $producto);
         $smarty->assign('id_producto' , $id_producto); 
@@ -74,7 +74,7 @@ Class view{
         $smarty = new Smarty();
         $smarty->assign('titulo' , $this->titulo); 
         $smarty->assign('BASE_URL' , BASE_URL);
-        $smarty->assign('position' , "categorias");
+        $smarty->assign('position' , "notHome");
         $smarty->assign('categoria' , $categoria);
         $smarty->display('./templates/formEditcategoria.tpl');
     }
