@@ -23,9 +23,10 @@ Class model{
         return $consulta->fetch(PDO::FETCH_OBJ);
     }
 
-    function getIdProducto($nombre,$precio,$descripcion){ 
-        $consulta=$this->db->prepare("SELECT id FROM producto WHERE nombre=? and precio=? and descripcion=?");
-        $consulta->execute(array($nombre,$precio,$descripcion));
+    function getIdProducto($nombre,$precio,$descripcion,$idCategoria){ 
+        $consulta=$this->db->prepare("SELECT id FROM producto WHERE nombre=? and precio=? 
+        and descripcion=? and id_categoria=?");
+        $consulta->execute(array($nombre,$precio,$descripcion,$idCategoria));
         return $consulta->fetch(PDO::FETCH_OBJ);
     }
 

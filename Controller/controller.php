@@ -46,8 +46,8 @@ Class controller{
             $precio=$_POST["precio"]; 
             $stock=$_POST["stock"]; 
             $nombreCategoria=$_POST["nameCategoria"]; 
-            if(!$this->existeProducto($nombre,$precio,$descripcion)){
-                $id_categoria= $this->model->getIdCategoria($nombreCategoria);
+            $id_categoria= $this->model->getIdCategoria($nombreCategoria);
+            if(!$this->existeProducto($nombre,$precio,$descripcion,$id_categoria->id)){
                 $this->model->insertarProducto($nombre,$descripcion,$precio,$stock,$id_categoria->id); 
             }else{ 
                 $idProducto = $this->model->getIdProducto($nombre,$precio,$descripcion);
@@ -85,7 +85,7 @@ Class controller{
             $nombreCategoria=$_POST["nameCategoria"]; 
             $idProducto=$_POST["id_producto"];
             $idCategoria= $this->model->getIdCategoria($nombreCategoria);
-            if(!$this->existeProducto($nombre,$precio,$descripcion)){
+            if(!$this->existeProducto($nombre,$precio,$descripcion,$idCategoria->id)){
                 $this->model->editarProducto($idProducto,$nombre,$descripcion,$precio,$stock,$idCategoria->id); 
                 $this->view->home(); 
             }else{ 
@@ -131,8 +131,8 @@ Class controller{
         $this->view->redirectionCategorias();
     }
 
-    function existeProducto($nombre,$precio,$descripcion){ 
-        $producto= $this->model->getIdProducto($nombre,$precio,$descripcion);
+    function existeProducto($nombre,$precio,$descripcion,$idCategoria){ 
+        $producto= $this->model->getIdProducto($nombre,$precio,$descripcion,$idCategoria);
         if($producto===false){ 
             return false;
         }else{
@@ -152,7 +152,7 @@ Class controller{
     function insertarCategoria(){ 
         if(!empty($_POST["nombreCategoria"])){
             $nombre=$this->existeCategoria($_POST["nombreCategoria"]);
-            if(!$this->existeCategoria($nombre){  
+            if(!$this->existeCategoria($nombre)){  
                 $this->model->insertarCategoria($nombre); 
                 $this->view->redirectionCategorias();
             }else{ 
