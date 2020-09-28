@@ -29,13 +29,14 @@ Class controller{
         $id_categoria= $this->model->getIdCategoria($nombreCategoria); 
         $this->view->showAllItems($this->model->getItemsInOrder($id_categoria->id),$this->model->getCategorias());
     }
-    //estas dos son muy parecidas. Revisar
-    function productosPorCategoria($params=null){ 
+    //estas dos son muy parecidas. Revisar. La de abajo no muestra mostrarPorCategorias en nav.
+    //la de arriba vuelve a home con productos filtrados por la categoria elegida.
+    /*function productosPorCategoria($params=null){ 
         $nombreCategoria=$params[":CATEGORIA"]; 
         $idCategoria= $this->model->getIdCategoria($nombreCategoria);
         $productosFiltrados= $this->model->getItemsInOrder($idCategoria->id); 
         $this->view->showProductosPorCategoria($productosFiltrados); 
-    }
+    }*/
 
     function insertarProducto(){ 
         if(!empty($_POST["nombre"])&&!empty($_POST["descripcion"])&&!empty($_POST["precio"])&&
@@ -84,36 +85,49 @@ Class controller{
             $nombreCategoria=$_POST["nameCategoria"]; 
             $idProducto=$_POST["id_producto"];
             $idCategoria= $this->model->getIdCategoria($nombreCategoria);
-            $this->model->editarProducto($idProducto,$nombre,$descripcion,$precio,$stock,$idCategoria->id); 
-            $this->view->home(); 
+            if(!$this->existeProducto($nombre,$precio,$descripcion)){
+                $this->model->editarProducto($idProducto,$nombre,$descripcion,$precio,$stock,$idCategoria->id); 
+                $this->view->home(); 
+            }else{ 
+                $error="El producto ingresado ya existe"; 
+                $this->view->error($error,null,"formEditar/",$idProducto);
+                // o le sumo el stock del nuevo al existente ?? 
+            }                
         }else{ 
             $this->view->error(null,null,"formEditar/",$idProducto);
         }
     } 
-
+    // revisar showFormEditarCategoria si se puede agregar a getIdCategoria que traiga el nombre tambien.
+    // El problema seria que no retorne false cuando llame a existeCategoria.
     function showFormEditarCategoria($params=null){ 
-        $id_categoria=$params[":ID"]; 
-        $categoria=$this->model->getCategoria($id_categoria); 
-        $this->view->showFormEditarCategoria($categoria);
+        $nombreCategoria=$params[":NOMBRE"]; 
+        $id_categoria=$this->model->getIdCategoria($nombreCategoria); 
+        $this->view->showFormEditarCategoria($this->model->getCategoria($id_categoria->id));
     } 
 
     function editarCategoria(){ 
         $id_categoria=$_POST["id_categoria"];
+        $nombreAnterior= $this->model->getCategoria($id_categoria);
         if(!empty($_POST["nombreCategoria"])){ 
             $nombreCategoria=$_POST["nombreCategoria"]; 
-            $this->model->editarCategoria($id_categoria,$nombreCategoria); 
-            $this->view->redirectionCategorias();
+            if(!$this->existeCategoria($nombreCategoria)){
+                $this->model->editarCategoria($id_categoria,$nombreCategoria); 
+                $this->view->redirectionCategorias();
+            }else{ 
+                $error="La categoria ingresada ya existe";
+                $this->view->error($error,true,"formEditarCategoria/",$nombreCategoria);
+            }    
 
-        } else {  
-            $this->view->error(null,null,"formEditarCategoria/",$id_categoria);
+        }else{  
+            $this->view->error(null,null,"formEditarCategoria/", $nombreAnterior->name);
         }
     } 
 
     function eliminarCategoria($params=null){ 
-        $id_categoria=$params[":ID"]; 
-        $categoria=$this->model->getCategoria($id_categoria); 
+        $nombreCategoria=$params[":NOMBRE"]; 
+        $id_categoria=$this->model->getIdCategoria($nombreCategoria); 
         //$this->view->alertDeleteCategoria($categoria->name);
-        $this->model->eliminarCategoria($id_categoria); 
+        $this->model->eliminarCategoria($id_categoria->id); 
         $this->view->redirectionCategorias();
     }
 
@@ -121,7 +135,7 @@ Class controller{
         $producto= $this->model->getIdProducto($nombre,$precio,$descripcion);
         if($producto===false){ 
             return false;
-        } else {
+        }else{
             return true;
         }
     }
@@ -137,9 +151,9 @@ Class controller{
 
     function insertarCategoria(){ 
         if(!empty($_POST["nombreCategoria"])){
-            $nose=$this->existeCategoria($_POST["nombreCategoria"]);
-            if(!$this->existeCategoria($_POST["nombreCategoria"])){  
-                $this->model->insertarCategoria($_POST["nombreCategoria"]); 
+            $nombre=$this->existeCategoria($_POST["nombreCategoria"]);
+            if(!$this->existeCategoria($nombre){  
+                $this->model->insertarCategoria($nombre); 
                 $this->view->redirectionCategorias();
             }else{ 
                 $error="La categoria ingresada ya existe";

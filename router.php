@@ -15,10 +15,10 @@ $r->addRoute("eliminarProducto/:ID","GET","controller","eliminarProducto");
 $r->addRoute("formEditar/:ID","GET","controller","showFormEditar");
 $r->addRoute("editar","POST","controller","editarProducto");
 $r->addRoute("editarCategoria","POST","controller","editarCategoria");
-$r->addRoute("formEditarCategoria/:ID","GET","controller","showFormEditarCategoria");
-$r->addRoute("eliminarCategoria/:ID","GET","controller","eliminarCategoria");
+$r->addRoute("formEditarCategoria/:NOMBRE","GET","controller","showFormEditarCategoria");
+$r->addRoute("eliminarCategoria/:NOMBRE","GET","controller","eliminarCategoria");
 $r->addRoute("insertCategoria","POST","controller","insertarCategoria");
-$r->addRoute("productos/:CATEGORIA","GET","controller","productosPorCategoria");
+
 
 
 

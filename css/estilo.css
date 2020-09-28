@@ -98,7 +98,7 @@ div.containerError{
     align-content: center; 
     margin-top: 6%;
 }
-body div.containerError{ 
+body div.containerError h1.error span#errorImg{ 
     width: 100%;
     color: rgb(175, 19, 19); 
     font-size: 80px;

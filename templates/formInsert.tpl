@@ -21,8 +21,8 @@
         <div class="form-group">
             <label>Categoria</label>
             <select name="nameCategoria" class="form-control">
-                {foreach from=$productos item=producto}
-                    <option>{$producto->name}</option>
+                {foreach from=$categorias item=categoria}
+                    <option>{$categoria->name}</option>
                 {/foreach}
             </select>
         </div>
