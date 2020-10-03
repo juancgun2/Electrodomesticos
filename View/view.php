@@ -21,14 +21,16 @@ Class view{
         $smarty->display('./templates/formInsert.tpl');
     } 
 
-    function showProductosPorCategoria($productos,$sesion){ 
-        $smarty = new Smarty();
+    function showLogin($productos,$categorias=null,$sesion,$error=""){ 
+        $smarty = new Smarty(); 
         $smarty->assign('titulo' , $this->titulo); 
         $smarty->assign('BASE_URL' , BASE_URL); 
         $smarty->assign('position' , "notHome");
-        $smarty->assign('productos' , $productos); 
+        $smarty->assign('productos' , $productos);
+        $smarty->assign('categorias' , $categorias); 
         $smarty->assign('sesion' , $sesion);
-        $smarty->display('./templates/allItems.tpl');
+        $smarty->assign('error' , $error);
+        $smarty->display('./templates/login.tpl');
     }
 
     function showDetalleItem($detalle,$sesion){ 
@@ -51,16 +53,12 @@ Class view{
         $smarty->display('./templates/categorias.tpl');
     } 
 
-    function alertDeleteCategoria($nombreCategoria){ 
-       //aca va un alert y despues se elimina la categoria
-    }
-
     function redirectionCategorias(){ 
         header("Location: ".BASE_URL."Categorias");
     }
 
-    function home(){ 
-        header("Location: ".BASE_URL."");
+    function home($ruta=null){ 
+        header("Location: ".BASE_URL.$ruta);
     } 
 
     function showFormEditar($id_producto,$categorias,$producto,$sesion){ 

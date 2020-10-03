@@ -6,15 +6,7 @@ function cargarPagina(){
         elements[i].addEventListener("click",confirmacion);
     } 
 
-
-    function showConfirm(){ 
-         if(!confirm()){ 
-            //debo cancelar la eliminacion
-         }
-    }
-
-
     function confirmacion(){ 
-        confirm("Se eliminaran todos los productos que contengan esa categoria");
+        alert("Se eliminaran todos los productos que contengan esa categoria");
     } 
 }

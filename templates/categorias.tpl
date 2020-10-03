@@ -43,6 +43,6 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form> 
     </div>
-    <script src="./js/dangerDelete.js"></script> 
 {/if}
+<script src="./js/dangerDelete.js"> </script>
 {include file="footer.tpl"}
