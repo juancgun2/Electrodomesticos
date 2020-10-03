@@ -6,6 +6,7 @@
                 <div class="animacion"> 
                 <a class="link" href="Categoria/{$categoria->name}">
                     <article class="textCategoria"> {$categoria->name} 
+                    {if $sesion===true} 
                         <div class="box">
                             <button class='btn' type='button'>
                                 <a class='btn btn-warning'
@@ -24,21 +25,24 @@
                                     </svg>
                                 </a></button>
                         </div> 
+                    {/if}
                     </article>
                     </a>
                 </div>
             {/foreach} 
         </section>
 </div>
-<div class="container">
-    <h1> Insertar Categoria </h1>
-        <form action="insertCategoria" method="POST">
-            <div class="form-group">
-                <label>Nombre</label>
-                <input type="text" class="form-control" name="nombreCategoria">
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form> 
-</div>
-<script src="./js/dangerDelete.js"></script>
+{if $sesion===true} 
+    <div class="container">
+        <h1> Insertar Categoria </h1>
+            <form action="insertCategoria" method="POST">
+                <div class="form-group">
+                    <label>Nombre</label>
+                    <input type="text" class="form-control" name="nombreCategoria">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form> 
+    </div>
+    <script src="./js/dangerDelete.js"></script> 
+{/if}
 {include file="footer.tpl"}

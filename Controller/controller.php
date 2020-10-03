@@ -12,22 +12,22 @@ Class controller{
     } 
 
     function Home(){ 
-        $this->view->showAllItems($this->model->getAllItems(),$this->model->getCategorias());
+        $this->view->showAllItems($this->model->getAllItems(),$this->model->getCategorias(),$this->getSesion());
     } 
 
     function showDetalleItem($params=null){ 
         $id_producto=$params[':ID'];   
-        $this->view->showDetalleItem($this->model->getItem($id_producto));
+        $this->view->showDetalleItem($this->model->getItem($id_producto),$this->getSesion());
     } 
 
     function showCategorias(){ 
-        $this->view->showCategorias($this->model->getCategorias());
+        $this->view->showCategorias($this->model->getCategorias(),$this->getSesion());
     }
 
     function filtrarPorCategorias($params=null){ 
         $nombreCategoria=$params[":NOMBRE"];
         $id_categoria= $this->model->getIdCategoria($nombreCategoria); 
-        $this->view->showAllItems($this->model->getItemsInOrder($id_categoria->id),$this->model->getCategorias());
+        $this->view->showAllItems($this->model->getItemsInOrder($id_categoria->id),$this->model->getCategorias(),$this->getSesion());
     }
     //estas dos son muy parecidas. Revisar. La de abajo no muestra mostrarPorCategorias en nav.
     //la de arriba vuelve a home con productos filtrados por la categoria elegida.
@@ -57,7 +57,7 @@ Class controller{
             } 
             $this->view->home();          
         }else{ 
-            $this->view->error(null,true,"home","");
+            $this->view->error(null,true,"home","",$this->getSesion());
         } 
     } 
 
@@ -71,7 +71,7 @@ Class controller{
         $id_producto=$params[":ID"]; 
         $categorias=$this->model->getCategorias(); 
         $producto=$this->model->getItem($id_producto);
-        $this->view->showFormEditar($id_producto,$categorias,$producto);
+        $this->view->showFormEditar($id_producto,$categorias,$producto,$this->getSesion());
     }
 
     function editarProducto(){ 
@@ -90,11 +90,11 @@ Class controller{
                 $this->view->home(); 
             }else{ 
                 $error="El producto ingresado ya existe"; 
-                $this->view->error($error,null,"formEditar/",$idProducto);
+                $this->view->error($error,null,"formEditar/",$idProducto,$this->getSesion());
                 // o le sumo el stock del nuevo al existente ?? 
             }                
         }else{ 
-            $this->view->error(null,null,"formEditar/",$idProducto);
+            $this->view->error(null,null,"formEditar/",$idProducto,$this->getSesion());
         }
     } 
     // revisar showFormEditarCategoria si se puede agregar a getIdCategoria que traiga el nombre tambien.
@@ -102,7 +102,7 @@ Class controller{
     function showFormEditarCategoria($params=null){ 
         $nombreCategoria=$params[":NOMBRE"]; 
         $id_categoria=$this->model->getIdCategoria($nombreCategoria); 
-        $this->view->showFormEditarCategoria($this->model->getCategoria($id_categoria->id));
+        $this->view->showFormEditarCategoria($this->model->getCategoria($id_categoria->id),$this->getSesion());
     } 
 
     function editarCategoria(){ 
@@ -115,11 +115,11 @@ Class controller{
                 $this->view->redirectionCategorias();
             }else{ 
                 $error="La categoria ingresada ya existe";
-                $this->view->error($error,true,"formEditarCategoria/",$nombreCategoria);
+                $this->view->error($error,true,"formEditarCategoria/",$nombreCategoria,$this->getSesion());
             }    
 
         }else{  
-            $this->view->error(null,null,"formEditarCategoria/", $nombreAnterior->name);
+            $this->view->error(null,null,"formEditarCategoria/", $nombreAnterior->name,$this->getSesion());
         }
     } 
 
@@ -157,11 +157,39 @@ Class controller{
                 $this->view->redirectionCategorias();
             }else{ 
                 $error="La categoria ingresada ya existe";
-                $this->view->error($error,true,null,null);
+                $this->view->error($error,true,null,null,$this->getSesion());
             }
             
         } else { 
-            $this->view->error(null,true,null,null);
+            $this->view->error(null,true,null,null,$this->getSesion());
         }
+    } 
+
+    function iniciarSesion(){ 
+        if(!empty($_POST["email"])&&!empty($_POST["password"])){
+            $object= $this->model->getPassword($_POST["email"]);
+            if($object!=false && password_verify($_POST["password"],$object->password)){ 
+                session_start();
+                $_SESSION["nombre"]="admin";
+                $this->view->home();
+            }else{ 
+                $this->view->home();
+            }
+        }
+    }
+
+    function getSesion(){ 
+        session_start();
+        if(empty($_SESSION["nombre"])){ 
+            return false;
+        }else{ 
+            return true;
+        }
+    } 
+
+    function cerrarSesion(){
+        session_start(); 
+        $_SESSION["nombre"]='';
+        $this->view->home();
     }
 }

@@ -92,4 +92,10 @@ Class model{
         $consulta=$this->db->prepare("DELETE from categoria WHERE id=?"); 
         $consulta->execute(array($id_categoria));
     } 
+
+    function getPassword($email){ 
+        $consulta=$this->db->prepare("SELECT password FROM login WHERE email=?"); 
+        $consulta->execute(array($email)); 
+        return $consulta->fetch(PDO::FETCH_OBJ);
+    }
 }

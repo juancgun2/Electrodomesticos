@@ -18,6 +18,8 @@ $r->addRoute("editarCategoria","POST","controller","editarCategoria");
 $r->addRoute("formEditarCategoria/:NOMBRE","GET","controller","showFormEditarCategoria");
 $r->addRoute("eliminarCategoria/:NOMBRE","GET","controller","eliminarCategoria");
 $r->addRoute("insertCategoria","POST","controller","insertarCategoria");
+$r->addRoute("iniciarSesion","POST","controller","iniciarSesion"); 
+$r->addRoute("cerrarSesion","GET","controller","cerrarSesion"); 
 
 
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 24-09-2020 a las 19:43:17
+-- Tiempo de generación: 03-10-2020 a las 05:11:28
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.6
 
@@ -38,8 +38,30 @@ CREATE TABLE `categoria` (
 
 INSERT INTO `categoria` (`id`, `name`) VALUES
 (3, 'televisores'),
-(5, 'computacion'),
-(7, 'musica');
+(13, 'computacion'),
+(21, 'muebles'),
+(26, 'blabla'),
+(27, 'compu'),
+(28, 'computac');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `login`
+--
+
+CREATE TABLE `login` (
+  `id_login` int(11) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Volcado de datos para la tabla `login`
+--
+
+INSERT INTO `login` (`id_login`, `email`, `password`) VALUES
+(1, 'quieropromocionar@web2.com', '$2y$10$tfibmHJRCCMsB0YRVwrrKeUcWChOX1BFoMnfeUbwO0zriKYc1x0ye');
 
 -- --------------------------------------------------------
 
@@ -61,10 +83,9 @@ CREATE TABLE `producto` (
 --
 
 INSERT INTO `producto` (`id`, `nombre`, `descripcion`, `precio`, `stock`, `id_categoria`) VALUES
-(1, 'televisor', '42 pulgadas smart ', 69000, 17, 3),
-(5, 'radio', 'inalambrica usb', 3444, 10, 7),
-(6, 'teleevisor', '47 pulgadas smart', 55000, 10, 3),
-(8, 'pc', 'amd radeon', 50000, 34, 5);
+(1, 'televisor', '47 pulgadas smart ', 80000, 17, 3),
+(6, 'televisor', '42 pulgadas smart', 69000, 10, 3),
+(10, 'pc', 'amd radeon', 56700, 44, 13);
 
 --
 -- Índices para tablas volcadas
@@ -75,6 +96,12 @@ INSERT INTO `producto` (`id`, `nombre`, `descripcion`, `precio`, `stock`, `id_ca
 --
 ALTER TABLE `categoria`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `login`
+--
+ALTER TABLE `login`
+  ADD PRIMARY KEY (`id_login`);
 
 --
 -- Indices de la tabla `producto`
@@ -91,13 +118,19 @@ ALTER TABLE `producto`
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+
+--
+-- AUTO_INCREMENT de la tabla `login`
+--
+ALTER TABLE `login`
+  MODIFY `id_login` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restricciones para tablas volcadas
