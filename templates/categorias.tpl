@@ -5,7 +5,7 @@
             {foreach from=$categorias item=categoria}
                 <div class="animacion"> 
                 <a class="link" href="Categoria/{$categoria->name}">
-                    <article class="textCategoria"> {$categoria->name} 
+                    <article class="textCategoria"> {$categoria->name|capitalize} 
                     {if $sesion===true} 
                         <div class="box">
                             <button class='btn' type='button'>

@@ -13,11 +13,11 @@
         <tbody>
             <tr>
                 <th scope='row'>{$detalle->id}</th>
-                <td>{$detalle->nombre}</td>
+                <td>{$detalle->nombre|capitalize}</td>
                 <td>{$detalle->descripcion}</td> 
                 <td>{$detalle->precio}</td> 
                 <td>{$detalle->stock}</td> 
-                <td>{$detalle->name}</td>  
+                <td>{$detalle->name|capitalize}</td>  
             </tr>
         </tbody>    
 </table> 

@@ -17,10 +17,10 @@
     <tbody>
     {foreach from=$productos item=producto} 
         <tr>
-            <th scope='col'>{$producto->nombre}</th>
+            <th scope='col'>{$producto->nombre|capitalize}</th>
             <td>{$producto->precio}</td>
             <td>{$producto->stock}</td> 
-            <td>{$producto->name}</td> 
+            <td>{$producto->name|capitalize}</td> 
             <td><button class='btn btn-secondary' type='button'><a class='btn btn-secondary btn-lg active'
                 href="verDetalle/{$producto->id}">Detalle</a></button>
             </td>

@@ -293,6 +293,10 @@ Class controller{
         }
     } 
 
+    function exit(){ 
+        $this->cerrarSesion(); 
+        $this->view->Home();
+    }
     function cerrarSesion(){
         if(!isset($_SESSION))
         session_start(); 

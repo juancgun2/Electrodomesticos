@@ -167,3 +167,8 @@ a.fa:hover{
     color: white; 
     background: #3B5998;
 }
+
+.myBorder{ 
+    border-top: 1px solid;
+    border-color: darkgray;
+}
