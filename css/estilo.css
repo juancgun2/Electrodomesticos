@@ -74,6 +74,10 @@ body .background{
     display: flex;
 }
 
+table{ 
+    margin-bottom: 0!important;
+}
+
 .container h1 { 
     display: flex;
     justify-content: center;
@@ -110,3 +114,56 @@ div.container section.container.categorias div.animacion:hover{
     border-radius: 2%;
     box-shadow: 0 0 10px rgba(24, 23, 23, 0.411);
 } 
+
+body{ 
+    height: 100%;
+}
+
+.container-copyRight{ 
+    height:100%;
+    background-color: #c5c7ca;
+}
+
+p{ 
+    display: flex;
+    justify-content: left;
+    padding: 1%; 
+    margin: 0!important;
+}
+
+footer{ 
+    background-color: #f7f7f7d0;
+}
+
+div.img img{ 
+    width: 50%;
+}
+
+.socialMedia{ 
+    display: inline-flex;
+    list-style: none;
+    padding-left: 0;
+} 
+
+.socialMedia-item{ 
+    margin-left: 2rem;
+    text-decoration: none;
+}
+
+a.fa{ 
+    font-size: 30px;
+    width: 30px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
+} 
+
+a.fa:hover{
+    text-decoration: none; 
+    opacity: 0.8;
+ }
+
+.fa-facebook{ 
+    color: white; 
+    background: #3B5998;
+}

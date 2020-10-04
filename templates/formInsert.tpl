@@ -30,7 +30,9 @@
             <button type="submit" class="btn btn-primary">Submit</button>
             </form> 
     </div> 
+{include file="copyRight.tpl"}
 {include file="footer.tpl"}
 {else}
+    {include file="copyRight.tpl"}
     {include file="footer.tpl"}
 {/if}
