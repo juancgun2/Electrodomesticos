@@ -62,7 +62,8 @@
                         </li> 
                     {/if}
                 </ul>
-            </nav>    
+            </nav> 
+            {include file="banner.tpl"}   
             {elseif $position == "notHome"} 
                 </ul>
                 <ul class="navbar-nav ml-md-auto">
