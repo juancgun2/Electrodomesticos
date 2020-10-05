@@ -1,6 +1,5 @@
 <?php 
-require_once 'libs/smarty/Smarty.class.php';
-// <base href="'.BASE_URL.'"> todos los href tienen base_url como base de la url 
+require_once 'libs/smarty/Smarty.class.php'; 
 Class view{ 
     private $smarty;
     private $titulo;
