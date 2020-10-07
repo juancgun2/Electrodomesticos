@@ -171,4 +171,8 @@ a.fa:hover{
 .myBorder{ 
     border-top: 1px solid;
     border-color: darkgray;
+} 
+
+.imageLogo{ 
+    border-radius: 50%!important;
 }

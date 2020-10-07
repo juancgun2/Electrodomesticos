@@ -15,7 +15,7 @@
             <h1 class="nameLogo"><span id="jyj">J&J</span> Electrodomesticos</h1>   
         </header> 
         <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
-            <span class="navbar-brand mb-0 h1">J&J</span>
+           <a href="home"> <span class="navbar-brand mb-0 h1"><img src="./img/J&Jnuevo.png" class="img-fluid imageLogo" alt="J&J"></span> </a>
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" href="home">Home
