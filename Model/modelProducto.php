@@ -1,6 +1,6 @@
 <?php 
 
-Class model{ 
+Class modelProducto{ 
     private $db;
 
     function __construct(){ 
@@ -35,25 +35,6 @@ Class model{
         $consulta->execute(array($stock,$id));
     }
 
-    function getCategorias(){ 
-        $consulta=$this->db->prepare("SELECT categoria.name,categoria.id from categoria ORDER BY categoria.name"); 
-        $consulta->execute(); 
-        return $consulta->fetchAll(PDO::FETCH_OBJ);
-    }
-
-    function getIdCategoria($nombreCategoria){ 
-        $consulta=$this->db->prepare("SELECT id from categoria WHERE name=? "); 
-        $consulta->execute(array($nombreCategoria)); 
-        return $consulta->fetch(PDO::FETCH_OBJ);
-    }
-
-    function getCategoria($idCategoria){ 
-        $consulta=$this->db->prepare("SELECT name,id from categoria where id=?"); 
-        $consulta->execute(array($idCategoria));
-        return $consulta->fetch(PDO::FETCH_OBJ);
-
-    }
-
     function getItemsInOrder($id_categoria){ 
         $consulta=$this->db->prepare("SELECT p.id,p.nombre,p.descripcion,p.precio,p.stock,p.id_categoria,
         c.name from producto p JOIN categoria c WHERE p.id_categoria=? and c.id=? ORDER BY p.nombre"); 
@@ -76,26 +57,5 @@ Class model{
         $consulta=$this->db->prepare("UPDATE producto SET nombre=?,descripcion=?,precio=?,stock=?,
         id_categoria=? WHERE producto.id=?"); 
         $consulta->execute(array($nombre,$descripcion,$precio,$stock,$idCategoria,$idProducto));
-    }
-
-    function editarCategoria($id_categoria,$nombre){ 
-        $consulta=$this->db->prepare("UPDATE categoria SET categoria.name=? WHERE id=?"); 
-        $consulta->execute(array($nombre,$id_categoria)); 
-    } 
-
-    function insertarCategoria($nombre){ 
-        $consulta=$this->db->prepare("INSERT INTO categoria(name) VALUES(?)"); 
-        $consulta->execute(array($nombre));
-    } 
-
-    function eliminarCategoria($id_categoria){ 
-        $consulta=$this->db->prepare("DELETE from categoria WHERE id=?"); 
-        $consulta->execute(array($id_categoria));
-    } 
-
-    function getPassword($email){ 
-        $consulta=$this->db->prepare("SELECT password FROM login WHERE email=?"); 
-        $consulta->execute(array($email)); 
-        return $consulta->fetch(PDO::FETCH_OBJ);
     }
 }

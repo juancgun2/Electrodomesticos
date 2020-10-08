@@ -1,15 +1,21 @@
 <?php 
 require_once "./View/view.php"; 
-require_once "./Model/model.php"; 
+require_once "./Model/modelProducto.php"; 
+require_once "./Model/modelCategorias.php";
+require_once "./Model/modelUsers.php";
 require_once "./Helper/helper.php";
 
 Class adminController{ 
-    private $model; 
+    private $modelProducto;
+    private $modelCategorias; 
+    private $modelUsers;
     private $view;
     private $helper;
 
     function __construct(){ 
-        $this->model = new model(); 
+        $this->modelProducto = new modelProducto(); 
+        $this->modelCategorias = new modelCategorias;
+        $this->modelUsers = new modelUsers(); 
         $this->view= new view();
         $this->helper = new helper();
     } 
@@ -24,23 +30,23 @@ Class adminController{
                 $precio=$_POST["precio"]; 
                 $stock=$_POST["stock"]; 
                 $nombreCategoria=$_POST["nameCategoria"]; 
-                $id_categoria= $this->model->getIdCategoria($nombreCategoria);
+                $id_categoria= $this->modelCategorias->getIdCategoria($nombreCategoria);
                 if(!$this->existeProducto($nombre,$precio,$descripcion,$id_categoria->id)){
-                    $this->model->insertarProducto($nombre,$descripcion,$precio,$stock,$id_categoria->id); 
+                    $this->modelProducto->insertarProducto($nombre,$descripcion,$precio,$stock,$id_categoria->id); 
                 }else{ 
-                    $idProducto = $this->model->getIdProducto($nombre,$precio,$descripcion,$id_categoria->id);
-                    $producto= $this->model->getItem($idProducto->id);
+                    $idProducto = $this->modelProducto->getIdProducto($nombre,$precio,$descripcion,$id_categoria->id);
+                    $producto= $this->modelProducto->getItem($idProducto->id);
                     $stock = $stock + $producto->stock;
-                    $this->model->setStock($idProducto->id,$stock);
+                    $this->modelProducto->setStock($idProducto->id,$stock);
                 } 
                 $this->view->home();          
             }else{ 
-                $this->view->error(null,true,"home","",$this->helper->getSesion());
+                $this->view->error(null,true,"home","",true);
             }
         }else{ 
             $this->helper->cerrarSesion();
             $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-            $this->view->showLogin($this->model->getAllItems(),$this->model->getCategorias(),$this->helper->getSesion(),$error);
+            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
         }
     } 
 
@@ -48,12 +54,12 @@ Class adminController{
         if($this->helper->getActivity()){
             $this->helper->setActivity();
             $id_producto=$params[":ID"]; 
-            $this->model->eliminarProducto($id_producto);
+            $this->modelProducto->eliminarProducto($id_producto);
             $this->view->home(); 
         }else{
             $this->helper->cerrarSesion();
             $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-            $this->view->showLogin($this->model->getAllItems(),$this->model->getCategorias(),$this->helper->getSesion(),$error);
+            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
         }
     } 
 
@@ -61,14 +67,14 @@ Class adminController{
         if($this->helper->getActivity()){
             $this->helper->setActivity();
             $id_producto=$params[":ID"]; 
-            $categorias=$this->model->getCategorias(); 
-            $producto=$this->model->getItem($id_producto);
+            $categorias=$this->modelCategorias->getCategorias(); 
+            $producto=$this->modelProducto->getItem($id_producto);
             $this->helper->setActivity();
-            $this->view->showFormEditar($id_producto,$categorias,$producto,$this->helper->getSesion());
+            $this->view->showFormEditar($id_producto,$categorias,$producto,true);
         }else{ 
             $this->helper->cerrarSesion();
             $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-            $this->view->showLogin($this->model->getAllItems(),$this->model->getCategorias(),$this->helper->getSesion(),$error);
+            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
         }
     }
 
@@ -84,21 +90,21 @@ Class adminController{
                 $stock=$_POST["stock"];
                 $nombreCategoria=$_POST["nameCategoria"]; 
                 $idProducto=$_POST["id_producto"];
-                $idCategoria= $this->model->getIdCategoria($nombreCategoria);
+                $idCategoria= $this->modelCategorias->getIdCategoria($nombreCategoria);
                 if(!$this->existeProducto($nombre,$precio,$descripcion,$idCategoria->id)){
-                    $this->model->editarProducto($idProducto,$nombre,$descripcion,$precio,$stock,$idCategoria->id); 
+                    $this->modelProducto->editarProducto($idProducto,$nombre,$descripcion,$precio,$stock,$idCategoria->id); 
                     $this->view->home(); 
                 }else{ 
                     $error="El producto ingresado ya existe"; 
-                    $this->view->error($error,null,"formEditar/",$idProducto,$this->helper->getSesion());
+                    $this->view->error($error,null,"formEditar/",$idProducto,true);
                 }                
             }else{ 
-                $this->view->error(null,null,"formEditar/",$idProducto,$this->helper->getSesion());
+                $this->view->error(null,null,"formEditar/",$idProducto,true);
             }
         }else{ 
             $this->helper->cerrarSesion();
             $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-            $this->view->showLogin($this->model->getAllItems(),$this->model->getCategorias(),$this->helper->getSesion(),$error); 
+            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error); 
         }
     } 
 
@@ -106,12 +112,12 @@ Class adminController{
         if($this->helper->getActivity()){
             $this->helper->setActivity();
             $nombreCategoria=$params[":NOMBRE"]; 
-            $id_categoria=$this->model->getIdCategoria($nombreCategoria); 
-            $this->view->showFormEditarCategoria($this->model->getCategoria($id_categoria->id),$this->helper->getSesion());
+            $id_categoria=$this->modelCategorias->getIdCategoria($nombreCategoria); 
+            $this->view->showFormEditarCategoria($this->modelCategorias->getCategoria($id_categoria->id),true);
         }else{ 
             $this->helper->cerrarSesion();
             $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-            $this->view->showLogin($this->model->getAllItems(),$this->model->getCategorias(),$this->helper->getSesion(),$error);
+            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
         }
     } 
 
@@ -119,24 +125,24 @@ Class adminController{
         if($this->helper->getActivity()){
             $this->helper->setActivity();
             $id_categoria=$_POST["id_categoria"];
-            $nombreAnterior= $this->model->getCategoria($id_categoria);
+            $nombreAnterior= $this->modelCategorias->getCategoria($id_categoria);
             if(!empty($_POST["nombreCategoria"])){ 
                 $nombreCategoria=$_POST["nombreCategoria"]; 
                 if(!$this->existeCategoria($nombreCategoria)){
-                    $this->model->editarCategoria($id_categoria,$nombreCategoria); 
+                    $this->modelCategorias->editarCategoria($id_categoria,$nombreCategoria); 
                     $this->view->redirectionCategorias();
                 }else{ 
                     $error="La categoria ingresada ya existe";
-                    $this->view->error($error,true,"formEditarCategoria/",$nombreCategoria,$this->helper->getSesion());
+                    $this->view->error($error,true,"formEditarCategoria/",$nombreCategoria,true);
                 }    
 
             }else{  
-                $this->view->error(null,null,"formEditarCategoria/", $nombreAnterior->name,$this->helper->getSesion());
+                $this->view->error(null,null,"formEditarCategoria/", $nombreAnterior->name,true);
             }
         }else{ 
             $this->helper->cerrarSesion();
             $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-            $this->view->showLogin($this->model->getAllItems(),$this->model->getCategorias(),$this->helper->getSesion(),$error);
+            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
         }
     } 
 
@@ -144,18 +150,18 @@ Class adminController{
         if($this->helper->getActivity()){
             $this->helper->setActivity();
             $nombreCategoria=$params[":NOMBRE"]; 
-            $id_categoria=$this->model->getIdCategoria($nombreCategoria); 
-            $this->model->eliminarCategoria($id_categoria->id); 
+            $id_categoria=$this->modelCategorias->getIdCategoria($nombreCategoria); 
+            $this->modelCategorias->eliminarCategoria($id_categoria->id); 
             $this->view->redirectionCategorias();
         }else{ 
             $this->helper->cerrarSesion();
             $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-            $this->view->showLogin($this->model->getAllItems(),$this->model->getCategorias(),$this->helper->getSesion(),$error);
+            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
         }
     }
 
     function existeProducto($nombre,$precio,$descripcion,$idCategoria){ 
-        $producto= $this->model->getIdProducto($nombre,$precio,$descripcion,$idCategoria);
+        $producto= $this->modelProducto->getIdProducto($nombre,$precio,$descripcion,$idCategoria);
         if($producto===false){ 
             return false;
         }else{
@@ -164,7 +170,7 @@ Class adminController{
     }
 
     function existeCategoria($nombre){ 
-        $idCategoria=$this->model->getIdCategoria($nombre); 
+        $idCategoria=$this->modelCategorias->getIdCategoria($nombre); 
         if($idCategoria===false){ 
             return false;
         }else{ 
@@ -178,20 +184,20 @@ Class adminController{
             if(!empty($_POST["nombreCategoria"])){
                 $nombre=$_POST["nombreCategoria"];
                 if(!$this->existeCategoria($nombre)){  
-                    $this->model->insertarCategoria($nombre); 
+                    $this->modelCategorias->insertarCategoria($nombre); 
                     $this->view->redirectionCategorias();
                 }else{ 
                     $error="La categoria ingresada ya existe";
-                    $this->view->error($error,true,null,null,$this->helper->getSesion());
+                    $this->view->error($error,true,null,null,true);
                 }
                 
             } else { 
-                $this->view->error(null,true,null,null,$this->helper->getSesion());
+                $this->view->error(null,true,null,null,true);
             }
         }else{ 
             $this->helper->cerrarSesion();
             $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-            $this->view->showLogin($this->model->getAllItems(),$this->model->getCategorias(),$this->helper->getSesion(),$error);
+            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
         }
     } 
 
@@ -202,19 +208,19 @@ Class adminController{
 
     function iniciarSesion(){ 
         if(!empty($_POST["email"])&&!empty($_POST["password"])){
-            $object= $this->model->getPassword($_POST["email"]);
-            if($object!=false && password_verify($_POST["password"],$object->password)){ 
+            $objectPass= $this->modelUsers->getPassword($_POST["email"]);
+            if($objectPass!=false && password_verify($_POST["password"],$objectPass->password)){ 
                 session_start();
                 $this->helper->setSesion("admin");
                 $this->helper->setActivity();
                 $this->view->home();
             }else{ 
             $error= "Usuario o contraseña incorrecto";
-            $this->view->showLogin($this->model->getAllItems(),$this->model->getCategorias(),$this->helper->getSesion(),$error);
+            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
             }
         }else{ 
             $error= "Por favor complete todos los campos";
-            $this->view->showLogin($this->model->getAllItems(),$this->model->getCategorias(),$this->helper->getSesion(),$error);
+            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
         }
     }
 
