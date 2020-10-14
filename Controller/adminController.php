@@ -21,141 +21,176 @@ Class adminController{
     } 
 
     function insertarProducto(){ 
-        if($this->helper->getActivity()){
-            $this->helper->setActivity();
-            if(!empty($_POST["nombre"])&&!empty($_POST["descripcion"])&&!empty($_POST["precio"])&&
-                !empty($_POST["stock"])&&!empty($_POST["nameCategoria"])){ 
-                $nombre=$_POST["nombre"]; 
-                $descripcion=$_POST["descripcion"]; 
-                $precio=$_POST["precio"]; 
-                $stock=$_POST["stock"]; 
-                $nombreCategoria=$_POST["nameCategoria"]; 
-                $id_categoria= $this->modelCategorias->getIdCategoria($nombreCategoria);
-                if(!$this->existeProducto($nombre,$precio,$descripcion,$id_categoria->id)){
-                    $this->modelProducto->insertarProducto($nombre,$descripcion,$precio,$stock,$id_categoria->id); 
+        if($this->helper->getSesion()){
+            if($this->helper->getActivity()){
+                $this->helper->setActivity();
+                if(!empty($_POST["nombre"])&&!empty($_POST["descripcion"])&&!empty($_POST["precio"])&&
+                    !empty($_POST["stock"])&&!empty($_POST["nameCategoria"])){ 
+                    $nombre=$_POST["nombre"]; 
+                    $descripcion=$_POST["descripcion"]; 
+                    $precio=$_POST["precio"]; 
+                    $stock=$_POST["stock"]; 
+                    $nombreCategoria=$_POST["nameCategoria"]; 
+                    $id_categoria= $this->modelCategorias->getIdCategoria($nombreCategoria);
+                    if(!$this->existeProducto($nombre,$precio,$descripcion,$id_categoria->id)){
+                        $this->modelProducto->insertarProducto($nombre,$descripcion,$precio,$stock,$id_categoria->id); 
+                    }else{ 
+                        $idProducto = $this->modelProducto->getIdProducto($nombre,$precio,$descripcion,$id_categoria->id);
+                        $producto= $this->modelProducto->getItem($idProducto->id);
+                        $stock = $stock + $producto->stock;
+                        $this->modelProducto->setStock($idProducto->id,$stock);
+                    } 
+                    $this->view->home();          
                 }else{ 
-                    $idProducto = $this->modelProducto->getIdProducto($nombre,$precio,$descripcion,$id_categoria->id);
-                    $producto= $this->modelProducto->getItem($idProducto->id);
-                    $stock = $stock + $producto->stock;
-                    $this->modelProducto->setStock($idProducto->id,$stock);
-                } 
-                $this->view->home();          
+                    $this->view->error(null,true,"home","",true);
+                }
             }else{ 
-                $this->view->error(null,true,"home","",true);
+                $this->helper->cerrarSesion();
+                $error= "La sesion caduco. Por favor inicie sesion nuevamente";
+                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
             }
         }else{ 
-            $this->helper->cerrarSesion();
-            $error= "La sesion caduco. Por favor inicie sesion nuevamente";
+            $error= "Acceso denegado. Por favor inicie sesion";
             $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
         }
     } 
 
     function eliminarProducto($params=null){ 
-        if($this->helper->getActivity()){
-            $this->helper->setActivity();
-            $id_producto=$params[":ID"]; 
-            $this->modelProducto->eliminarProducto($id_producto);
-            $this->view->home(); 
-        }else{
-            $this->helper->cerrarSesion();
-            $error= "La sesion caduco. Por favor inicie sesion nuevamente";
+        if($this->helper->getSesion()){
+            if($this->helper->getActivity()){
+                $this->helper->setActivity();
+                $id_producto=$params[":ID"]; 
+                $this->modelProducto->eliminarProducto($id_producto);
+                $this->view->home(); 
+            }else{
+                $this->helper->cerrarSesion();
+                $error= "La sesion caduco. Por favor inicie sesion nuevamente";
+                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
+            }
+        }else{ 
+            $error= "Acceso denegado. Por favor inicie sesion";
             $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
         }
     } 
 
     function showFormEditar($params=null){ 
-        if($this->helper->getActivity()){
-            $this->helper->setActivity();
-            $id_producto=$params[":ID"]; 
-            $categorias=$this->modelCategorias->getCategorias(); 
-            $producto=$this->modelProducto->getItem($id_producto);
-            $this->helper->setActivity();
-            $this->view->showFormEditar($id_producto,$categorias,$producto,true);
+        if($this->helper->getSesion()){
+            if($this->helper->getActivity()){
+                $this->helper->setActivity();
+                $id_producto=$params[":ID"]; 
+                $categorias=$this->modelCategorias->getCategorias(); 
+                $producto=$this->modelProducto->getItem($id_producto);
+                $this->helper->setActivity();
+                $this->view->showFormEditar($id_producto,$categorias,$producto,true);
+            }else{ 
+                $this->helper->cerrarSesion();
+                $error= "La sesion caduco. Por favor inicie sesion nuevamente";
+                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
+            }
         }else{ 
-            $this->helper->cerrarSesion();
-            $error= "La sesion caduco. Por favor inicie sesion nuevamente";
+            $error= "Acceso denegado. Por favor inicie sesion";
             $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
         }
     }
 
     function editarProducto(){ 
-        if($this->helper->getActivity()){
-            $this->helper->setActivity();
-            $idProducto=$_POST["id_producto"];
-            if(!empty($_POST["nombre"])&&!empty($_POST["descripcion"])
-                &&!empty($_POST["precio"])&&!empty($_POST["stock"])&&!empty($_POST["nameCategoria"])){     
-                $nombre=$_POST["nombre"]; 
-                $descripcion=$_POST["descripcion"]; 
-                $precio=$_POST["precio"];
-                $stock=$_POST["stock"];
-                $nombreCategoria=$_POST["nameCategoria"]; 
+        if($this->helper->getSesion()){
+            if($this->helper->getActivity()){
+                $this->helper->setActivity();
                 $idProducto=$_POST["id_producto"];
-                $idCategoria= $this->modelCategorias->getIdCategoria($nombreCategoria);
-                if(!$this->existeProducto($nombre,$precio,$descripcion,$idCategoria->id)){
-                    $this->modelProducto->editarProducto($idProducto,$nombre,$descripcion,$precio,$stock,$idCategoria->id); 
-                    $this->view->home(); 
+                if(!empty($_POST["nombre"])&&!empty($_POST["descripcion"])
+                    &&!empty($_POST["precio"])&&!empty($_POST["stock"])&&!empty($_POST["nameCategoria"])){     
+                    $nombre=$_POST["nombre"]; 
+                    $descripcion=$_POST["descripcion"]; 
+                    $precio=$_POST["precio"];
+                    $stock=$_POST["stock"];
+                    $nombreCategoria=$_POST["nameCategoria"]; 
+                    $idProducto=$_POST["id_producto"];
+                    $idCategoria= $this->modelCategorias->getIdCategoria($nombreCategoria);
+                    if(!$this->existeProducto($nombre,$precio,$descripcion,$idCategoria->id)){
+                        $this->modelProducto->editarProducto($idProducto,$nombre,$descripcion,$precio,$stock,$idCategoria->id); 
+                        $this->view->home(); 
+                    }else{ 
+                        $error="El producto ingresado ya existe"; 
+                        $this->view->error($error,null,"formEditar/",$idProducto,true);
+                    }                
                 }else{ 
-                    $error="El producto ingresado ya existe"; 
-                    $this->view->error($error,null,"formEditar/",$idProducto,true);
-                }                
+                    $this->view->error(null,null,"formEditar/",$idProducto,true);
+                }
             }else{ 
-                $this->view->error(null,null,"formEditar/",$idProducto,true);
+                $this->helper->cerrarSesion();
+                $error= "La sesion caduco. Por favor inicie sesion nuevamente";
+                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error); 
             }
         }else{ 
-            $this->helper->cerrarSesion();
-            $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error); 
+            $error= "Acceso denegado. Por favor inicie sesion";
+            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
         }
     } 
 
     function showFormEditarCategoria($params=null){ 
-        if($this->helper->getActivity()){
-            $this->helper->setActivity();
-            $nombreCategoria=$params[":NOMBRE"]; 
-            $id_categoria=$this->modelCategorias->getIdCategoria($nombreCategoria); 
-            $this->view->showFormEditarCategoria($this->modelCategorias->getCategoria($id_categoria->id),true);
+        if($this->helper->getSesion()){
+            if($this->helper->getActivity()){
+                $this->helper->setActivity();
+                $nombreCategoria=$params[":NOMBRE"]; 
+                $id_categoria=$this->modelCategorias->getIdCategoria($nombreCategoria); 
+                $this->view->showFormEditarCategoria($this->modelCategorias->getCategoria($id_categoria->id),true);
+            }else{ 
+                $this->helper->cerrarSesion();
+                $error= "La sesion caduco. Por favor inicie sesion nuevamente";
+                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
+            }
         }else{ 
-            $this->helper->cerrarSesion();
-            $error= "La sesion caduco. Por favor inicie sesion nuevamente";
+            $error= "Acceso denegado. Por favor inicie sesion";
             $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
         }
     } 
 
     function editarCategoria(){ 
-        if($this->helper->getActivity()){
-            $this->helper->setActivity();
-            $id_categoria=$_POST["id_categoria"];
-            $nombreAnterior= $this->modelCategorias->getCategoria($id_categoria);
-            if(!empty($_POST["nombreCategoria"])){ 
-                $nombreCategoria=$_POST["nombreCategoria"]; 
-                if(!$this->existeCategoria($nombreCategoria)){
-                    $this->modelCategorias->editarCategoria($id_categoria,$nombreCategoria); 
-                    $this->view->redirectionCategorias();
-                }else{ 
-                    $error="La categoria ingresada ya existe";
-                    $this->view->error($error,true,"formEditarCategoria/",$nombreCategoria,true);
-                }    
+        if($this->helper->getSesion()){
+            if($this->helper->getActivity()){
+                $this->helper->setActivity();
+                $id_categoria=$_POST["id_categoria"];
+                $nombreAnterior= $this->modelCategorias->getCategoria($id_categoria);
+                if(!empty($_POST["nombreCategoria"])){ 
+                    $nombreCategoria=$_POST["nombreCategoria"]; 
+                    if(!$this->existeCategoria($nombreCategoria)){
+                        $this->modelCategorias->editarCategoria($id_categoria,$nombreCategoria); 
+                        $this->view->redirectionCategorias();
+                    }else{ 
+                        $error="La categoria ingresada ya existe";
+                        $this->view->error($error,true,"formEditarCategoria/",$nombreCategoria,true);
+                    }    
 
-            }else{  
-                $this->view->error(null,null,"formEditarCategoria/", $nombreAnterior->name,true);
+                }else{  
+                    $this->view->error(null,null,"formEditarCategoria/", $nombreAnterior->name,true);
+                }
+            }else{ 
+                $this->helper->cerrarSesion();
+                $error= "La sesion caduco. Por favor inicie sesion nuevamente";
+                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
             }
         }else{ 
-            $this->helper->cerrarSesion();
-            $error= "La sesion caduco. Por favor inicie sesion nuevamente";
+            $error= "Acceso denegado. Por favor inicie sesion";
             $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
         }
     } 
 
     function eliminarCategoria($params=null){ 
-        if($this->helper->getActivity()){
-            $this->helper->setActivity();
-            $nombreCategoria=$params[":NOMBRE"]; 
-            $id_categoria=$this->modelCategorias->getIdCategoria($nombreCategoria); 
-            $this->modelCategorias->eliminarCategoria($id_categoria->id); 
-            $this->view->redirectionCategorias();
+        if($this->helper->getSesion()){
+            if($this->helper->getActivity()){
+                $this->helper->setActivity();
+                $nombreCategoria=$params[":NOMBRE"]; 
+                $id_categoria=$this->modelCategorias->getIdCategoria($nombreCategoria); 
+                $this->modelCategorias->eliminarCategoria($id_categoria->id); 
+                $this->view->redirectionCategorias();
+            }else{ 
+                $this->helper->cerrarSesion();
+                $error= "La sesion caduco. Por favor inicie sesion nuevamente";
+                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
+            }
         }else{ 
-            $this->helper->cerrarSesion();
-            $error= "La sesion caduco. Por favor inicie sesion nuevamente";
+            $error= "Acceso denegado. Por favor inicie sesion";
             $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
         }
     }
@@ -179,24 +214,29 @@ Class adminController{
     }
 
     function insertarCategoria(){ 
-        if($this->helper->getActivity()){
-            $this->helper->setActivity();
-            if(!empty($_POST["nombreCategoria"])){
-                $nombre=$_POST["nombreCategoria"];
-                if(!$this->existeCategoria($nombre)){  
-                    $this->modelCategorias->insertarCategoria($nombre); 
-                    $this->view->redirectionCategorias();
-                }else{ 
-                    $error="La categoria ingresada ya existe";
-                    $this->view->error($error,true,null,null,true);
+        if($this->helper->getSesion()){
+            if($this->helper->getActivity()){
+                $this->helper->setActivity();
+                if(!empty($_POST["nombreCategoria"])){
+                    $nombre=$_POST["nombreCategoria"];
+                    if(!$this->existeCategoria($nombre)){  
+                        $this->modelCategorias->insertarCategoria($nombre); 
+                        $this->view->redirectionCategorias();
+                    }else{ 
+                        $error="La categoria ingresada ya existe";
+                        $this->view->error($error,true,null,null,true);
+                    }
+                    
+                } else { 
+                    $this->view->error(null,true,null,null,true);
                 }
-                
-            } else { 
-                $this->view->error(null,true,null,null,true);
+            }else{ 
+                $this->helper->cerrarSesion();
+                $error= "La sesion caduco. Por favor inicie sesion nuevamente";
+                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
             }
         }else{ 
-            $this->helper->cerrarSesion();
-            $error= "La sesion caduco. Por favor inicie sesion nuevamente";
+            $error= "Acceso denegado. Por favor inicie sesion";
             $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
         }
     } 
@@ -223,7 +263,4 @@ Class adminController{
             $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
         }
     }
-
-
-    // VER SI SE PUEDE ARREGLAR CON VIEW->HOME CUANDO CADUCA LA SESION
 }

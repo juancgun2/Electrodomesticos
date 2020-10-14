@@ -43,5 +43,6 @@ class helper{
     function cerrarSesion(){
         $this->setNullActivity();
         $this->setSesion();
+        session_destroy();
      }
 }

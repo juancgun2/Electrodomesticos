@@ -6,50 +6,47 @@ Class view{
     private $h1;
 
     function __construct(){ 
+        $this->smarty = new Smarty();
         $this->titulo= "J&J Electrodomesticos";
     }
 
-    function showAllItems($productos,$categorias=null,$sesion){ 
-        $smarty = new Smarty(); 
-        $smarty->assign('titulo' , $this->titulo); 
-        $smarty->assign('BASE_URL' , BASE_URL); 
-        $smarty->assign('position' , "home");
-        $smarty->assign('productos' , $productos);
-        $smarty->assign('categorias' , $categorias); 
-        $smarty->assign('sesion' , $sesion);
-        $smarty->display('./templates/formInsert.tpl');
+    function showAllItems($productos,$categorias=null,$sesion){  
+        $this->smarty->assign('titulo' , $this->titulo); 
+        $this->smarty->assign('BASE_URL' , BASE_URL); 
+        $this->smarty->assign('position' , "home");
+        $this->smarty->assign('productos' , $productos);
+        $this->smarty->assign('categorias' , $categorias); 
+        $this->smarty->assign('sesion' , $sesion);
+        $this->smarty->display('./templates/formInsert.tpl');
     } 
 
     function showLogin($productos,$categorias=null,$sesion,$error=""){ 
-        $smarty = new Smarty(); 
-        $smarty->assign('titulo' , $this->titulo); 
-        $smarty->assign('BASE_URL' , BASE_URL); 
-        $smarty->assign('position' , "notHome");
-        $smarty->assign('productos' , $productos);
-        $smarty->assign('categorias' , $categorias); 
-        $smarty->assign('sesion' , $sesion);
-        $smarty->assign('error' , $error);
-        $smarty->display('./templates/login.tpl');
+        $this->smarty->assign('titulo' , $this->titulo); 
+        $this->smarty->assign('BASE_URL' , BASE_URL); 
+        $this->smarty->assign('position' , "notHome");
+        $this->smarty->assign('productos' , $productos);
+        $this->smarty->assign('categorias' , $categorias); 
+        $this->smarty->assign('sesion' , $sesion);
+        $this->smarty->assign('error' , $error);
+        $this->smarty->display('./templates/login.tpl');
     }
 
     function showDetalleItem($detalle,$sesion){ 
-        $smarty = new Smarty();
-        $smarty->assign('titulo' , $this->titulo); 
-        $smarty->assign('BASE_URL' , BASE_URL);
-        $smarty->assign('position' , "notHome");
-        $smarty->assign('detalle' , $detalle); 
-        $smarty->assign('sesion' , $sesion);
-        $smarty->display('./templates/detalleItem.tpl');
+        $this->smarty->assign('titulo' , $this->titulo); 
+        $this->smarty->assign('BASE_URL' , BASE_URL);
+        $this->smarty->assign('position' , "notHome");
+        $this->smarty->assign('detalle' , $detalle); 
+        $this->smarty->assign('sesion' , $sesion);
+        $this->smarty->display('./templates/detalleItem.tpl');
     } 
 
     function showCategorias($categorias,$sesion){  
-        $smarty = new Smarty();
-        $smarty->assign('titulo' , $this->titulo); 
-        $smarty->assign('BASE_URL' , BASE_URL); 
-        $smarty->assign('position' , "notHome");
-        $smarty->assign('sesion' , $sesion);
-        $smarty->assign('categorias' , $categorias); 
-        $smarty->display('./templates/categorias.tpl');
+        $this->smarty->assign('titulo' , $this->titulo); 
+        $this->smarty->assign('BASE_URL' , BASE_URL); 
+        $this->smarty->assign('position' , "notHome");
+        $this->smarty->assign('sesion' , $sesion);
+        $this->smarty->assign('categorias' , $categorias); 
+        $this->smarty->display('./templates/categorias.tpl');
     } 
 
     function redirectionCategorias(){ 
@@ -61,25 +58,23 @@ Class view{
     } 
 
     function showFormEditar($id_producto,$categorias,$producto,$sesion){ 
-        $smarty = new Smarty();
-        $smarty->assign('titulo' , $this->titulo); 
-        $smarty->assign('BASE_URL' , BASE_URL); 
-        $smarty->assign('position' , "notHome");
-        $smarty->assign('categorias' , $categorias);
-        $smarty->assign('producto' , $producto);
-        $smarty->assign('sesion' , $sesion);
-        $smarty->assign('id_producto' , $id_producto); 
-        $smarty->display('./templates/formEditProducto.tpl');
+        $this->smarty->assign('titulo' , $this->titulo); 
+        $this->smarty->assign('BASE_URL' , BASE_URL); 
+        $this->smarty->assign('position' , "notHome");
+        $this->smarty->assign('categorias' , $categorias);
+        $this->smarty->assign('producto' , $producto);
+        $this->smarty->assign('sesion' , $sesion);
+        $this->smarty->assign('id_producto' , $id_producto); 
+        $this->smarty->display('./templates/formEditProducto.tpl');
     } 
 
     function showFormEditarCategoria($categoria,$sesion){ 
-        $smarty = new Smarty();
-        $smarty->assign('titulo' , $this->titulo); 
-        $smarty->assign('BASE_URL' , BASE_URL);
-        $smarty->assign('position' , "notHome");
-        $smarty->assign('categoria' , $categoria);
-        $smarty->assign('sesion' , $sesion);
-        $smarty->display('./templates/formEditcategoria.tpl');
+        $this->smarty->assign('titulo' , $this->titulo); 
+        $this->smarty->assign('BASE_URL' , BASE_URL);
+        $this->smarty->assign('position' , "notHome");
+        $this->smarty->assign('categoria' , $categoria);
+        $this->smarty->assign('sesion' , $sesion);
+        $this->smarty->display('./templates/formEditcategoria.tpl');
     }
 
     function error($error=null,$insertCategoria=null,$update=null,$id=null,$sesion){ 
@@ -87,27 +82,25 @@ Class view{
             $error="Por favor complete todos los campos";
         }
         if($insertCategoria!=null && $update==null){
-            $smarty = new Smarty();
-            $smarty->assign('titulo' , $this->titulo); 
-            $smarty->assign('BASE_URL' , BASE_URL);
-            $smarty->assign('position' , "error"); 
-            $smarty->assign('error' , $error);
-            $smarty->assign('categoria' , "");
-            $smarty->assign('update' , "Categorias");
-            $smarty->assign('id' , ""); 
-            $smarty->assign('sesion' , $sesion);
-            $smarty->display('./templates/header.tpl');
+            $this->smarty->assign('titulo' , $this->titulo); 
+            $this->smarty->assign('BASE_URL' , BASE_URL);
+            $this->smarty->assign('position' , "error"); 
+            $this->smarty->assign('error' , $error);
+            $this->smarty->assign('categoria' , "");
+            $this->smarty->assign('update' , "Categorias");
+            $this->smarty->assign('id' , ""); 
+            $this->smarty->assign('sesion' , $sesion);
+            $this->smarty->display('./templates/header.tpl');
         }elseif ($update!=null){ 
-            $smarty = new Smarty();
-            $smarty->assign('titulo' , $this->titulo); 
-            $smarty->assign('BASE_URL' , BASE_URL);
-            $smarty->assign('position' , "error"); 
-            $smarty->assign('error' , $error);
-            $smarty->assign('categoria' , "");
-            $smarty->assign('update' , $update);
-            $smarty->assign('id' , $id);
-            $smarty->assign('sesion' , $sesion);
-            $smarty->display('./templates/header.tpl');
+            $this->smarty->assign('titulo' , $this->titulo); 
+            $this->smarty->assign('BASE_URL' , BASE_URL);
+            $this->smarty->assign('position' , "error"); 
+            $this->smarty->assign('error' , $error);
+            $this->smarty->assign('categoria' , "");
+            $this->smarty->assign('update' , $update);
+            $this->smarty->assign('id' , $id);
+            $this->smarty->assign('sesion' , $sesion);
+            $this->smarty->display('./templates/header.tpl');
         }
     }
 
