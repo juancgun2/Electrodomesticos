@@ -21,7 +21,8 @@ $r->addRoute("eliminarCategoria/:NOMBRE","GET","adminController","eliminarCatego
 $r->addRoute("insertCategoria","POST","adminController","insertarCategoria");
 $r->addRoute("showLogin","GET","controller","showLogin");
 $r->addRoute("iniciarSesion","POST","adminController","iniciarSesion"); 
-$r->addRoute("cerrarSesion","GET","adminController","exit"); 
+$r->addRoute("cerrarSesion","GET","adminController","exit");
+$r->addRoute("registrarse","POST","userController","iniciarSesion"); 
 
 $r->setDefaultRoute("controller","Home");
 $r->route($_GET['action'], $_SERVER['REQUEST_METHOD']);
