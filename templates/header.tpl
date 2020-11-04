@@ -28,6 +28,11 @@
                  <li class="nav-item">
                     <a class="nav-link" href="Categorias">Categorias</a>
                 </li>
+                {if $sesion === "admin"}
+                    <li class="nav-item">
+                        <a class="nav-link" href="Usuarios">Usuarios</a>
+                    </li>
+                {/if}
             {if $position == "home"} 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mostrar por categorias</a>
@@ -41,7 +46,7 @@
                 </li> 
                 </ul>
                 <ul class="navbar-nav ml-md-auto">
-                    {if $sesion===true}
+                    {if $sesion!=false}
                         <li class="nav-item">
                             <a class="nav-link" href="cerrarSesion">Salir
                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -68,7 +73,7 @@
             {elseif $position == "notHome"} 
                 </ul>
                 <ul class="navbar-nav ml-md-auto">
-                {if $sesion===true}
+                {if $sesion!=false}
                     <li class="nav-item">
                     <a class="nav-link" href="cerrarSesion">Salir
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -97,7 +102,7 @@
                 </li> 
                 </ul>
                 <ul class="navbar-nav ml-md-auto">
-                {if $sesion===true}
+                {if $sesion!=false}
                     <li class="nav-item">
                     <a class="nav-link" href="cerrarSesion">Salir
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

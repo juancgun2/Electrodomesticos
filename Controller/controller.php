@@ -6,14 +6,12 @@ require_once "./Model/modelCategorias.php";
 Class controller{ 
     private $modelProducto; 
     private $modelCategorias;
-    private $modelUsers;
     private $view;
     private $helper;
 
     function __construct(){ 
         $this->modelProducto = new modelProducto(); 
         $this->modelCategorias = new modelCategorias();
-        $this->modelUsers = new modelUsers();
         $this->view= new view(); 
         $this->helper= new helper();
     } 
@@ -85,15 +83,6 @@ Class controller{
     // El problema seria que no retorne false cuando llame a existeCategoria.
 
     function showLogin(){ 
-        $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getSesion());
-    }
-
-    function crearCuenta(){
-        $email = $POST["newEmail"]; 
-        if(!$this->modelUsers->existeCuenta){
-            $password=$POST["newPassword"]; 
-            $password= password_hash($password); 
-            $this->modelUsers->crearCuenta($email,$password);
-        }
+        $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getPermisos());
     }
 }

@@ -13,15 +13,27 @@ class modelUsers{
             return $consulta->fetch(PDO::FETCH_OBJ);
     }
 
-    function crearCuenta($email,$password){
-        $consulta=$this->db->prepare("INSERT into login (email,password) values(?,?)");
-        $consulta->execute(array($email,$password));
+    function crearCuenta($email,$permisos,$password){
+        $consulta=$this->db->prepare("INSERT into login (email,permisos,password) values(?,?,?)");
+        $consulta->execute(array($email,$permisos,$password));
     }
 
-    function existeCuenta($email){ 
-        $consulta= $this->db->prepare("SELECT email FROM login WHERE email=?");
+    function getCuenta($email){
+        $consulta= $this->db->prepare("SELECT * FROM login WHERE email=?");
         $consulta->execute(array($email));
         return $consulta->fetch(PDO::FETCH_OBJ);
+    }
+
+    function getPermisos($email){ 
+        $consulta= $this->db->prepare("SELECT permisos FROM login WHERE email=?");
+        $consulta->execute(array($email));
+        return $consulta->fetch(PDO::FETCH_OBJ);
+    }
+
+    function getUsuarios(){
+        $consulta= $this->db->prepare("SELECT id_login,email,permisos FROM login");
+        $consulta->execute();
+        return $consulta->fetchAll(PDO::FETCH_OBJ);
     }
 
 }

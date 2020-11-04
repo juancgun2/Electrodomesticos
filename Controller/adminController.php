@@ -263,4 +263,8 @@ Class adminController{
             $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,$error);
         }
     }
+
+    function showUsuarios(){
+        $this->view->renderUsuarios($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),"admin",$this->modelUsers->getUsuarios());
+    }
 }

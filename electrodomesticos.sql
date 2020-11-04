@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-10-2020 a las 05:11:28
+-- Tiempo de generación: 05-11-2020 a las 00:18:53
 -- Versión del servidor: 10.4.11-MariaDB
 -- Versión de PHP: 7.4.6
 
@@ -38,11 +38,26 @@ CREATE TABLE `categoria` (
 
 INSERT INTO `categoria` (`id`, `name`) VALUES
 (3, 'televisores'),
-(13, 'computacion'),
 (21, 'muebles'),
 (26, 'blabla'),
 (27, 'compu'),
-(28, 'computac');
+(28, 'computac'),
+(32, 'computa'),
+(33, 'mermelada');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `comentario`
+--
+
+CREATE TABLE `comentario` (
+  `idComentario` int(11) NOT NULL,
+  `descripcion` varchar(255) NOT NULL,
+  `idUsuario` int(100) NOT NULL,
+  `idProducto` int(11) NOT NULL,
+  `puntuacion` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -53,6 +68,7 @@ INSERT INTO `categoria` (`id`, `name`) VALUES
 CREATE TABLE `login` (
   `id_login` int(11) NOT NULL,
   `email` varchar(100) NOT NULL,
+  `permisos` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -60,8 +76,9 @@ CREATE TABLE `login` (
 -- Volcado de datos para la tabla `login`
 --
 
-INSERT INTO `login` (`id_login`, `email`, `password`) VALUES
-(1, 'quieropromocionar@web2.com', '$2y$10$tfibmHJRCCMsB0YRVwrrKeUcWChOX1BFoMnfeUbwO0zriKYc1x0ye');
+INSERT INTO `login` (`id_login`, `email`, `permisos`, `password`) VALUES
+(1, 'quieropromocionar@web2.com', 'admin', '$2y$10$tfibmHJRCCMsB0YRVwrrKeUcWChOX1BFoMnfeUbwO0zriKYc1x0ye'),
+(3, 'juan@web2.com', 'user', '$2y$10$yZO8MLBbCO.JvHmBdG0C2.VwUBavvzrStgHQM4KrEVNBRqrGRNXSS');
 
 -- --------------------------------------------------------
 
@@ -85,7 +102,9 @@ CREATE TABLE `producto` (
 INSERT INTO `producto` (`id`, `nombre`, `descripcion`, `precio`, `stock`, `id_categoria`) VALUES
 (1, 'televisor', '47 pulgadas smart ', 80000, 17, 3),
 (6, 'televisor', '42 pulgadas smart', 69000, 10, 3),
-(10, 'pc', 'amd radeon', 56700, 44, 13);
+(11, 'hola', 'hola', 1, 2, 26),
+(12, 'HOlaHola', 'nose', 69000, 34, 21),
+(13, 'mermelada', 'hola', 23, 3, 33);
 
 --
 -- Índices para tablas volcadas
@@ -96,6 +115,13 @@ INSERT INTO `producto` (`id`, `nombre`, `descripcion`, `precio`, `stock`, `id_ca
 --
 ALTER TABLE `categoria`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `comentario`
+--
+ALTER TABLE `comentario`
+  ADD PRIMARY KEY (`idComentario`),
+  ADD KEY `idProducto` (`idProducto`);
 
 --
 -- Indices de la tabla `login`
@@ -118,23 +144,35 @@ ALTER TABLE `producto`
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
+--
+-- AUTO_INCREMENT de la tabla `comentario`
+--
+ALTER TABLE `comentario`
+  MODIFY `idComentario` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `login`
 --
 ALTER TABLE `login`
-  MODIFY `id_login` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_login` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `producto`
 --
 ALTER TABLE `producto`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `comentario`
+--
+ALTER TABLE `comentario`
+  ADD CONSTRAINT `comentario_ibfk_1` FOREIGN KEY (`idProducto`) REFERENCES `producto` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `producto`

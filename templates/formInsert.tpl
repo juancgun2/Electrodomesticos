@@ -1,5 +1,5 @@
 {include file="allItems.tpl"}
-{if $sesion===true}
+{if $sesion->permisos==="admin"}
     <div class="container">
         <h1> Insertar Producto </h1>
             <form action="insertProducto" method="POST">

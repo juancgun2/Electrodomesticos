@@ -104,4 +104,15 @@ Class view{
         }
     }
 
+    function renderUsuarios($productos,$categorias,$sesion,$usuarios){
+        $this->smarty->assign('titulo' , $this->titulo); 
+        $this->smarty->assign('BASE_URL' , BASE_URL); 
+        $this->smarty->assign('position' , "home");
+        $this->smarty->assign('productos' , $productos);
+        $this->smarty->assign('categorias' , $categorias); 
+        $this->smarty->assign('sesion' , $sesion);
+        $this->smarty->assign("usuarios" , $usuarios);
+        $this->smarty->display('./templates/usuarios.tpl');
+    }
+
 }

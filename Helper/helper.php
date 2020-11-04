@@ -1,6 +1,11 @@
 <?php 
-
+// correjir getSesion debo setear session["permisos"]="user" y devolverlo con getSesion()
 class helper{ 
+    private $modelUsers;
+
+    function __construct(){
+        $this->modelUsers = new modelUsers();
+    }
 
     function getActivity(){
         if(!isset($_SESSION))
@@ -30,9 +35,16 @@ class helper{
         if(empty($_SESSION["nombre"])){ 
             return false;
         }else{ 
-            return true;
+           return true;
         }
     } 
+
+    function getPermisos($email=null){
+        if($email!=null)
+            return $this->modelUsers->getPermisos($email);
+        else 
+            return false;
+    }
 
     function setSesion($nombre=""){
         if(!isset($_SESSION))
