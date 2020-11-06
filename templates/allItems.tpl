@@ -8,7 +8,7 @@
             <th scope='col'>Stock</th>
             <th scope='col'>Categoria</th>
             <th scope='col'>Ver detalle</th> 
-            {if $sesion->permisos==="admin"}
+            {if $sesion==="admin"}
                 <th scope='col'>Editar</th>
                 <th scope='col'>Eliminar</th>
             {/if}
@@ -24,7 +24,7 @@
             <td><button class='btn btn-secondary' type='button'><a class='btn btn-secondary btn-lg active'
                 href="verDetalle/{$producto->id}">Detalle</a></button>
             </td>
-                {if $sesion->permisos==="admin"} 
+                {if $sesion==="admin"} 
                     <td><button class='btn btn-secondary' type='button'><a class='btn btn-warning btn-lg active'
                         href="formEditar/{$producto->id}">Editar
                         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-gear" fill="currentColor" xmlns="http://www.w3.org/2000/svg">

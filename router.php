@@ -2,6 +2,7 @@
 require_once "Controller/controller.php";
 require_once "Controller/adminController.php";
 require_once "Controller/userController.php";
+require_once "Helper/helper.php";
 require_once "RouterClass.php";
 
 define("BASE_URL", 'http://'.$_SERVER["SERVER_NAME"].':'.$_SERVER["SERVER_PORT"].dirname($_SERVER["PHP_SELF"]).'/');
@@ -21,10 +22,11 @@ $r->addRoute("formEditarCategoria/:NOMBRE","GET","adminController","showFormEdit
 $r->addRoute("eliminarCategoria/:NOMBRE","GET","adminController","eliminarCategoria");
 $r->addRoute("insertCategoria","POST","adminController","insertarCategoria");
 $r->addRoute("showLogin","GET","controller","showLogin");
-$r->addRoute("iniciarSesion","POST","adminController","iniciarSesion"); 
-$r->addRoute("cerrarSesion","GET","adminController","exit");
+$r->addRoute("iniciarSesion","POST","helper","iniciarSesion"); 
+$r->addRoute("cerrarSesion","GET","helper","exit");
 $r->addRoute("registrarse","POST","userController","crearCuenta"); 
 $r->addRoute("Usuarios","GET","adminController","showUsuarios"); 
+$r->addRoute("eliminarUsuario/:ID","GET","userController","eliminarUsuario"); 
 
 $r->setDefaultRoute("controller","Home");
 $r->route($_GET['action'], $_SERVER['REQUEST_METHOD']);

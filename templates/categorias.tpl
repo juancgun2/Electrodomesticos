@@ -6,7 +6,7 @@
                 <div class="animacion"> 
                 <a class="link" href="Categoria/{$categoria->name}">
                     <article class="textCategoria"> {$categoria->name|capitalize} 
-                    {if $sesion->permisos==="admin"} 
+                    {if $sesion==="admin"} 
                         <div class="box">
                             <button class='btn' type='button'>
                                 <a class='btn btn-warning'
@@ -32,7 +32,7 @@
             {/foreach} 
         </section>
 </div>
-{if $sesion->permisos==="admin"} 
+{if $sesion==="admin"} 
     <div class="container">
         <h1> Insertar Categoria </h1>
             <form action="insertCategoria" method="POST">

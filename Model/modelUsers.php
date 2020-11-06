@@ -36,4 +36,9 @@ class modelUsers{
         return $consulta->fetchAll(PDO::FETCH_OBJ);
     }
 
+    function eliminarUsuario($id){
+        $consulta=$this->db->prepare("DELETE from login WHERE id_login=?"); 
+        $consulta->execute(array($id)); 
+    }
+
 }

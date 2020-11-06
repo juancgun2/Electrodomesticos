@@ -17,65 +17,63 @@ Class controller{
     } 
 
     function Home(){ 
-        if($this->helper->getSesion()){
+        if($this->helper->getRol()){
             if($this->helper->getActivity()){
-                $this->helper->setActivity();
-                $this->view->showAllItems($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getSesion());
+                $this->view->showAllItems($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getRol(),$this->helper->getEmail());
                 die();
-            }else 
+                }
+            else {
             $this->helper->cerrarSesion();
             $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getSesion(),$error);
-        }else{ 
-            $this->view->showAllItems($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getSesion());
-        } 
+            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getRol(),null,$error);
+            }
+        }
+        else
+            $this->view->showAllItems($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getRol());    
     }
 
     function showDetalleItem($params=null){ 
         $id_producto=$params[':ID']; 
-        if($this->helper->getSesion()){
-            if($this->helper->getActivity()){
-                $this->helper->setActivity();  
-                $this->view->showDetalleItem($this->modelProducto->getItem($id_producto),$this->helper->getSesion());
+        if($this->helper->getRol()){
+            if($this->helper->getActivity()){ 
+                $this->view->showDetalleItem($this->modelProducto->getItem($id_producto),$this->helper->getRol(),$this->helper->getEmail());
             }else{ 
                 $this->helper->cerrarSesion();
                 $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getSesion(),$error);
+                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getRol(),null,$error);
             }
         }else{ 
-            $this->view->showDetalleItem($this->modelProducto->getItem($id_producto),$this->helper->getSesion());
+            $this->view->showDetalleItem($this->modelProducto->getItem($id_producto),$this->helper->getRol());
         }
     } 
 
     function showCategorias(){ 
-        if($this->helper->getSesion()){
+        if($this->helper->getRol()){
             if($this->helper->getActivity()){
-                $this->helper->setActivity();
-                $this->view->showCategorias($this->modelCategorias->getCategorias(),$this->helper->getSesion());
+                $this->view->showCategorias($this->modelCategorias->getCategorias(),$this->helper->getRol(),$this->helper->getEmail());
             }else{ 
                 $this->helper->cerrarSesion();
                 $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getSesion(),$error);
+                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getRol(),null,$error);
             }
         }else{ 
-            $this->view->showCategorias($this->modelCategorias->getCategorias(),$this->helper->getSesion()); 
+            $this->view->showCategorias($this->modelCategorias->getCategorias(),$this->helper->getRol()); 
         }
     }
 
     function filtrarPorCategorias($params=null){ 
         $nombreCategoria=$params[":NOMBRE"];
         $id_categoria= $this->modelCategorias->getIdCategoria($nombreCategoria);
-        if($this->helper->getSesion()){
+        if($this->helper->getRol()){
             if($this->helper->getActivity()){
-                $this->helper->setActivity();
-                $this->view->showAllItems($this->modelProducto->getItemsInOrder($id_categoria->id),$this->modelCategorias->getCategorias(),$this->helper->getSesion());
+                $this->view->showAllItems($this->modelProducto->getItemsInOrder($id_categoria->id),$this->modelCategorias->getCategorias(),$this->helper->getRol(),$this->helper->getEmail());
             }else{ 
                 $this->helper->cerrarSesion();
                 $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getSesion(),$error);
+                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getRol(),null,$error);
             }
         }else{ 
-            $this->view->showAllItems($this->modelProducto->getItemsInOrder($id_categoria->id),$this->modelCategorias->getCategorias(),$this->helper->getSesion());
+            $this->view->showAllItems($this->modelProducto->getItemsInOrder($id_categoria->id),$this->modelCategorias->getCategorias(),$this->helper->getRol());
         }
     }
 
@@ -83,6 +81,6 @@ Class controller{
     // El problema seria que no retorne false cuando llame a existeCategoria.
 
     function showLogin(){ 
-        $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getPermisos());
+        $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getRol());
     }
 }

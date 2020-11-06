@@ -19,6 +19,8 @@ class userController{
             $password=$_POST["newPassword"]; 
             $password= password_hash($password,PASSWORD_DEFAULT); 
             $this->modelUsers->crearCuenta($email,"user",$password);
+            $this->helper->setRol("user");
+            $this->helper->setEmail($email);
             $this->view->home();
         }else {
             //si la contraseña es correcta inicia sesion
@@ -38,5 +40,11 @@ class userController{
         }else {
             return true;
         }
+    }
+
+    function eliminarUsuario($params=null){
+        $idUsuario=$params[":ID"];
+        $this->modelUsers->eliminarUsuario($idUsuario);
+        $this->view->home("Usuarios");
     }
 }
