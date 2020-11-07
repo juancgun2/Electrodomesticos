@@ -21,4 +21,10 @@
             </tr>
         </tbody>    
 </table> 
+<section>
+    <ul id=comentarios>
+
+    </ul>
+
+</section>
 {include file="footer.tpl"} 

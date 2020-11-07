@@ -46,7 +46,7 @@ Class adminController{
             }else{ 
                 $this->helper->cerrarSesion();
                 $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,null,$error);
+                $this->view->showLogin(false,null,$error);
             }
         }else{ 
             $error= "Acceso denegado. Por favor inicie sesion";
@@ -63,11 +63,11 @@ Class adminController{
             }else{
                 $this->helper->cerrarSesion();
                 $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,null,$error);
+                $this->view->showLogin(false,null,$error);
             }
         }else{ 
             $error= "Acceso denegado. Por favor inicie sesion";
-            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,null,$error);
+            $this->view->showLogin(false,null,$error);
         }
     } 
 
@@ -81,11 +81,11 @@ Class adminController{
             }else{ 
                 $this->helper->cerrarSesion();
                 $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,null,$error);
+                $this->view->showLogin(false,null,$error);
             }
         }else{ 
             $error= "Acceso denegado. Por favor inicie sesion";
-            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,null,$error);
+            $this->view->showLogin(false,null,$error);
         }
     }
 
@@ -115,11 +115,11 @@ Class adminController{
             }else{ 
                 $this->helper->cerrarSesion();
                 $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,null,$error); 
+                $this->view->showLogin(false,null,$error); 
             }
         }else{ 
             $error= "Acceso denegado. Por favor inicie sesion";
-            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,null,$error);
+            $this->view->showLogin(false,null,$error);
         }
     } 
 
@@ -132,11 +132,11 @@ Class adminController{
             }else{ 
                 $this->helper->cerrarSesion();
                 $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,null,$error);
+                $this->view->showLogin(false,null,$error);
             }
         }else{ 
             $error= "Acceso denegado. Por favor inicie sesion";
-            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,null,$error);
+            $this->view->showLogin(false,null,$error);
         }
     } 
 
@@ -161,11 +161,11 @@ Class adminController{
             }else{ 
                 $this->helper->cerrarSesion();
                 $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,null,$error);
+                $this->view->showLogin(false,null,$error);
             }
         }else{ 
             $error= "Acceso denegado. Por favor inicie sesion";
-            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,null,$error);
+            $this->view->showLogin(false,null,$error);
         }
     } 
 
@@ -179,11 +179,11 @@ Class adminController{
             }else{ 
                 $this->helper->cerrarSesion();
                 $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,null,$error);
+                $this->view->showLogin(false,null,$error);
             }
         }else{ 
             $error= "Acceso denegado. Por favor inicie sesion";
-            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,null,$error);
+            $this->view->showLogin(false,null,$error);
         }
     }
 
@@ -224,18 +224,13 @@ Class adminController{
             }else{ 
                 $this->helper->cerrarSesion();
                 $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,null,$error);
+                $this->view->showLogin(false,null,$error);
             }
         }else{ 
             $error= "Acceso denegado. Por favor inicie sesion";
-            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false,null,$error);
+            $this->view->showLogin(false,null,$error);
         }
     } 
-
-    function exit(){ 
-        $this->helper->cerrarSesion(); 
-        $this->view->Home();
-    }
 
     function showUsuarios(){
         $this->view->renderUsuarios("admin",$this->modelUsers->getUsuarios(),$this->helper->getEmail());

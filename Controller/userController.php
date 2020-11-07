@@ -19,17 +19,19 @@ class userController{
             $password=$_POST["newPassword"]; 
             $password= password_hash($password,PASSWORD_DEFAULT); 
             $this->modelUsers->crearCuenta($email,"user",$password);
-            $this->helper->setRol("user");
-            $this->helper->setEmail($email);
+            $this->helper->setSesion($email,"user");
             $this->view->home();
         }else {
             //si la contraseña es correcta inicia sesion
             $cuenta= $this->modelUsers->getCuenta($email);
             $password=$_POST["newPassword"];
-            if(password_verify($paswword,$cuenta->password))
+            if(password_verify($paswword,$cuenta->password)){
+                $this->setSesion($cuenta->email,$cuenta->permisos);
                 $this->view->home();
-            else
-                $this->view->showLogin();//preguntar
+            }else{
+            $error= "El email ya existe, por favor inicie sesion";
+            $this->view->showLogin(false,null,$error);
+            }   
         }
     }
 
@@ -45,6 +47,18 @@ class userController{
     function eliminarUsuario($params=null){
         $idUsuario=$params[":ID"];
         $this->modelUsers->eliminarUsuario($idUsuario);
+        $this->view->home("Usuarios");
+    }
+
+    function setAdmin($params=null){
+        $id=$params[":ID"];
+        $this->modelUsers->setAdmin($id);
+        $this->view->home("Usuarios");
+    }
+
+    function setUser($params=null){
+        $id=$params[":ID"]; 
+        $this->modelUsers->setUser($id);
         $this->view->home("Usuarios");
     }
 }

@@ -8,9 +8,9 @@ class modelUsers{
     } 
 
     function getPassword($email){ 
-            $consulta=$this->db->prepare("SELECT password FROM login WHERE email=?"); 
-            $consulta->execute(array($email)); 
-            return $consulta->fetch(PDO::FETCH_OBJ);
+        $consulta=$this->db->prepare("SELECT password FROM login WHERE email=?"); 
+        $consulta->execute(array($email)); 
+        return $consulta->fetch(PDO::FETCH_OBJ);
     }
 
     function crearCuenta($email,$permisos,$password){
@@ -39,6 +39,16 @@ class modelUsers{
     function eliminarUsuario($id){
         $consulta=$this->db->prepare("DELETE from login WHERE id_login=?"); 
         $consulta->execute(array($id)); 
+    }
+
+    function setAdmin($id){
+        $consulta=$this->db->prepare("UPDATE login SET permisos=? WHERE id_login=?");
+        $consulta->execute(array("admin",$id));
+    }
+
+    function setUser($id){
+        $consulta=$this->db->prepare("UPDATE login SET permisos=? WHERE id_login=?");
+        $consulta->execute(array("user",$id));
     }
 
 }

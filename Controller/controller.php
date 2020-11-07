@@ -25,7 +25,7 @@ Class controller{
             else {
             $this->helper->cerrarSesion();
             $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-            $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getRol(),null,$error);
+            $this->view->showLogin(false,null,$error);
             }
         }
         else
@@ -40,7 +40,7 @@ Class controller{
             }else{ 
                 $this->helper->cerrarSesion();
                 $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getRol(),null,$error);
+                $this->view->showLogin(false,null,$error);
             }
         }else{ 
             $this->view->showDetalleItem($this->modelProducto->getItem($id_producto),$this->helper->getRol());
@@ -54,7 +54,7 @@ Class controller{
             }else{ 
                 $this->helper->cerrarSesion();
                 $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getRol(),null,$error);
+                $this->view->showLogin(false,null,$error);
             }
         }else{ 
             $this->view->showCategorias($this->modelCategorias->getCategorias(),$this->helper->getRol()); 
@@ -70,7 +70,7 @@ Class controller{
             }else{ 
                 $this->helper->cerrarSesion();
                 $error= "La sesion caduco. Por favor inicie sesion nuevamente";
-                $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getRol(),null,$error);
+                $this->view->showLogin(false,null,$error);
             }
         }else{ 
             $this->view->showAllItems($this->modelProducto->getItemsInOrder($id_categoria->id),$this->modelCategorias->getCategorias(),$this->helper->getRol());
@@ -81,6 +81,6 @@ Class controller{
     // El problema seria que no retorne false cuando llame a existeCategoria.
 
     function showLogin(){ 
-        $this->view->showLogin($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getRol());
+        $this->view->showLogin(false);
     }
 }

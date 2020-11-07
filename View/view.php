@@ -21,12 +21,10 @@ Class view{
         $this->smarty->display('./templates/formInsert.tpl');
     } 
 
-    function showLogin($productos,$categorias=null,$sesion,$email=null,$error=""){ 
+    function showLogin($sesion,$email=null,$error=""){ 
         $this->smarty->assign('titulo' , $this->titulo); 
         $this->smarty->assign('BASE_URL' , BASE_URL); 
         $this->smarty->assign('position' , "notHome");
-        $this->smarty->assign('productos' , $productos);
-        $this->smarty->assign('categorias' , $categorias); 
         $this->smarty->assign('sesion' , $sesion);
         $this->smarty->assign('email' , $email);
         $this->smarty->assign('error' , $error);
