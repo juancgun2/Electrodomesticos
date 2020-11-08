@@ -30,5 +30,5 @@ $r->addRoute("eliminarUsuario/:ID","GET","userController","eliminarUsuario");
 $r->addRoute("setAdmin/:ID","GET","userController","setAdmin"); 
 $r->addRoute("setUsuario/:ID","GET","userController","setUser"); 
 
-$r->setDefaultRoute("controller","Home");
+/*$r->setDefaultRoute("controller","Home");*/
 $r->route($_GET['action'], $_SERVER['REQUEST_METHOD']);

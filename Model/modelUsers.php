@@ -13,6 +13,12 @@ class modelUsers{
         return $consulta->fetch(PDO::FETCH_OBJ);
     }
 
+    function getIdUser($email){
+        $consulta=$this->db->prepare("SELECT idUsuario FROM login WHERE email=?"); 
+        $consulta->execute(array($email)); 
+        return $consulta->fetch(PDO::FETCH_OBJ);
+    }
+
     function crearCuenta($email,$permisos,$password){
         $consulta=$this->db->prepare("INSERT into login (email,permisos,password) values(?,?,?)");
         $consulta->execute(array($email,$permisos,$password));

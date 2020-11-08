@@ -1,14 +1,11 @@
 <?php 
 
+
 class helper{ 
-    private $modelProducto;
-    private $modelCategorias;
     private $view;
     private $modelUsers;
 
     function __construct(){
-        $this->modelProducto = new modelProducto();
-        $this->modelCategorias = new modelCategorias(); 
         $this->view = new view();
         $this->modelUsers = new modelUsers();
     }
@@ -16,7 +13,7 @@ class helper{
     function getActivity(){
         if(!isset($_SESSION))
             session_start();  
-        if(time()-$_SESSION["lastActivity"] > 120) {
+        if(time()-$_SESSION["lastActivity"] > 999999) {
             return false;
         }else{
             $this->setActivity();

@@ -12,7 +12,7 @@
         <thead>
         <tbody>
             <tr>
-                <th scope='row'>{$detalle->id}</th>
+                <th id="idProducto" scope='row'>{$detalle->id}</th>
                 <td>{$detalle->nombre|capitalize}</td>
                 <td>{$detalle->descripcion}</td> 
                 <td>{$detalle->precio}</td> 
@@ -21,10 +21,5 @@
             </tr>
         </tbody>    
 </table> 
-<section>
-    <ul id=comentarios>
-
-    </ul>
-
-</section>
+{include file="comentarios.tpl"}
 {include file="footer.tpl"} 
