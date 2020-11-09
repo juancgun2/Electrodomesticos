@@ -23,22 +23,31 @@ function getComentarios(){
 }
 
 function agregarComentario(){
+    let idProducto =document.querySelector("#idProducto").innerHTML;
+    idProducto= parseInt(idProducto);
+    let puntuacion=document.querySelector("#newPuntuacion").value;
+    puntuacion = parseInt(puntuacion);
     let comentario = {
         "usuario": document.querySelector('#formEmail').value,
         "descripcion": document.querySelector("#newDescripcion").value,
-        "puntuacion": document.querySelector("#newPuntuacion").value,
-        "idProducto": document.querySelector("#idProducto").value
+        "puntuacion": puntuacion,
+        "idProducto": idProducto
     };
-    fetch("/mermelada/comentarios",{ 
+    console.log(comentario);
+    console.log(JSON.stringify(comentario));
+    fetch("mermelada/comentarios",{ 
         "method":"post", 
         "headers": {"Content-Type":"application/json"}, 
         "body": JSON.stringify(comentario)
-    }).then(r => vueComentarios.comentarios.push(comentario))
+    }).then(r => r.json())
+    .then(comentario => vueComentarios.comentarios.push(comentario))
         .catch(error => console.log(error));
 }
 
 function getByProducto(){
-    fetch("mermelada/comentarios/"+document.querySelector("#idProducto").value)
+    let id =document.querySelector("#idProducto").innerHTML;
+    id=parseInt(id);
+    fetch("mermelada/comentarios/"+id)
         .then(r => r.json()) 
         .then(comentariosProd => vueComentarios.comentarios=comentariosProd)
         .catch(error => console.log(error));

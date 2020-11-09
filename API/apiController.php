@@ -34,14 +34,16 @@ class apiController{
         if($comentario)
             return $this->apiView->response($comentario,200);
         else
-            return $this->apiView->response("No existe el producto con id: $id",404);
+            return $this->apiView->response("No existe el producto con id: $id o no hay comentarios
+            asociados a el",404);
         
     }
 
     function agregarComentario($params=null){
         $data= $this->getData();
-        //$idUsuario = $this->modelUsers->getIdUser($data->idUsuario);
-        $id=$this->modelComentario->agregarComentario($data->descripcion,$data->idUsuario,$data->idProducto,$data->puntuacion);
+        $idUsuario = $this->modelUsers->getIdUser($data->usuario);
+        $id=$this->modelComentario->agregarComentario($data->descripcion,$idUsuario->id_login,$data->idProducto,$data->puntuacion);
+        $id=$id+0;
         if($id)
             return $this->apiView->response($this->modelComentario->getComentarioById($id),200);
         else 
@@ -60,6 +62,4 @@ class apiController{
         }else
             return $this->apiView->response("El id $id es invalido",404);
     }
-
-
 }
