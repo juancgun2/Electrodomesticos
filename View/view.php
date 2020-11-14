@@ -31,13 +31,14 @@ Class view{
         $this->smarty->display('./templates/login.tpl');
     }
 
-    function showDetalleItem($detalle,$sesion,$email=null){ 
+    function showDetalleItem($detalle,$sesion,$email=null,$idUsuario=null){ 
         $this->smarty->assign('titulo' , $this->titulo); 
         $this->smarty->assign('BASE_URL' , BASE_URL);
         $this->smarty->assign('position' , "notHome");
         $this->smarty->assign('detalle' , $detalle); 
         $this->smarty->assign('sesion' , $sesion);
         $this->smarty->assign('email' , $email);
+        $this->smarty->assign('idUsuario' , $idUsuario);
         $this->smarty->display('./templates/detalleItem.tpl');
     } 
 

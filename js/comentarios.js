@@ -1,11 +1,12 @@
-
+const rolE = document.querySelector("#rol").value;
 const vueComentarios = new Vue({
     el: "#vueComentarios", 
     data:{ 
-        comentarios: []
+        comentarios: [],
+        rol: rolE
     }
 })
-
+  
 document.addEventListener("DOMContentLoaded",()=>{
     getByProducto();
 
@@ -24,7 +25,7 @@ function getComentarios(){
 
 function agregarComentario(){
     let comentario = {
-        "usuario": document.querySelector('#formEmail').value,
+        "usuario": document.querySelector('#formIdUser').value,
         "descripcion": document.querySelector("#newDescripcion").value,
         "puntuacion": document.querySelector("#newPuntuacion").value,
         "idProducto": document.querySelector("#idProducto").value

@@ -36,7 +36,7 @@ Class controller{
         $id_producto=$params[':ID']; 
         if($this->helper->getRol()){
             if($this->helper->getActivity()){ 
-                $this->view->showDetalleItem($this->modelProducto->getItem($id_producto),$this->helper->getRol(),$this->helper->getEmail());
+                $this->view->showDetalleItem($this->modelProducto->getItem($id_producto),$this->helper->getRol(),$this->helper->getEmail(),$this->helper->getIdUsuario());
             }else{ 
                 $this->helper->cerrarSesion();
                 $error= "La sesion caduco. Por favor inicie sesion nuevamente";

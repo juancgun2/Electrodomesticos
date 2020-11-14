@@ -1,18 +1,19 @@
 <?php
 require_once "./Model/modelComentario.php";
+require_once "./Model/modelProducto.php";
 require_once "./Model/modelusers.php";
 require_once "apiView.php";
 
 class apiController{ 
     private $modelComentario;
-    private $modelUsers;
+    private $modelProducto;
     private $apiView; 
     private $data; 
 
     public function __construct() {
         $this->modelComentario = new modelComentario();
-        $this->modelUsers= new modelUsers();
         $this->apiView = new apiView();
+        $this->modelProducto = new modelProducto();
         $this->data = file_get_contents("php://input"); 
     }
 
@@ -25,22 +26,20 @@ class apiController{
         if($comentarios)
             $this->apiView->response($comentarios,200);
         else 
-        $this->apiView->response("Error en el servidor,intente mas tarde",500);
+            $this->apiView->response("Error en el servidor,intente mas tarde",500);
     }
 
     function getByIdProducto($params=null){
         $id=$params[":ID"];
-        $comentario= $this->modelComentario->getByIdProducto($id);
-        if($comentario)
-            return $this->apiView->response($comentario,200);
-        else
+        if($this->existeProducto($id)){
+                return $this->apiView->response($this->modelComentario->getByIdProducto($id),200);
+        }else{ 
             return $this->apiView->response("No existe el producto con id: $id",404);
-        
+        }
     }
 
     function agregarComentario($params=null){
         $data= $this->getData();
-        //$idUsuario = $this->modelUsers->getIdUser($data->idUsuario);
         $id=$this->modelComentario->agregarComentario($data->descripcion,$data->idUsuario,$data->idProducto,$data->puntuacion);
         if($id)
             return $this->apiView->response($this->modelComentario->getComentarioById($id),200);
@@ -61,5 +60,11 @@ class apiController{
             return $this->apiView->response("El id $id es invalido",404);
     }
 
-
+    function existeProducto($id){
+        $producto = $this->modelProducto->getItem($id);
+        if($producto === false)
+            return false;
+        else
+            return true;
+    }
 }

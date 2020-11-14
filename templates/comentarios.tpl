@@ -1,3 +1,4 @@
+<input type="text" value="{$sesion}" id="rol">
 <section class="container">
     <div class="row">
         {include file="vue/vue-comentarios.tpl"}

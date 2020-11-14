@@ -4,7 +4,7 @@
     <ul class="list-group">
         <li class="row" 
         v-for="comentario in comentarios"
-        :id-comentario="comentario.idComentario">
+        :idComentario="comentario.idComentario">
             <div class="col-md-8">
                 <p>{{comentario.descripcion}}</p>
             </div>
@@ -12,6 +12,7 @@
                 <p> {{comentario.puntuacion}}</p>
             </div>
         </li>
+        <button v-if="vueComentarios.rol == admin"> Eliminar </button>
     </ul>
 </div>
 

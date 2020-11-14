@@ -29,8 +29,8 @@ class userController{
                 $this->setSesion($cuenta->email,$cuenta->permisos);
                 $this->view->home();
             }else{
-            $error= "El email ya existe, por favor inicie sesion";
-            $this->view->showLogin(false,null,$error);
+                $error= "El email ya existe, por favor inicie sesion";
+                $this->view->showLogin(false,null,$error);
             }   
         }
     }
@@ -42,23 +42,5 @@ class userController{
         }else {
             return true;
         }
-    }
-
-    function eliminarUsuario($params=null){
-        $idUsuario=$params[":ID"];
-        $this->modelUsers->eliminarUsuario($idUsuario);
-        $this->view->home("Usuarios");
-    }
-
-    function setAdmin($params=null){
-        $id=$params[":ID"];
-        $this->modelUsers->setAdmin($id);
-        $this->view->home("Usuarios");
-    }
-
-    function setUser($params=null){
-        $id=$params[":ID"]; 
-        $this->modelUsers->setUser($id);
-        $this->view->home("Usuarios");
     }
 }

@@ -235,4 +235,22 @@ Class adminController{
     function showUsuarios(){
         $this->view->renderUsuarios("admin",$this->modelUsers->getUsuarios(),$this->helper->getEmail());
     }
+
+    function eliminarUsuario($params=null){
+        $idUsuario=$params[":ID"];
+        $this->modelUsers->eliminarUsuario($idUsuario);
+        $this->view->home("Usuarios");
+    }
+
+    function setAdmin($params=null){
+        $id=$params[":ID"];
+        $this->modelUsers->setAdmin($id);
+        $this->view->home("Usuarios");
+    }
+
+    function setUser($params=null){
+        $id=$params[":ID"]; 
+        $this->modelUsers->setUser($id);
+        $this->view->home("Usuarios");
+    }
 }

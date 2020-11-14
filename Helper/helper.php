@@ -37,7 +37,7 @@ class helper{
         if(!isset($_SESSION))
             session_start();
         if(empty($_SESSION["rol"])){ 
-            return false;
+            return "";
         }else{ 
            return $_SESSION["rol"];
         }
@@ -97,5 +97,10 @@ class helper{
     function exit(){ 
         $this->cerrarSesion(); 
         $this->view->home();
+    }
+
+    function getIdUsuario(){
+        $idUser=$this->modelUsers->getIdUser($this->getEmail());
+        return $idUser->id_login;
     }
 }

@@ -10,9 +10,8 @@
     </thead>
     <tbody>
     {foreach from=$usuarios item=usuario} 
-        {if $usuario->email != $email}
+        {if $usuario->email != $email}{*si soy yo, mostrar pero deshabilitar el boton*}
             <tr>
-            {*agregar al header el email de la sesion para no mostrarme yo mismo en la lista de usuarios*}
                 <th scope='col'>{$usuario->email|capitalize}</th>
                 <td>{$usuario->permisos|capitalize}</td> 
                 {if $usuario->permisos === "admin"}

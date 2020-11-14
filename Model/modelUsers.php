@@ -14,7 +14,7 @@ class modelUsers{
     }
 
     function getIdUser($email){
-        $consulta=$this->db->prepare("SELECT idUsuario FROM login WHERE email=?"); 
+        $consulta=$this->db->prepare("SELECT id_login FROM login WHERE email=?"); 
         $consulta->execute(array($email)); 
         return $consulta->fetch(PDO::FETCH_OBJ);
     }
