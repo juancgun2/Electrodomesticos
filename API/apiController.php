@@ -31,32 +31,16 @@ class apiController{
 
     function getByIdProducto($params=null){
         $id=$params[":ID"];
-<<<<<<< HEAD
         if($this->existeProducto($id)){
                 return $this->apiView->response($this->modelComentario->getByIdProducto($id),200);
         }else{ 
             return $this->apiView->response("No existe el producto con id: $id",404);
         }
-=======
-        $comentario= $this->modelComentario->getByIdProducto($id);
-        if($comentario)
-            return $this->apiView->response($comentario,200);
-        else
-            return $this->apiView->response("No existe el producto con id: $id o no hay comentarios
-            asociados a el",404);
-        
->>>>>>> bc180352877652de712e7f780b635821dec7664e
     }
 
     function agregarComentario($params=null){
         $data= $this->getData();
-<<<<<<< HEAD
         $id=$this->modelComentario->agregarComentario($data->descripcion,$data->idUsuario,$data->idProducto,$data->puntuacion);
-=======
-        $idUsuario = $this->modelUsers->getIdUser($data->usuario);
-        $id=$this->modelComentario->agregarComentario($data->descripcion,$idUsuario->id_login,$data->idProducto,$data->puntuacion);
-        $id=$id+0;
->>>>>>> bc180352877652de712e7f780b635821dec7664e
         if($id)
             return $this->apiView->response($this->modelComentario->getComentarioById($id),200);
         else 
@@ -75,7 +59,6 @@ class apiController{
         }else
             return $this->apiView->response("El id $id es invalido",404);
     }
-<<<<<<< HEAD
 
     function existeProducto($id){
         $producto = $this->modelProducto->getItem($id);
@@ -84,6 +67,4 @@ class apiController{
         else
             return true;
     }
-=======
->>>>>>> bc180352877652de712e7f780b635821dec7664e
 }
