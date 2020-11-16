@@ -2,16 +2,19 @@
 require_once "./View/view.php"; 
 require_once "./Model/modelProducto.php";
 require_once "./Model/modelCategorias.php";
+require_once "./Model/modelComentario.php";
 
 Class controller{ 
     private $modelProducto; 
     private $modelCategorias;
+    private $modelComentario;
     private $view;
     private $helper;
 
     function __construct(){ 
         $this->modelProducto = new modelProducto(); 
         $this->modelCategorias = new modelCategorias();
+        $this->modelComentario = new modelComentario();
         $this->view= new view(); 
         $this->helper= new helper();
     } 
@@ -36,14 +39,16 @@ Class controller{
         $id_producto=$params[':ID']; 
         if($this->helper->getRol()){
             if($this->helper->getActivity()){ 
-                $this->view->showDetalleItem($this->modelProducto->getItem($id_producto),$this->helper->getRol(),$this->helper->getEmail(),$this->helper->getIdUsuario());
+                $this->view->showDetalleItem($this->modelProducto->getItem($id_producto),$this->helper->getRol(),
+                                                $this->helper->getEmail(),$this->helper->getIdUsuario(),
+                                                $this->modelComentario->getPromedioCalificaciones($id_producto));
             }else{ 
                 $this->helper->cerrarSesion();
                 $error= "La sesion caduco. Por favor inicie sesion nuevamente";
                 $this->view->showLogin(false,null,$error);
             }
         }else{ 
-            $this->view->showDetalleItem($this->modelProducto->getItem($id_producto),$this->helper->getRol());
+            $this->view->showDetalleItem($this->modelProducto->getItem($id_producto),$this->helper->getRol(),null,null,$this->modelComentario->getPromedioCalificaciones($id_producto));
         }
     } 
 

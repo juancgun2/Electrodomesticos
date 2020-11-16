@@ -31,7 +31,7 @@ Class view{
         $this->smarty->display('./templates/login.tpl');
     }
 
-    function showDetalleItem($detalle,$sesion,$email=null,$idUsuario=null){ 
+    function showDetalleItem($detalle,$sesion,$email=null,$idUsuario=null,$promedio){ 
         $this->smarty->assign('titulo' , $this->titulo); 
         $this->smarty->assign('BASE_URL' , BASE_URL);
         $this->smarty->assign('position' , "notHome");
@@ -39,6 +39,7 @@ Class view{
         $this->smarty->assign('sesion' , $sesion);
         $this->smarty->assign('email' , $email);
         $this->smarty->assign('idUsuario' , $idUsuario);
+        $this->smarty->assign('promedio' , $promedio);
         $this->smarty->display('./templates/detalleItem.tpl');
     } 
 
@@ -86,6 +87,7 @@ Class view{
         if($error==null){ 
             $error="Por favor complete todos los campos";
         }
+        //posicion donde se desarrolla el error: insertar categoria
         if($insertCategoria!=null && $update==null){
             $this->smarty->assign('titulo' , $this->titulo); 
             $this->smarty->assign('BASE_URL' , BASE_URL);
@@ -97,7 +99,7 @@ Class view{
             $this->smarty->assign('sesion' , $sesion);
             $this->smarty->assign('email' , $email);
             $this->smarty->display('./templates/header.tpl');
-        }elseif ($update!=null){ 
+        }elseif ($update!=null){ //posicion donde se desarrolla el error: actualizar producto/categoria
             $this->smarty->assign('titulo' , $this->titulo); 
             $this->smarty->assign('BASE_URL' , BASE_URL);
             $this->smarty->assign('position' , "error"); 

@@ -8,14 +8,21 @@ let vueComentarios = new Vue({
     methods: { 
         eliminar: function (id) {
             eliminarComentario(id);
+        }, 
+        estrellas: function(puntuacion){ 
+            let arreglo= [];
+            for (let index = 0; index < puntuacion; index++) {
+                arreglo[index]=index+1;
+            }
+            return arreglo;
         }
-    }
+    } 
 })
   
 document.addEventListener("DOMContentLoaded",function(){
     getByProducto();
 
-    document.querySelector("#submitComentario").addEventListener("submit", e=> { 
+    document.querySelector("#submitComentario").addEventListener("click", e=> { 
         e.preventDefault();
         agregarComentario();
         });
@@ -28,39 +35,48 @@ function getComentarios(){
         .catch(error => console.log(error));
 }
 
-function agregarComentario(){
-    let idProducto =document.querySelector("#idProducto").innerHTML;
-    idProducto= parseInt(idProducto);
-    let puntuacion=document.querySelector("#newPuntuacion").value;
+function generarJSON(){ 
+    let idProducto = document.querySelector("#idProducto").innerHTML;
+    let puntuacion = document.querySelector("#newPuntuacion").value;
+    let idUser = document.querySelector('#formIdUser').value;
+    let descripcion = document.querySelector("#newDescripcion").value;
+    idProducto = parseInt(idProducto);
     puntuacion = parseInt(puntuacion);
+    idUser = parseInt(idUser);
     let comentario = {
-        "usuario": document.querySelector('#formIdUser').value,
-        "descripcion": document.querySelector("#newDescripcion").value,
+        "usuario": idUser,
+        "descripcion": descripcion,
         "puntuacion": puntuacion,
         "idProducto": idProducto
     };
-    console.log(comentario);
-    console.log(JSON.stringify(comentario));
-    fetch("mermelada/comentarios",{ 
+    return comentario;
+}
+
+function agregarComentario(){
+    let comentario = generarJSON();
+    fetch("mermelada/comentarios", { 
         "method":"post", 
         "headers": {"Content-Type":"application/json"}, 
         "body": JSON.stringify(comentario)
     }).then(r => r.json())
-    .then(comentario => vueComentarios.comentarios.push(comentario))
-        .catch(error => console.log(error));
+    .then(comentario => {
+        vueComentarios.comentarios.push(comentario) 
+        document.querySelector("#newPuntuacion").value=1;
+        document.querySelector("#newDescripcion").value="";
+    }).catch(error => console.log(error));
 }
 
 function getByProducto(){
-    let id =document.querySelector("#idProducto").innerHTML;
-    id=parseInt(id);
-    fetch("mermelada/comentarios/"+id)
+    let id = document.querySelector("#idProducto").innerHTML;
+    id = parseInt(id);
+    fetch("mermelada/comentarios/" + id)
         .then(r => r.json()) 
         .then(comentariosProd => vueComentarios.comentarios=comentariosProd)
         .catch(error => console.log(error));
 }
 
 function eliminarComentario(id){
-    fetch("mermelada/comentarios/"+ id/*this.getAttribute("idComentario").value*/,{
+    fetch("mermelada/comentarios/" + id, {
         "method":"delete", 
     })
     .then(r => { if(r.ok) 

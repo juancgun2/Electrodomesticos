@@ -40,7 +40,7 @@ class apiController{
 
     function agregarComentario($params=null){
         $data= $this->getData();
-        $id=$this->modelComentario->agregarComentario($data->descripcion,$data->idUsuario,$data->idProducto,$data->puntuacion);
+        $id=$this->modelComentario->agregarComentario($data->descripcion,$data->usuario,$data->idProducto,$data->puntuacion);
         if($id)
             return $this->apiView->response($this->modelComentario->getComentarioById($id),200);
         else 
