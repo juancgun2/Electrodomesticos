@@ -1,13 +1,18 @@
-const rolE = document.querySelector("#rol").value;
-const vueComentarios = new Vue({
+
+let vueComentarios = new Vue({
     el: "#vueComentarios", 
     data:{ 
         comentarios: [],
-        rol: rolE
+        rol: document.querySelector("#rol").value
+    }, 
+    methods: { 
+        eliminar: function (id) {
+            eliminarComentario(id);
+        }
     }
 })
   
-document.addEventListener("DOMContentLoaded",()=>{
+document.addEventListener("DOMContentLoaded",function(){
     getByProducto();
 
     document.querySelector("#submitComentario").addEventListener("submit", e=> { 
@@ -54,10 +59,16 @@ function getByProducto(){
         .catch(error => console.log(error));
 }
 
-function eliminarComentario(){
-    fetch("mermelada/comentarios/"+ this.getAttribute("idComentario").value,{
+function eliminarComentario(id){
+    fetch("mermelada/comentarios/"+ id/*this.getAttribute("idComentario").value*/,{
         "method":"delete", 
-    }).then(r => vueComentarios.comentarios.splice())
-        .catch(error => console.log(error));
+    })
+    .then(r => { if(r.ok) 
+        vueComentarios.comentarios.forEach(element => {
+            if(element.idComentario===id){ 
+                vueComentarios.comentarios.splice(vueComentarios.comentarios.indexOf(element),1);
+            }
+    })
+    }).catch(error => console.log(error));
 }
 

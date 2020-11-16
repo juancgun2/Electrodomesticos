@@ -10,5 +10,5 @@
             <label>Puntuacion</label>
             <input type="text" class="form-control" id="newPuntuacion">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" id="submitComentario" class="btn btn-primary">Submit</button>
     </form> 

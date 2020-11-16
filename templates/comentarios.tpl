@@ -1,4 +1,4 @@
-<input type="text" value="{$sesion}" id="rol">
+<input type="hidden" value="{$sesion}" id="rol">
 <section class="container">
     <div class="row">
         {include file="vue/vue-comentarios.tpl"}
@@ -7,4 +7,4 @@
         </div>
     </div>
 </section>
-<script src="./js/comentarios.js" ></script>
+<script src="./js/comentarios.js"></script>
