@@ -8,6 +8,7 @@ Class controller{
     private $modelProducto; 
     private $modelCategorias;
     private $modelComentario;
+    private $modelImagen;
     private $view;
     private $helper;
 
@@ -15,6 +16,7 @@ Class controller{
         $this->modelProducto = new modelProducto(); 
         $this->modelCategorias = new modelCategorias();
         $this->modelComentario = new modelComentario();
+        $this->modelImagen = new modelImagen();
         $this->view= new view(); 
         $this->helper= new helper();
     } 
@@ -41,7 +43,7 @@ Class controller{
             if($this->helper->getActivity()){ 
                 $this->view->showDetalleItem($this->modelProducto->getItem($id_producto),$this->helper->getRol(),
                                                 $this->helper->getEmail(),$this->helper->getIdUsuario(),
-                                                $this->modelComentario->getPromedioCalificaciones($id_producto));
+                                                $this->modelImagen->getImagenes($id_producto));
             }else{ 
                 $this->helper->cerrarSesion();
                 $error= "La sesion caduco. Por favor inicie sesion nuevamente";

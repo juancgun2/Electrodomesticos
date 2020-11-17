@@ -29,6 +29,7 @@ $r->addRoute("Usuarios","GET","adminController","showUsuarios");
 $r->addRoute("eliminarUsuario/:ID","GET","adminController","eliminarUsuario"); 
 $r->addRoute("setAdmin/:ID","GET","adminController","setAdmin"); 
 $r->addRoute("setUsuario/:ID","GET","adminController","setUser"); 
+$r->addRoute("eliminarImagen/:ID","GET","adminController","eliminarImagen"); 
 
 $r->setDefaultRoute("controller","Home");
 $r->route($_GET['action'], $_SERVER['REQUEST_METHOD']);

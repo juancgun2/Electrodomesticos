@@ -21,5 +21,6 @@
             </tr>
         </tbody>    
 </table> 
+{include file="imagenesProducto.tpl"}
 {include file="comentarios.tpl"}
 {include file="footer.tpl"} 

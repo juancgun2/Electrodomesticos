@@ -44,8 +44,9 @@ Class modelProducto{
 
     function insertarProducto($nombre,$descripcion,$precio,$stock,$idCategoria){ 
         $consulta=$this->db->prepare("INSERT INTO producto(nombre,descripcion,precio,stock,id_categoria) 
-        VALUES (?,?,?,?,?)"); 
+                                        VALUES (?,?,?,?,?)"); 
         $consulta->execute(array($nombre,$descripcion,$precio,$stock,$idCategoria));
+        return $this->db->lastInsertId();
     }
 
     function eliminarProducto($id_producto){ 

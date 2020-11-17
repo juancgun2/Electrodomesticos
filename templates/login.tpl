@@ -31,11 +31,11 @@
         <form class="px-4 py-3" action="registrarse" method="POST">
             <div class="form-group">
                 <label for="exampleDropdownFormEmail1">Email address</label>
-                <input type="email" name="newEmail" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com">
+                <input type="email" name="newEmail" class="form-control" id="DropdownFormEmail1" placeholder="email@example.com">
             </div>
             <div class="form-group">
                 <label for="exampleDropdownFormPassword1">Password</label>
-                <input type="password" name="newPassword" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
+                <input type="password" name="newPassword" class="form-control" id="DropdownFormPassword1" placeholder="Password">
             </div>
             <button type="submit" class="btn btn-primary">New Account</button>
         </form> 

@@ -176,3 +176,21 @@ a.fa:hover{
 .imageLogo{ 
     border-radius: 50%!important;
 }
+
+.imagenes{ 
+    width: 400px;
+    height: 150px;
+    margin: 2px;
+}
+
+.containerImages{ 
+    display: flex;
+    width: 100%;
+    height: max-content;
+    overflow-x: wrap;
+    flex-wrap: wrap;
+}
+
+.border-top.configBorder{ 
+    padding-bottom: 20px;
+}

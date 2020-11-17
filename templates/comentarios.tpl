@@ -1,11 +1,13 @@
 <input type="hidden" value="{$sesion}" id="rol">
+<div class="border-top configBorder">
+</div>
 <section class="container d-flex">
     <div class="col-md-10">
         {include file="vue/vue-comentarios.tpl"}
         {include file="formComentarios.tpl"}
     </div>
     <aside class="col-md-2 justify-content-center border-left">
-        <div class="row justify-content-center">
+        {*<div class="row justify-content-center">
             <h5>Promedio</h5>
         </div>
         <div class="row justify-content-center">
@@ -16,7 +18,7 @@
                     </svg> 
                 </div>
             {/for}
-        </div>
+        </div>*}
     </aside>
 </section>
 <script src="./js/comentarios.js"></script>

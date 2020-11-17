@@ -31,7 +31,7 @@ Class view{
         $this->smarty->display('./templates/login.tpl');
     }
 
-    function showDetalleItem($detalle,$sesion,$email=null,$idUsuario=null,$promedio){ 
+    function showDetalleItem($detalle,$sesion,$email=null,$idUsuario=null,$imagenes){ 
         $this->smarty->assign('titulo' , $this->titulo); 
         $this->smarty->assign('BASE_URL' , BASE_URL);
         $this->smarty->assign('position' , "notHome");
@@ -39,7 +39,7 @@ Class view{
         $this->smarty->assign('sesion' , $sesion);
         $this->smarty->assign('email' , $email);
         $this->smarty->assign('idUsuario' , $idUsuario);
-        $this->smarty->assign('promedio' , $promedio);
+        $this->smarty->assign('imagenes' , $imagenes);
         $this->smarty->display('./templates/detalleItem.tpl');
     } 
 

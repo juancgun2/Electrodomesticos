@@ -5,7 +5,7 @@
             <h1> Editar producto {$producto->nombre} </h1>   
         </div> 
     </div>    
-        <form action="editar" method="POST">
+        <form action="editar" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label>Nombre</label>
                 <input type="hidden" name="id_producto" value="{$id_producto}">
@@ -35,6 +35,10 @@
                     {/foreach}      
                 </select>
             </div> 
+            <div class="form-group">
+                <label>Agregar imagen</label>
+                <input type="file" class="form-control-file" name="imagen">
+            </div>
             <div class="row"> 
                 <div class="col">
                     <button type="submit" class="btn btn-primary">Submit</button>         

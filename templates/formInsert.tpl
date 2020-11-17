@@ -2,7 +2,7 @@
 {if $sesion==="admin"}
     <div class="container">
         <h1> Insertar Producto </h1>
-            <form action="insertProducto" method="POST">
+            <form action="insertProducto" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label>Nombre</label>
                 <input type="text" class="form-control" name="nombre">
@@ -26,6 +26,10 @@
                         <option>{$categoria->name}</option>
                     {/foreach}
                 </select>
+            </div>
+             <div class="form-group">
+                <label>Imagen</label>
+                <input type="file" class="form-control-file" name="imagen">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
             </form> 
