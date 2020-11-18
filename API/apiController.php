@@ -67,4 +67,9 @@ class apiController{
         else
             return true;
     }
+
+    function getPromedioValoraciones($params=null){
+        $idProducto= $params[":ID"]; 
+        $this->apiView->response($this->modelComentario->getPromedioCalificaciones($idProducto),200);
+    }
 }

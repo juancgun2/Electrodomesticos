@@ -3,29 +3,36 @@ let vueComentarios = new Vue({
     el: "#vueComentarios", 
     data:{ 
         comentarios: [],
-        rol: document.querySelector("#rol").value
+        rol: document.querySelector("#rol").value,
+        valoracion: 0
     }, 
     methods: { 
         eliminar: function (id) {
             eliminarComentario(id);
         }, 
-        estrellas: function(puntuacion){ 
+        estrellas: function(cantidad){ 
             let arreglo= [];
-            for (let index = 0; index < puntuacion; index++) {
+            for (let index = 0; index < cantidad; index++) {
                 arreglo[index]=index+1;
             }
             return arreglo;
+        }, 
+        promedio: function (){ 
+            this.valoracion = getPromedio();
+            console.log(this.valoracion);
         }
+
     } 
 })
   
 document.addEventListener("DOMContentLoaded",function(){
     getByProducto();
-
-    document.querySelector("#submitComentario").addEventListener("click", e=> { 
-        e.preventDefault();
-        agregarComentario();
-        });
+    if(vueComentarios.rol === "admin"){
+        document.querySelector("#submitComentario").addEventListener("click", e=> { 
+            e.preventDefault();
+            agregarComentario();
+            });
+        }
 });
 
 function getComentarios(){
@@ -72,6 +79,7 @@ function getByProducto(){
     fetch("mermelada/comentarios/" + id)
         .then(r => r.json()) 
         .then(comentariosProd => vueComentarios.comentarios=comentariosProd)
+        .then(vueComentarios.promedio())
         .catch(error => console.log(error));
 }
 
@@ -87,4 +95,15 @@ function eliminarComentario(id){
     })
     }).catch(error => console.log(error));
 }
+
+function getPromedio(){ 
+    let id = document.querySelector("#idProducto").innerHTML;
+    id = parseInt(id);
+    fetch("mermelada/promedioValoracion/" + id) 
+        .then(r => r.json())
+        .then(json => { 
+            return parseInt(json.promedio)})
+        .catch(error => console.log(error));
+}
+
 

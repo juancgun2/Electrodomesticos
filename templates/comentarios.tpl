@@ -4,8 +4,11 @@
 <section class="container d-flex">
     <div class="col-md-10">
         {include file="vue/vue-comentarios.tpl"}
-        {include file="formComentarios.tpl"}
+        {if $sesion === 'admin' || $sesion === 'user'}
+            {include file="formComentarios.tpl"}
+        {/if}
     </div>
+    {include file="vue/vue-valoracionComentarios.tpl"}
     <aside class="col-md-2 justify-content-center border-left">
         {*<div class="row justify-content-center">
             <h5>Promedio</h5>
