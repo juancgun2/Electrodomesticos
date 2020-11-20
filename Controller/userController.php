@@ -13,34 +13,36 @@ class userController{
         $this->helper = new helper();
     }
 
-    function crearCuenta(){
-        $email = $_POST["newEmail"];
-        if(!$this->existeCuenta($email)){
-            $password=$_POST["newPassword"]; 
-            $password= password_hash($password,PASSWORD_DEFAULT); 
-            $this->modelUsers->crearCuenta($email,"user",$password);
-            $this->helper->setSesion($email,"user");
-            $this->view->home();
-        }else {
-            //si la contraseña es correcta inicia sesion
-            $cuenta= $this->modelUsers->getCuenta($email);
-            $password=$_POST["newPassword"];
-            if(password_verify($paswword,$cuenta->password)){
-                $this->setSesion($cuenta->email,$cuenta->permisos);
+    function crearCuenta() {
+        if(!$this->helper->getRol()) {
+            $email = $_POST["newEmail"];
+            if(!$this->existeCuenta($email)) {
+                $password = $_POST["newPassword"]; 
+                $password = password_hash( $password, PASSWORD_DEFAULT); 
+                $this->modelUsers->crearCuenta( $email, "user", $password);
+                $this->helper->setSesion( $email, "user");
                 $this->view->home();
-            }else{
-                $error= "El email ya existe, por favor inicie sesion";
-                $this->view->showLogin(false,null,$error);
-            }   
-        }
+            }else {
+                //si la contraseña es correcta inicia sesion
+                $cuenta = $this->modelUsers->getCuenta($email);
+                $password = $_POST["newPassword"];
+                if(password_verify($paswword, $cuenta->password)) {
+                    $this->setSesion($cuenta->email, $cuenta->permisos);
+                    $this->view->home();
+                } else {
+                    $error= "El email ya existe, por favor inicie sesion";
+                    $this->view->showLogin(false,null,$error);
+                }   
+            }
+        } else 
+            $this->helper->accesoDenegado();
     }
 
-    function existeCuenta($email){
-        $cuenta=$this->modelUsers->getCuenta($email);
-        if($cuenta===false){
+    private function existeCuenta($email){
+        $cuenta = $this->modelUsers->getCuenta($email);
+        if($cuenta === false)
             return false;
-        }else {
+        else 
             return true;
-        }
     }
 }

@@ -11,6 +11,5 @@ $r->addRoute("comentarios","GET","apiController","getAllComentarios");
 $r->addRoute("comentarios/:ID","GET","apiController","getByIdProducto"); 
 $r->addRoute("comentarios/:ID","DELETE","apiController","eliminarComentario"); 
 $r->addRoute("comentarios","POST","apiController","agregarComentario"); 
-$r->addRoute("promedioValoracion/:ID","GET","apiController","getPromedioValoraciones");
 
 $r->route($_GET['resource'], $_SERVER['REQUEST_METHOD']);

@@ -53,10 +53,6 @@ Class view{
         $this->smarty->display('./templates/categorias.tpl');
     } 
 
-    function redirectionCategorias(){ 
-        header("Location: ".BASE_URL."Categorias");
-    }
-
     function home($ruta=null){ 
         header("Location: ".BASE_URL.$ruta);
     } 

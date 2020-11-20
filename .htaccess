@@ -5,7 +5,7 @@
 
 
     RewriteRule \.(?:css|js|jpe?g|gif|png)$ - [L]
-    RewriteRule ^mermelada/(.*)$ api-router.php?resource=$1 [QSA,L,END]
+    RewriteRule ^apiv1/(.*)$ routerA.php?resource=$1 [QSA,L,END]
     RewriteRule ^(.*)$ router.php?action=$1 [QSA,L]
 
 </IfModule>

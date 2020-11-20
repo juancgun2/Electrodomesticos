@@ -37,10 +37,4 @@ class ModelComentario{
         $consulta->execute(array($id));
         return $consulta->fetch(PDO::FETCH_OBJ);
     }
-
-    function getPromedioCalificaciones($idProducto){ 
-        $consulta=$this->db->prepare("SELECT AVG(puntuacion) as puntuacion FROM comentario WHERE idProducto=?");
-        $consulta->execute(array($idProducto));
-        return $consulta->fetch(PDO::FETCH_OBJ);
-    }
 }

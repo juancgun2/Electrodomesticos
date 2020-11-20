@@ -4,7 +4,8 @@ let vueComentarios = new Vue({
     data:{ 
         comentarios: [],
         rol: document.querySelector("#rol").value,
-        valoracion: 0
+        promedioValoracion: 0, 
+        cantidadPorEstrellas: []
     }, 
     methods: { 
         eliminar: function (id) {
@@ -16,12 +17,7 @@ let vueComentarios = new Vue({
                 arreglo[index]=index+1;
             }
             return arreglo;
-        }, 
-        promedio: function (){ 
-            this.valoracion = getPromedio();
-            console.log(this.valoracion);
         }
-
     } 
 })
   
@@ -36,7 +32,7 @@ document.addEventListener("DOMContentLoaded",function(){
 });
 
 function getComentarios(){
-    fetch("/mermelada/comentarios")
+    fetch("/apiv1/comentarios")
         .then(response => Response.json())
         .then(comentarios => vueComentarios.comentarios=comentarios)
         .catch(error => console.log(error));
@@ -61,13 +57,15 @@ function generarJSON(){
 
 function agregarComentario(){
     let comentario = generarJSON();
-    fetch("mermelada/comentarios", { 
+    fetch("apiv1/comentarios", { 
         "method":"post", 
         "headers": {"Content-Type":"application/json"}, 
         "body": JSON.stringify(comentario)
     }).then(r => r.json())
     .then(comentario => {
-        vueComentarios.comentarios.push(comentario) 
+        vueComentarios.comentarios.push(comentario); 
+        vueComentarios.promedioValoracion = getPromedioValoracion(vueComentarios.comentarios);
+        setCantidadEstrellas();
         document.querySelector("#newPuntuacion").value=1;
         document.querySelector("#newDescripcion").value="";
     }).catch(error => console.log(error));
@@ -76,15 +74,18 @@ function agregarComentario(){
 function getByProducto(){
     let id = document.querySelector("#idProducto").innerHTML;
     id = parseInt(id);
-    fetch("mermelada/comentarios/" + id)
+    fetch("apiv1/comentarios/" + id)
         .then(r => r.json()) 
-        .then(comentariosProd => vueComentarios.comentarios=comentariosProd)
-        .then(vueComentarios.promedio())
+        .then(comentariosProd => { 
+                 vueComentarios.comentarios = comentariosProd; 
+                 vueComentarios.promedioValoracion = getPromedioValoracion(comentariosProd); 
+                 setCantidadEstrellas();
+                })
         .catch(error => console.log(error));
 }
 
 function eliminarComentario(id){
-    fetch("mermelada/comentarios/" + id, {
+    fetch("apiv1/comentarios/" + id, {
         "method":"delete", 
     })
     .then(r => { if(r.ok) 
@@ -92,18 +93,50 @@ function eliminarComentario(id){
             if(element.idComentario===id){ 
                 vueComentarios.comentarios.splice(vueComentarios.comentarios.indexOf(element),1);
             }
-    })
+            vueComentarios.promedioValoracion = getPromedioValoracion(vueComentarios.comentarios);
+            setCantidadEstrellas();
+        })
     }).catch(error => console.log(error));
 }
 
-function getPromedio(){ 
-    let id = document.querySelector("#idProducto").innerHTML;
-    id = parseInt(id);
-    fetch("mermelada/promedioValoracion/" + id) 
-        .then(r => r.json())
-        .then(json => { 
-            return parseInt(json.promedio)})
-        .catch(error => console.log(error));
+function getPromedioValoracion(comentarios){ 
+    let suma=0;
+    comentarios.forEach(element => {
+        suma += parseInt(element.puntuacion);
+    }) 
+    const promedio = suma/comentarios.length; 
+    return parseInt(promedio);
 }
 
+/**
+ * Dado un valor entre 1 y 5 cuenta la cantidad de veces que se valoro el producto con ese valor
+ * @param {*} numeroEstrellas 
+ */
+function cantidadEstrellas(numeroEstrellas){ 
+    let cantidad = 0;
+    console.log(numeroEstrellas);
+    vueComentarios.comentarios.forEach( e => { 
+        console.log(e.puntuacion);
+        if(e.puntuacion == numeroEstrellas){ 
+            cantidad = cantidad + 1;
+        }
+    });
+    return cantidad;
+}
+    /*for (let i = 0; i < vueComentarios.comentarios.length; i++) {
+        if(vueComentarios.comentarios[i].puntuacion === numeroEstrellas)
+            cantidad++;
+    }
+    return cantidad;
+}*/
+
+function setCantidadEstrellas(){ 
+    for (let i = 0; i < 5; i++) {
+        let json = { 
+            estrellas: i+1, 
+            cantidad: cantidadEstrellas(i+1)
+        };
+        vueComentarios.cantidadPorEstrellas.push(json);
+    }
+}
 

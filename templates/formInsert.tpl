@@ -29,7 +29,7 @@
             </div>
              <div class="form-group">
                 <label>Imagen</label>
-                <input type="file" class="form-control-file" name="imagen">
+                <input type="file" multiple class="form-control-file" name="imagen[]">
             </div>
             <button type="submit" class="btn btn-primary">Submit</button>
             </form> 
