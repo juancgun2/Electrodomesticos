@@ -133,6 +133,7 @@ function cantidadEstrellas(numeroEstrellas){
 }*/
 
 function setCantidadEstrellas(){ 
+    vueComentarios.cantidadPorEstrellas=[];
     for (let i = 0; i < 5; i++) {
         let json = { 
             estrellas: i+1, 

@@ -33,16 +33,36 @@ Class controller{
         return $imagenes;
     }
 
-    function Home(){ 
+    function Home(){ // REVISAR LA PAGINACION, SI FUNCIONA BIEN, ESTA FUNCION ESTA DE MAS !!!!!!!!!!!
         $productos = $this->modelProducto->getAllItems(); 
         $imagenes = $this->getUniqImage($productos);
-        if($this->helper->getRol()){
+        if($this->helper->getRol()) {
             if($this->helper->getActivity()) {
                 $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), $this->helper->getRol(), $imagenes, $this->helper->getEmail());
             } else 
                 $this->helper->caducoSesion();
         } else
             $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), false, $imagenes);    
+    }
+
+    function getPaginados($params = null) { 
+        if($params == null) {  
+            $contador = 0;
+            $pagina = 0;
+        } else { 
+            $contador = $params[":numero"];
+            $pagina = $params[":numero"];
+            $contador = $contador * 4;
+        } 
+        $productos = $this->modelProducto->getProductosPaginados($contador, 4); 
+        $imagenes = $this->getUniqImage($productos);
+        if($this->helper->getRol()) {
+            if($this->helper->getActivity())
+                $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), $this->helper->getRol(), $imagenes, $this->helper->getEmail(), $pagina);
+            else 
+                $this->helper->caducoSesion();
+        } else 
+            $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), false, $imagenes, null, $pagina);  
     }
 
     function showDetalleItem($params=null){ 
@@ -81,9 +101,6 @@ Class controller{
         } else 
             $this->view->showAllItems($productosOrdenados, $this->modelCategorias->getCategorias(), false, $imagenes);
     }
-
-    // revisar showFormEditarCategoria si se puede agregar a getIdCategoria que traiga el nombre tambien.
-    // El problema seria que no retorne false cuando llame a existeCategoria.
 
     function showLogin(){ 
         if ($this->helper->getRol()) 

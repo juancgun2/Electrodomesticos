@@ -174,15 +174,15 @@ a.fa:hover{
 }
 
 .imagenes{ 
-    width: 400px;
-    height: 150px;
+    width:auto;          /*400px;*/ 
+    height:auto;        /*150px;*/
     margin: 2px;
 }
 
 .containerImages{ 
     display: flex;
-    width: 100%;
-    height: max-content;
+    width: 350px;       /*100%*/
+    height: auto;       /*max-content*/
     overflow-x: wrap;
     flex-wrap: wrap;
 }
@@ -208,4 +208,12 @@ a.fa:hover{
 
 .prodList{ 
     list-style: none;
+}
+
+.myHref{ 
+    color: inherit!important;
+}
+
+.myHref:hover{
+    text-decoration: none!important;
 }

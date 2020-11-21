@@ -10,7 +10,7 @@ Class view{
         $this->titulo= "J&J Electrodomesticos";
     }
 
-    function showAllItems($productos,$categorias,$sesion,$imagenes,$email=null){  
+    function showAllItems($productos,$categorias,$sesion,$imagenes,$email=null,$pagina=0){  
         $this->smarty->assign('titulo' , $this->titulo); 
         $this->smarty->assign('BASE_URL' , BASE_URL); 
         $this->smarty->assign('position' , "home");
@@ -20,6 +20,7 @@ Class view{
         $this->smarty->assign('email' , $email);
         $this->smarty->assign('imagenes' , $imagenes);
         $this->smarty->assign('size' , count($productos)-1); //size del arreglo productos para iterarlo en smarty
+        $this->smarty->assign('pagina' , $pagina); //paginacion 
         $this->smarty->display('./templates/formInsert.tpl');
     } 
 

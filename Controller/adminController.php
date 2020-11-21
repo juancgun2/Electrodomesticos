@@ -29,27 +29,29 @@ Class adminController{
         return $path;
     }
 
-    private function controlarExtensionImagen() { 
-        if($_FILES['imagen']['type'] == "image/jpg" || $_FILES['imagen']['type'] == "image/jpeg"
-                 || $_FILES['imagen']['type'] == "image/png")
-            return true; 
-        else 
+    private function controlarImagen() { 
+        if(isset($_FILES['imagen']['name'][0])) { 
+            if(!empty($_FILES["imagen"]["name"][0])) {
+                foreach($_FILES["imagen"]['type'] as $type) {
+                    if( $type == "image/jpg" || $type == "image/jpeg" || $type == "image/png" )
+                        $boolean = true;
+                    else 
+                        return false;
+                }
+                return true;
+            } else  
+                return false;   
+        } else  
             return false;
     }
 
-    /*function moveAndInsertImg($idProducto){ 
+    function moveAndInsertImg($idProducto){ 
         foreach($_FILES["imagen"]["tmp_name"] as $key => $tmp_name) {
             $name = $_FILES["imagen"]["name"][$key];
-            print_r($name); 
-            die();
-            $path = $this->getImgName($key , $name);
-            print_r($name);
-            print_r($path);
-            die();
-            $this->modelImagen->insertarImagen($idProducto,$path);
+            $path = $this->getImgName($tmp_name , $name);
+            $this->modelImagen->insertarImagen($idProducto, $path);
         }
-    }*/
-    //if (!empty($_FILES['image']))
+    }
 
     function insertarProducto(){ 
         if($this->helper->getRol() === 'admin') {
@@ -61,26 +63,30 @@ Class adminController{
                     $precio = $_POST["precio"]; 
                     $stock = $_POST["stock"]; 
                     $nombreCategoria = $_POST["nameCategoria"]; 
-                    $pathImg = $this->getImgName($_FILES["imagen"]["tmp_name"],$_FILES["imagen"]["name"]);
                     $id_categoria = $this->modelCategorias->getIdCategoria($nombreCategoria);
-                    if(!$this->existeProducto($nombre,$precio,$descripcion,$id_categoria->id)&&$this->controlarExtensionImagen()){
-                        $idProducto = $this->modelProducto->insertarProducto($nombre,$descripcion,$precio,$stock,$id_categoria->id); 
-                        $pathImg = $this->getImgName($_FILES["imagen"]["tmp_name"],$_FILES["imagen"]["name"]);
-                        $this->modelImagen->insertarImagen($idProducto,$pathImg);
-                    }else{ 
-                        $idProducto = $this->modelProducto->getIdProducto($nombre,$precio,$descripcion,$id_categoria->id);
-                        $producto = $this->modelProducto->getItem($idProducto->id);
-                        $stock = $stock + $producto->stock;
-                        $this->modelProducto->setStock($idProducto->id,$stock);
-                    } 
+                    if(!$this->existeProducto($nombre,$precio,$descripcion,$id_categoria->id) && $this->controlarImagen()) {
+                        $idProducto = $this->modelProducto->insertarProducto($nombre, $descripcion, $precio, $stock, $id_categoria->id); 
+                        $this->moveAndInsertImg($idProducto);
+                    } else if( !$this->controlarImagen()) { 
+                            echo("False controlar imagen "); 
+                            die();
+                            $this->modelProducto->insertarProducto($nombre, $descripcion, $precio, $stock, $id_categoria->id);
+                        } else { 
+                            echo("set stock de producto"); 
+                            die();
+                            $idProducto = $this->modelProducto->getIdProducto($nombre,$precio,$descripcion,$id_categoria->id);
+                            $producto = $this->modelProducto->getItem($idProducto->id);
+                            $stock = $stock + $producto->stock;
+                            $this->modelProducto->setStock($idProducto->id,$stock);
+                        } 
                     $this->view->home();          
-                }else{ 
+                } else { 
                     $this->view->error(null, true, "home", "", "admin", $this->helper->getEmail());
                 }
-            }else{ 
+            } else { 
                 $this->helper->caducoSesion();
             }
-        }else
+        } else
             $this->helper->accesoDenegado();
     } 
 
@@ -122,7 +128,7 @@ Class adminController{
                     $nombreCategoria = $_POST["nameCategoria"]; 
                     $idProducto = $_POST["id_producto"];
                     $idCategoria = $this->modelCategorias->getIdCategoria($nombreCategoria);
-                    if ($this->controlarExtensionImagen()) {
+                    if ($this->controlarImagen()) {
                         $pathImg = $this->getImgName($_FILES["imagen"]["tmp_name"],$_FILES["imagen"]["name"]);
                         $this->modelImagen->insertarImagen($idProducto , $pathImg);
                     }

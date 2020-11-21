@@ -3,7 +3,7 @@
     <div class="containerImages">
         {foreach from=$imagenes item=imagen}
             <div class="imagenes">
-                <img src="{$imagen->path}" alt="" class="img-thumbnail">
+                <img src="{$imagen->path}" alt="" widht="300" height="300" class="img-thumbnail">
                 {if $sesion === "admin"}
                     <button class='btn dangerDelete' type='button'><a class=' btn btn-danger' href="eliminarImagen/{$imagen->id_imagen}">
                     Eliminar</a></button>

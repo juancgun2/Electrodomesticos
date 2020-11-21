@@ -9,7 +9,8 @@ define("BASE_URL", 'http://'.$_SERVER["SERVER_NAME"].':'.$_SERVER["SERVER_PORT"]
 
 $r = new router();
 
-$r->addRoute("home", "GET", "controller", "Home"); 
+$r->addRoute("home", "GET", "controller", "getPaginados"); 
+$r->addRoute("home/:numero", "GET", "controller", "getPaginados"); 
             /*
                 Productos
             */
@@ -44,6 +45,6 @@ $r->addRoute("setUsuario/:ID","GET","adminController","setUser");
 $r->addRoute("eliminarImagen/:ID","GET","adminController","eliminarImagen"); 
 
 
+$r->setDefaultRoute("controller","getPaginados");
 
-$r->setDefaultRoute("controller","Home");
 $r->route($_GET['action'], $_SERVER['REQUEST_METHOD']);

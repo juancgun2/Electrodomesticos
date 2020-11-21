@@ -15,6 +15,16 @@ Class modelProducto{
         return $consulta->fetchAll(PDO::FETCH_OBJ);
     } 
 
+    function getProductosPaginados($contador,$cantidadProductos){ 
+        $consulta = $this->db->prepare("SELECT producto.nombre,producto.precio,producto.stock,producto.id,
+        categoria.name,producto.id_categoria from producto join categoria 
+        on producto.id_categoria=categoria.id ORDER BY producto.nombre LIMIT :contador,:cantidadProductos"); 
+        $consulta->bindValue(':contador', (int) $contador, PDO::PARAM_INT);
+        $consulta->bindValue(':cantidadProductos', (int) $cantidadProductos, PDO::PARAM_INT);
+        $consulta->execute(); 
+        return $consulta->fetchAll(PDO::FETCH_OBJ);
+    }
+
     function getItem($id_producto){ 
         $consulta=$this->db->prepare("SELECT producto.nombre,producto.precio,producto.stock,producto.id,
         categoria.name,producto.descripcion from producto join categoria on producto.id_categoria=categoria.id
