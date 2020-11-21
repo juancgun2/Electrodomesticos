@@ -43,12 +43,12 @@ class helper{
     } 
 
     //creo que no la uso nunca. Revisar !!
-    function getPermisos($email=null){
+    /*function getPermisos($email=null){
         if($email!=null)
             return $this->modelUsers->getPermisos($email);
         else 
             return false;
-    }
+    }*/
 
     private function setRol($nombre=""){
         if(!isset($_SESSION))

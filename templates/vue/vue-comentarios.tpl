@@ -42,7 +42,7 @@
     </div>
     <aside class="col-md-2 justify-content-center border-left">
         <div class="row justify-content-center ml-1">
-            <h5 class="align-content-center h4"> Promedio <span class="border border-danger p-2"> {{promedioValoracion}} </span> </h5>
+            <h5 class="align-content-center h4"> Promedio <span class="border border-danger myPromedio p-2"> {{promedioValoracion}} </span> </h5>
         </div>
         <div class="row justify-content-center">
             <div v-for="e in estrellas(promedioValoracion)">

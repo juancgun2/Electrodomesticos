@@ -33,7 +33,7 @@
         </section>
 </div>
 {if $sesion==="admin"} 
-    <div class="container">
+    <div class="container mt-5 mb-2">
         <h1> Insertar Categoria </h1>
             <form action="insertCategoria" method="POST">
                 <div class="form-group">

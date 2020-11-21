@@ -1,6 +1,7 @@
 {include file="allItems.tpl"}
 {if $sesion==="admin"}
-    <div class="container">
+<div class="border-top configBorder"></div>
+    <div class="container border border-bottom-0 border-top-0 mb-2">
         <h1> Insertar Producto </h1>
             <form action="insertProducto" method="POST" enctype="multipart/form-data">
             <div class="form-group">

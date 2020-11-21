@@ -10,7 +10,7 @@ Class view{
         $this->titulo= "J&J Electrodomesticos";
     }
 
-    function showAllItems($productos,$categorias=null,$sesion,$email=null){  
+    function showAllItems($productos,$categorias,$sesion,$imagenes,$email=null){  
         $this->smarty->assign('titulo' , $this->titulo); 
         $this->smarty->assign('BASE_URL' , BASE_URL); 
         $this->smarty->assign('position' , "home");
@@ -18,6 +18,8 @@ Class view{
         $this->smarty->assign('categorias' , $categorias); 
         $this->smarty->assign('sesion' , $sesion);
         $this->smarty->assign('email' , $email);
+        $this->smarty->assign('imagenes' , $imagenes);
+        $this->smarty->assign('size' , count($productos)-1); //size del arreglo productos para iterarlo en smarty
         $this->smarty->display('./templates/formInsert.tpl');
     } 
 
@@ -53,7 +55,8 @@ Class view{
         $this->smarty->display('./templates/categorias.tpl');
     } 
 
-    function home($ruta=null){ 
+    function home($ruta=""){ 
+        echo("ajajja");
         header("Location: ".BASE_URL.$ruta);
     } 
 

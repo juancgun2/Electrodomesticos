@@ -22,4 +22,10 @@ Class modelImagen{
         $consulta=$this->db->prepare("DELETE FROM imagen WHERE id_imagen=?"); 
         $consulta->execute(array($idImagen));
     }
+
+    function getPathImagen($idProducto){ 
+        $consulta=$this->db->prepare("SELECT path FROM imagen WHERE id_producto=? LIMIT 1"); 
+        $consulta->execute(array($idProducto));
+        return $consulta->fetch(PDO::FETCH_OBJ);
+    }
 }

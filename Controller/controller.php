@@ -21,14 +21,28 @@ Class controller{
         $this->helper= new helper();
     } 
 
-    function Home(){ 
-        if($this->helper->getRol()){
-            if($this->helper->getActivity())
-                $this->view->showAllItems($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),$this->helper->getRol(),$this->helper->getEmail());
+    private function getUniqImage($productos){ 
+        $imagenes = [];
+        foreach ($productos as $p) {
+            $objPath=$this->modelImagen->getPathImagen($p->id);
+            if ($objPath)
+                $imagenes[]=$objPath->path;
             else 
+                $imagenes[]="./img/default.png";
+        }
+        return $imagenes;
+    }
+
+    function Home(){ 
+        $productos = $this->modelProducto->getAllItems(); 
+        $imagenes = $this->getUniqImage($productos);
+        if($this->helper->getRol()){
+            if($this->helper->getActivity()) {
+                $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), $this->helper->getRol(), $imagenes, $this->helper->getEmail());
+            } else 
                 $this->helper->caducoSesion();
         } else
-            $this->view->showAllItems($this->modelProducto->getAllItems(),$this->modelCategorias->getCategorias(),false);    
+            $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), false, $imagenes);    
     }
 
     function showDetalleItem($params=null){ 
@@ -57,13 +71,15 @@ Class controller{
     function filtrarPorCategorias($params=null){ 
         $nombreCategoria = $params[":NOMBRE"];
         $id_categoria = $this->modelCategorias->getIdCategoria($nombreCategoria);
-        if(!$this->helper->getRol()){
+        $productosOrdenados = $this->modelProducto->getItemsInOrder($id_categoria->id); 
+        $imagenes = $this->getUniqImage($productosOrdenados);
+        if($this->helper->getRol()){
             if($this->helper->getActivity())
-                $this->view->showAllItems($this->modelProducto->getItemsInOrder($id_categoria->id),$this->modelCategorias->getCategorias(),$this->helper->getRol(),$this->helper->getEmail());
+                $this->view->showAllItems($productosOrdenados, $this->modelCategorias->getCategorias(), $this->helper->getRol(), $imagenes, $this->helper->getEmail());
             else 
                 $this->helper->caducoSesion();
         } else 
-            $this->view->showAllItems($this->modelProducto->getItemsInOrder($id_categoria->id),$this->modelCategorias->getCategorias(),"");
+            $this->view->showAllItems($productosOrdenados, $this->modelCategorias->getCategorias(), false, $imagenes);
     }
 
     // revisar showFormEditarCategoria si se puede agregar a getIdCategoria que traiga el nombre tambien.

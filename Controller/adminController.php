@@ -181,7 +181,7 @@ Class adminController{
                 $nombreCategoria = $params[":NOMBRE"]; 
                 $id_categoria = $this->modelCategorias->getIdCategoria($nombreCategoria); 
                 $this->modelCategorias->eliminarCategoria($id_categoria->id); 
-                $this->view->redirectionCategorias();
+                $this->view->home("Categorias");
             } else 
                 $this->helper->caducoSesion();
         } else
@@ -211,7 +211,7 @@ Class adminController{
                     $nombre = $_POST["nombreCategoria"];
                     if(!$this->existeCategoria($nombre)){  
                         $this->modelCategorias->insertarCategoria($nombre); 
-                        $this->view->redirectionCategorias();
+                        $this->view->home("Categorias");
                     }else{ 
                         $error="La categoria ingresada ya existe";
                         $this->view->error($error, true, null, null, "admin", $this->helper->getEmail());

@@ -100,6 +100,8 @@ function eliminarComentario(id){
 }
 
 function getPromedioValoracion(comentarios){ 
+    if(comentarios.length == 0)
+        return 0;
     let suma=0;
     comentarios.forEach(element => {
         suma += parseInt(element.puntuacion);
