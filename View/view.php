@@ -19,7 +19,7 @@ Class view{
         $this->smarty->assign('sesion' , $sesion);
         $this->smarty->assign('email' , $email);
         $this->smarty->assign('imagenes' , $imagenes);
-        $this->smarty->assign('size' , count($productos)-1); //size del arreglo productos para iterarlo en smarty
+        $this->smarty->assign('size' , count($productos)-1); //size del arreglo productos para iterarlo junto al de imagenes en smarty
         $this->smarty->assign('pagina' , $pagina); //paginacion 
         $this->smarty->display('./templates/formInsert.tpl');
     } 

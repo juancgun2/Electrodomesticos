@@ -10,7 +10,7 @@ define("BASE_URL", 'http://'.$_SERVER["SERVER_NAME"].':'.$_SERVER["SERVER_PORT"]
 $r = new router();
 
 $r->addRoute("home", "GET", "controller", "getPaginados"); 
-$r->addRoute("home/:numero", "GET", "controller", "getPaginados"); 
+//$r->addRoute("home", "GET", "controller", "getPaginados"); 
             /*
                 Productos
             */
@@ -19,6 +19,7 @@ $r->addRoute("insertProducto", "POST", "adminController", "insertarProducto");
 $r->addRoute("eliminarProducto/:ID", "GET", "adminController", "eliminarProducto");
 $r->addRoute("formEditar/:ID", "GET", "adminController", "showFormEditar");
 $r->addRoute("editar", "POST", "adminController", "editarProducto");
+$r->addRoute("filtrados", "POST", "userController", "filtroAvanzado");
             /*
                 Categorias 
             */

@@ -45,16 +45,28 @@ Class controller{
             $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), false, $imagenes);    
     }
 
-    function getPaginados($params = null) { 
-        if($params == null) {  
-            $contador = 0;
-            $pagina = 0;
+    function getPaginados() { // necesito pasar parametro de cantidad de productos y limite de prod por pagina
+        if(isset($_GET["cantidad"])){
+            $limit = $_GET["cantidad"];
+        }else{  
+            $limit = 4;
+        }
+        if(isset($_GET["page"])) {
+            $contador = $_GET["page"] - 1;
+            $pagina = $_GET["page"];
         } else { 
-            $contador = $params[":numero"];
-            $pagina = $params[":numero"];
-            $contador = $contador * 4;
-        } 
-        $productos = $this->modelProducto->getProductosPaginados($contador, 4); 
+            $contador = 0;
+            $pagina = 1;
+        }
+        if( $pagina > 1 && $limit > 4){
+            print_r($pagina);
+            print_r("----"); 
+            print_r($limit);
+            $contador = $contador * $limit - $limit;
+        } else { 
+            $contador = $contador * $limit;
+        }
+        $productos = $this->modelProducto->getProductosPaginados($contador, $limit); 
         $imagenes = $this->getUniqImage($productos);
         if($this->helper->getRol()) {
             if($this->helper->getActivity())
@@ -64,6 +76,21 @@ Class controller{
         } else 
             $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), false, $imagenes, null, $pagina);  
     }
+    
+    /*
+    function filtroAvanzado(){ 
+        if(isset($_POST["filtro_producto"])) && isset($_POST["filtro_categoria"]) && isset($_POST["filtro_precioMinimo"])
+            && isset($_POST["filtro_precioMaximo"]) { 
+            if(!empty($_POST["filtro_producto"]) && !empty($_POST["filtro_categoria"]) && !empty($_POST["filtro_precioMinimo"]) 
+                && !empty($_POST["filtro_precioMaximo"])) { 
+                    $produto = $this->modelProducto->getFiltrados($_POST["filtro_producto"], $_POST["filtro_categoria"], $_POST["filtro_precioMinimo"], $_POST["filtro_precioMaximo"]);
+                    $imagenes = $this->getUniqImage($productos);
+                    $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), $this->helper->getRol(), $imagenes, $this->helper->getEmail(), $pagina);
+            } elseif (!empty($_POST["filtro_producto"]) && !empty($_POST["filtro_categoria"]) && !empty($_POST["filtro_precioMinimo"]) 
+            && !empty($_POST["filtro_precioMaximo"]))) {
+                
+            }
+    }*/
 
     function showDetalleItem($params=null){ 
         $id_producto = $params[':ID']; 
