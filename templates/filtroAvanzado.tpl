@@ -1,4 +1,4 @@
-<div class="d-inline-flex container-fluid justify-content-center bg-warning"> 
+<div class="container-fluid d-inline-flex justify-content-center bg-warning"> 
     <form class="container d-inline-flex justify-content-center p-1 mt-2" action="home/filtrados" method="POST">
         <div class="form-row mr-2">
             <div class="col">

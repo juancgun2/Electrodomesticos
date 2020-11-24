@@ -1,4 +1,4 @@
-<footer class="bd-footer text-muted"> 
+<footer class="pl-0 pr-0 container-fluid bd-footer text-muted"> 
     <div class="container-fluid p-3 p-md-5"> 
         <div class="row">
             <span class="border border-secondary border-top"></span>

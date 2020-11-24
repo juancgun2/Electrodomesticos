@@ -174,14 +174,18 @@ a.fa:hover{
 }
 
 .imagenes{ 
-    width:auto;          /*400px;*/ 
-    height:auto;        /*150px;*/
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    overflow-x: wrap;
+    width:90%;          /*400px;*/ 
+    height:90%;        /*150px;*/
     margin: 2px;
 }
 
 .containerImages{ 
     display: flex;
-    width: 350px;       /*100%*/
+    width: .3fr;       /*100%*/
     height: auto;       /*max-content*/
     overflow-x: wrap;
     flex-wrap: wrap;
@@ -217,3 +221,35 @@ a.fa:hover{
 .myHref:hover{
     text-decoration: none!important;
 }
+
+div.imgMediana{ 
+    max-width: 100%;
+    height: 200px;
+    min-height: 200px;
+    max-height: 200px;
+}
+
+img.pequeña{ 
+    width: 50%;
+    height: auto;
+}
+
+img.mediana{ 
+    width: 100%!important;
+    height: 100%!important;
+}
+
+img.grande{ 
+    width:90%;
+    height: auto;
+}
+
+.mobile { 
+    display: initial;
+}
+
+@media only screen and (min-width: 361px){ 
+    .mobile{ 
+        display: inherit!important;
+    }
+} 

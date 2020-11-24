@@ -15,6 +15,12 @@ Class modelProducto{
         return $consulta->fetchAll(PDO::FETCH_OBJ);
     } 
 
+    function getCantidad(){ 
+        $consulta=$this->db->prepare("SELECT COUNT(producto.id) as cantidad from producto"); 
+        $consulta->execute(); 
+        return $consulta->fetch(PDO::FETCH_OBJ);
+    }
+
     function getFiltrados($nombre=null, $categoria=null, $precioMin=null, $precioMax=null){ 
         $consulta = $this->db->prepare("SELECT producto.nombre,producto.precio,producto.stock,producto.id,
         categoria.name,producto.id_categoria from producto join categoria 

@@ -16,116 +16,123 @@
             <h1 class="nameLogo"><span id="jyj">J&J</span> Electrodomesticos</h1>   
         </header> 
         <nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
-           <a href="home"> <span class="navbar-brand mb-0 h1"><img src="./img/J&Jnuevo.png" class="img-fluid imageLogo" alt="J&J"></span> </a>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="home">Home
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-house" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
-                        <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
-                        </svg> 
-                    </a> 
-                </li> 
-                 <li class="nav-item">
-                    <a class="nav-link" href="Categorias">Categorias</a>
-                </li>
-                {if $sesion === "admin"}
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile" aria-controls="mobile" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mobile">
+                <a href="home"> <span class="navbar-brand mb-0 h1"><img src="./img/J&Jnuevo.png" class="img-fluid imageLogo" alt="J&J"></span> </a>
+                <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="Usuarios">Usuarios</a>
+                        <a class="nav-link" href="home">Home
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-house" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                            <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                            </svg> 
+                        </a> 
+                    </li> 
+                    <li class="nav-item">
+                        <a class="nav-link" href="Categorias">Categorias</a>
                     </li>
-                {/if}
-            {if $position == "home"} 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mostrar por categorias</a>
-                    <div class="dropdown-menu">
-                        {foreach from=$categorias item=categoria}
-                            <a class="dropdown-item"href="Categoria/{$categoria->name}">{$categoria->name}</a>
-                        {/foreach}   
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="home">Todas</a>
+                    {if $sesion === "admin"}
+                        <li class="nav-item">
+                            <a class="nav-link" href="Usuarios">Usuarios</a>
+                        </li>
+                    {/if}
+                {if $position == "home"} 
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mostrar por categorias</a>
+                        <div class="dropdown-menu">
+                            {foreach from=$categorias item=categoria}
+                                <a class="dropdown-item"href="Categoria/{$categoria->name}">{$categoria->name}</a>
+                            {/foreach}   
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="home">Todas</a>
+                        </div>
+                    </li> 
+                    </ul>
+                    <ul class="navbar-nav ml-md-auto">
+                        {if $sesion!=false}
+                            <li class="nav-item">
+                                <a class="nav-link" href="cerrarSesion">{$email}(Log out)
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
+                                    <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                    <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+                                    </svg>
+                                </a>
+                            </li> 
+                        {else}
+                            <li class="nav-item">
+                                <a class="nav-link" href="showLogin">Iniciar Sesion
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
+                                    <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                    <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+                                    </svg>
+                                </a>
+                            </li> 
+                        {/if}
+                    </ul>
                     </div>
-                </li> 
-                </ul>
-                <ul class="navbar-nav ml-md-auto">
+                </nav> 
+                {include file="banner.tpl"}   
+                {elseif $position == "notHome"} 
+                    </ul>
+                    <ul class="navbar-nav ml-md-auto">
                     {if $sesion!=false}
                         <li class="nav-item">
-                            <a class="nav-link" href="cerrarSesion">{$email}(Log out)
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
-                                <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                                <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-                                </svg>
-                            </a>
-                        </li> 
+                        <a class="nav-link" href="cerrarSesion">{$email}(Log out)
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
+                            <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                            <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+                            </svg>
+                        </a>
+                    </li> 
                     {else}
-                        <li class="nav-item">
-                            <a class="nav-link" href="showLogin">Iniciar Sesion
-                                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
-                                <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                                <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-                                </svg>
-                            </a>
-                        </li> 
+                    <li class="nav-item">
+                        <a class="nav-link" href="showLogin">Iniciar Sesion
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
+                            <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                            <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+                            </svg>
+                        </a>
+                    </li> 
                     {/if}
-                </ul>
-            </nav> 
-            {include file="banner.tpl"}   
-            {elseif $position == "notHome"} 
-                </ul>
-                <ul class="navbar-nav ml-md-auto">
-                {if $sesion!=false}
+                    </ul>
+                    </div>
+                    </nav>
+                {elseif $position == "error"} 
                     <li class="nav-item">
-                    <a class="nav-link" href="cerrarSesion">{$email}(Log out)
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
-                        <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                        <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-                        </svg>
-                    </a>
-                </li> 
-                {else}
-                <li class="nav-item">
-                    <a class="nav-link" href="showLogin">Iniciar Sesion
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
-                        <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                        <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-                        </svg>
-                    </a>
-                </li> 
-                {/if}
-            </ul>
-            </nav>
-            {elseif $position == "error"} 
-                <li class="nav-item">
-                    <a class="nav-link" href="{$update}{$id}">Back</a>
-                </li> 
-                </ul>
-                <ul class="navbar-nav ml-md-auto">
-                {if $sesion!=false}
+                        <a class="nav-link" href="{$update}{$id}">Back</a>
+                    </li> 
+                    </ul>
+                    <ul class="navbar-nav ml-md-auto">
+                    {if $sesion!=false}
+                        <li class="nav-item">
+                        <a class="nav-link" href="cerrarSesion">{$email}(Log out)
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
+                            <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                            <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+                            </svg>
+                        </a>
+                    </li> 
+                    {else}
                     <li class="nav-item">
-                    <a class="nav-link" href="cerrarSesion">{$email}(Log out)
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
-                        <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                        <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-                        </svg>
-                    </a>
-                </li> 
-                {else}
-                <li class="nav-item">
-                    <a class="nav-link" href="showLogin">Iniciar Sesion
-                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
-                        <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-                        <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
-                        </svg>
-                    </a>
-                </li> 
-                {/if}
-                </ul>
-                </nav>
+                        <a class="nav-link" href="showLogin">Iniciar Sesion
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-person-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M13.468 12.37C12.758 11.226 11.195 10 8 10s-4.757 1.225-5.468 2.37A6.987 6.987 0 0 0 8 15a6.987 6.987 0 0 0 5.468-2.63z"/>
+                            <path fill-rule="evenodd" d="M8 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                            <path fill-rule="evenodd" d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8z"/>
+                            </svg>
+                        </a>
+                    </li> 
+                    {/if}
+                    </ul>
+                    </div>
+                    </nav>
                 <div class="containerError">
                     <h1 class="error"> {$error} 
                         <span id="errorImg"> 

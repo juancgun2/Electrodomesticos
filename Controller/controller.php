@@ -11,11 +11,13 @@ Class controller{
     private $modelImagen;
     private $view;
     private $helper;
+    private $cantidadProductos;
 
     function __construct(){ 
         $this->modelProducto = new modelProducto(); 
         $this->modelCategorias = new modelCategorias();
         $this->modelComentario = new modelComentario();
+        $this->cantidadProductos = $this->modelProducto->getCantidad()->cantidad;
         $this->modelImagen = new modelImagen();
         $this->view= new view(); 
         $this->helper= new helper();
@@ -45,12 +47,12 @@ Class controller{
             $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), false, $imagenes);    
     }
 
-    function getPaginados() { // necesito pasar parametro de cantidad de productos y limite de prod por pagina
-        if(isset($_GET["cantidad"])){
+    function getPaginados() { 
+        $nextPage = true;
+        if(isset($_GET["cantidad"]))
             $limit = $_GET["cantidad"];
-        }else{  
+        else
             $limit = 4;
-        }
         if(isset($_GET["page"])) {
             $contador = $_GET["page"] - 1;
             $pagina = $_GET["page"];
@@ -58,23 +60,18 @@ Class controller{
             $contador = 0;
             $pagina = 1;
         }
-        if( $pagina > 1 && $limit > 4){
-            print_r($pagina);
-            print_r("----"); 
-            print_r($limit);
-            $contador = $contador * $limit - $limit;
-        } else { 
-            $contador = $contador * $limit;
-        }
+        $contador = $contador * $limit;
+        if(($contador + $limit) > $this->cantidadProductos) 
+            $nextPage = false;
         $productos = $this->modelProducto->getProductosPaginados($contador, $limit); 
         $imagenes = $this->getUniqImage($productos);
         if($this->helper->getRol()) {
             if($this->helper->getActivity())
-                $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), $this->helper->getRol(), $imagenes, $this->helper->getEmail(), $pagina);
+                $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), $this->helper->getRol(), $imagenes, $this->helper->getEmail(), $pagina, $nextPage);
             else 
                 $this->helper->caducoSesion();
         } else 
-            $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), false, $imagenes, null, $pagina);  
+            $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), false, $imagenes, null, $pagina, $nextPage);  
     }
     
     /*
