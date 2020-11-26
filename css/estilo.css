@@ -1,11 +1,10 @@
 .nameLogo{ 
     overflow-x: hidden;
     font-family: Georgia, 'Times New Roman', Times, serif;
-    font-style: oblique;   
+    font-style: oblique; 
+    font-size: 200%; 
+    margin: 10%;  
     animation: logo 5s infinite; 
-    font-size: 341%;  
-    display: inline-flex; 
-    margin: 2%;
     } 
     @keyframes logo  {
         from{ 
@@ -37,22 +36,10 @@ body .background{
 
 .categorias{ /*categorias cambie*/
     display: grid; 
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     column-gap: 2%;
-    row-gap: 2%;
-    /*flex-direction: row;
-    flex-wrap: wrap; 
-    overflow: hidden;
-    justify-content: space-evenly; 
-    margin: 0px; 
-    padding: 0px;*/
+    row-gap: 3%;
 } 
-
-/*section.container.categorias .link{ 
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr; 
-    gap: 2px;
-}*/
 
 .textCategoria{  
     display: flex;
@@ -116,7 +103,11 @@ body{
 }
 
 .container-copyRight{ 
-    height:100%;
+    display: flex;
+    justify-content: center;
+    height:auto;
+    font-size: 20%;
+    font-weight: bold;
     background-color: #c5c7ca;
 }
 
@@ -147,8 +138,8 @@ div.img img{
 }
 
 a.fa{ 
-    font-size: 30px;
-    width: 30px;
+    font-size: 15px;
+    width: 15px;
     text-align: center;
     text-decoration: none;
     border-radius: 50%;
@@ -244,12 +235,67 @@ img.grande{
     height: auto;
 }
 
-.mobile { 
-    display: initial;
+.myShow { 
+    display: none!important;
 }
 
-@media only screen and (min-width: 361px){ 
-    .mobile{ 
-        display: inherit!important;
+.wrapper{
+    display: flex;
+    flex-direction: column; 
+    flex-wrap: wrap!important;
+    justify-content: start!important; 
+    
+}
+
+.paginacion{ 
+    display: flex;
+    justify-content: center!important;
+    align-items: center!important;
+}
+
+.textMobile h4{ 
+    font-size: 60%!important;
+}
+
+div.dontShow{ 
+    display: none!important;
+}
+
+h1.titleLogin { 
+    font-size: medium;
+}
+
+@media only screen and (min-width:500px){
+    .nameLogo{ 
+        font-size: 341%;  
+        display: inline-flex; 
+        margin: 2%;
+    } 
+
+    .wrapper{ 
+        display:flex; 
+        flex-direction: row;
+        justify-content: center!important;
+    }
+
+    .myShow{ 
+        display: flex!important;
+    }
+
+    .container-copyRight{ 
+        font-size: 60%;
+    }
+
+    a.fa{ 
+        font-size: 25px;
+        width: 25px;
+    }
+
+    .textMobile h4{ 
+        font-size: 100%!important;
+    }
+
+    h1.titleLogin{ 
+        font-size: 2.5rem;
     }
 } 

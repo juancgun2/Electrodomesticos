@@ -10,7 +10,7 @@
   {/if}
   <div class="row"> 
     <div class="col"> 
-      <h1> Inicia Sesion </h1>
+      <h1 class="titleLogin"> Inicia Sesion </h1>
       <div class="myBorder">
         <form class="px-4 py-3" action="iniciarSesion" method="POST">
             <div class="form-group">
@@ -26,7 +26,7 @@
       </div>
     </div> 
     <div class="col">
-        <h1> Crea una Cuenta </h1> 
+        <h1 class="titleLogin"> Crea una Cuenta </h1> 
       <div class="myBorder">  
         <form class="px-4 py-3" action="registrarse" method="POST">
             <div class="form-group">

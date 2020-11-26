@@ -23,17 +23,9 @@ class userController{
                 $this->helper->setSesion( $email, "user");
                 $this->view->home();
             }else {
-                //si la contraseña es correcta inicia sesion
-                $cuenta = $this->modelUsers->getCuenta($email);
-                $password = $_POST["newPassword"];
-                if(password_verify($paswword, $cuenta->password)) {
-                    $this->setSesion($cuenta->email, $cuenta->permisos);
-                    $this->view->home();
-                } else {
-                    $error= "El email ya existe, por favor inicie sesion";
-                    $this->view->showLogin(false,null,$error);
-                }   
-            }
+                $error= "El email ya existe, por favor inicie sesion";
+                $this->view->showLogin(false,null,$error);
+            }   
         } else 
             $this->helper->accesoDenegado();
     }

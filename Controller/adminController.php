@@ -45,7 +45,7 @@ Class adminController{
             return false;
     }
 
-    function moveAndInsertImg($idProducto){ 
+    private function moveAndInsertImg($idProducto){ 
         foreach($_FILES["imagen"]["tmp_name"] as $key => $tmp_name) {
             $name = $_FILES["imagen"]["name"][$key];
             $path = $this->getImgName($tmp_name , $name);
@@ -54,31 +54,37 @@ Class adminController{
     }
 
     function insertarProducto(){ 
-        if($this->helper->getRol() === 'admin') {
-            if($this->helper->getActivity()) {
-                if(!empty($_POST["nombre"]) && !empty($_POST["descripcion"]) && !empty($_POST["precio"]) &&
-                    !empty($_POST["stock"]) && !empty($_POST["nameCategoria"])){ 
+        if( $this->helper->getRol() === 'admin') {
+            if( $this->helper->getActivity() ) {
+                if( $this->controlForm() ) { 
                     $nombre = $_POST["nombre"]; 
                     $descripcion = $_POST["descripcion"]; 
                     $precio = $_POST["precio"]; 
                     $stock = $_POST["stock"]; 
+                    if( $stock < 0 ) 
+                        $stock = 0;
                     $nombreCategoria = $_POST["nameCategoria"]; 
                     $id_categoria = $this->modelCategorias->getIdCategoria($nombreCategoria);
                     if(!$this->existeProducto($nombre,$precio,$descripcion,$id_categoria->id) && $this->controlarImagen()) {
+                        //inserto con imagen
                         $idProducto = $this->modelProducto->insertarProducto($nombre, $descripcion, $precio, $stock, $id_categoria->id); 
                         $this->moveAndInsertImg($idProducto);
-                    } else if( !$this->controlarImagen()) { 
-                            echo("False controlar imagen "); 
-                            die();
-                            $this->modelProducto->insertarProducto($nombre, $descripcion, $precio, $stock, $id_categoria->id);
-                        } else { 
-                            echo("set stock de producto"); 
-                            die();
-                            $idProducto = $this->modelProducto->getIdProducto($nombre,$precio,$descripcion,$id_categoria->id);
-                            $producto = $this->modelProducto->getItem($idProducto->id);
-                            $stock = $stock + $producto->stock;
-                            $this->modelProducto->setStock($idProducto->id,$stock);
-                        } 
+                    }elseif($this->existeProducto($nombre,$precio,$descripcion,$id_categoria->id) && !$this->controlarImagen()) { 
+                        //set Stock sin imagen 
+                        $idProducto = $this->modelProducto->getIdProducto($nombre,$precio,$descripcion,$id_categoria->id);
+                        $producto = $this->modelProducto->getItem($idProducto->id);
+                        $stock = $stock + $producto->stock;
+                        $this->modelProducto->setStock($idProducto->id,$stock);
+                    }elseif ($this->existeProducto($nombre,$precio,$descripcion,$id_categoria->id) && $this->controlarImagen()) {
+                        //set Stock y agrego imagen
+                        $idProducto = $this->modelProducto->getIdProducto($nombre,$precio,$descripcion,$id_categoria->id);
+                        $producto = $this->modelProducto->getItem($idProducto->id);
+                        $stock = $stock + $producto->stock;
+                        $this->modelProducto->setStock($idProducto->id,$stock);
+                        $this->moveAndInsertImg($idProducto->id);
+                    }else { //inserto sin imagen
+                        $this->modelProducto->insertarProducto($nombre, $descripcion, $precio, $stock, $id_categoria->id); 
+                    } 
                     $this->view->home();          
                 } else { 
                     $this->view->error(null, true, "home", "", "admin", $this->helper->getEmail());
@@ -119,33 +125,56 @@ Class adminController{
         if($this->helper->getRol() === 'admin') {
             if($this->helper->getActivity()) {
                 $idProducto = $_POST["id_producto"];
-                if(!empty($_POST["nombre"]) && !empty($_POST["descripcion"]) && !empty($_POST["precio"]) 
-                        && !empty($_POST["stock"]) && !empty($_POST["nameCategoria"])) {     
+                if($this->controlForm()) {    
                     $nombre = $_POST["nombre"]; 
                     $descripcion = $_POST["descripcion"]; 
                     $precio = $_POST["precio"];
                     $stock = $_POST["stock"];
+                    if ($stock < 0) {
+                        $stock = 0;
+                    }
                     $nombreCategoria = $_POST["nameCategoria"]; 
                     $idProducto = $_POST["id_producto"];
                     $idCategoria = $this->modelCategorias->getIdCategoria($nombreCategoria);
-                    if ($this->controlarImagen()) {
+                    if($this->controlarImagen() && !$this->existeProducto($nombre, $precio, $descripcion, $idCategoria->id)) { 
+                        // agrego imagen y edito
                         $pathImg = $this->getImgName($_FILES["imagen"]["tmp_name"],$_FILES["imagen"]["name"]);
                         $this->modelImagen->insertarImagen($idProducto , $pathImg);
-                    }
-                    if(!$this->existeProducto($nombre, $precio, $descripcion, $idCategoria->id)){
                         $this->modelProducto->editarProducto($idProducto, $nombre, $descripcion, $precio, $stock, $idCategoria->id);
-                        $this->view->home(); 
-                    } else  {
-                        $error="El producto ingresado ya existe"; 
+                        $this->view->home();
+                    }elseif ($this->controlarImagen() && $this->existeProducto($nombre, $precio, $descripcion, $idCategoria->id)) {
+                        //agrego imagen sin editar
+                        $pathImg = $this->getImgName($_FILES["imagen"]["tmp_name"],$_FILES["imagen"]["name"]);
+                        $this->modelImagen->insertarImagen($idProducto , $pathImg);
+                        $error = "El producto ingresado ya existe. Solo se agregaron las imagenes";
+                        $this->view->error($error, null, "formEditar/", $idProducto, "admin", $this->helper->getEmail()); 
+                    }elseif (!$this->controlarImagen() && $this->existeProducto($nombre, $precio, $descripcion, $idCategoria->id)) { 
+                        $error = "El producto ingresado ya existe.";
                         $this->view->error($error, null, "formEditar/", $idProducto, "admin", $this->helper->getEmail());
-                        }
-                }else
-                    $this->view->error(null, null, "formEditar/", $idProducto, "admin", $this->helper->getEmail());
+                    }else { 
+                        $this->modelProducto->editarProducto($idProducto, $nombre, $descripcion, $precio, $stock, $idCategoria->id);
+                        $this->view->home();
+                    }
+                }elseif ($this->controlarImagen()) { 
+                    //agrego imagen sin editar
+                    $pathImg = $this->getImgName($_FILES["imagen"]["tmp_name"],$_FILES["imagen"]["name"]);
+                    $this->modelImagen->insertarImagen($idProducto , $pathImg);
+                    $this->view->home();
+                }else  {
+                    $this->view->error($error, null, "formEditar/", $idProducto, "admin", $this->helper->getEmail());
+                } 
             } else
                 $this->helper->caducoSesion();
         }else 
             $this->helper->accesoDenegado();
     } 
+
+    private function controlForm(){ 
+        if(!empty($_POST["nombre"]) && !empty($_POST["descripcion"]) && !empty($_POST["precio"]) && !empty($_POST["stock"]) && !empty($_POST["nameCategoria"]))
+            return true;
+        else 
+            return false;
+    }
 
     function showFormEditarCategoria($params=null){ 
         if($this->helper->getRol() === 'admin'){

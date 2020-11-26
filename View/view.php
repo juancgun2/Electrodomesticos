@@ -58,7 +58,6 @@ Class view{
     } 
 
     function home($ruta=""){ 
-        echo("ajajja");
         header("Location: ".BASE_URL.$ruta);
     } 
 

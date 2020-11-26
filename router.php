@@ -2,7 +2,7 @@
 require_once "Controller/controller.php";
 require_once "Controller/adminController.php";
 require_once "Controller/userController.php";
-require_once "Helper/helper.php";
+require_once "Controller/authController.php";
 require_once "RouterClass.php";
 
 define("BASE_URL", 'http://'.$_SERVER["SERVER_NAME"].':'.$_SERVER["SERVER_PORT"].dirname($_SERVER["PHP_SELF"]).'/');
@@ -10,7 +10,6 @@ define("BASE_URL", 'http://'.$_SERVER["SERVER_NAME"].':'.$_SERVER["SERVER_PORT"]
 $r = new router();
 
 $r->addRoute("home", "GET", "controller", "getPaginados"); 
-//$r->addRoute("home", "GET", "controller", "getPaginados"); 
             /*
                 Productos
             */
@@ -19,7 +18,7 @@ $r->addRoute("insertProducto", "POST", "adminController", "insertarProducto");
 $r->addRoute("eliminarProducto/:ID", "GET", "adminController", "eliminarProducto");
 $r->addRoute("formEditar/:ID", "GET", "adminController", "showFormEditar");
 $r->addRoute("editar", "POST", "adminController", "editarProducto");
-$r->addRoute("filtrados", "POST", "userController", "filtroAvanzado");
+$r->addRoute("filtrados", "POST", "controller", "filtroAvanzado");
             /*
                 Categorias 
             */
@@ -33,8 +32,8 @@ $r->addRoute("insertCategoria", "POST", "adminController", "insertarCategoria");
                 Usuarios  
             */
 $r->addRoute("showLogin", "GET", "controller", "showLogin");
-$r->addRoute("iniciarSesion", "POST", "helper", "iniciarSesion"); 
-$r->addRoute("cerrarSesion", "GET", "helper", "exit");
+$r->addRoute("iniciarSesion", "POST", "authController", "iniciarSesion"); 
+$r->addRoute("cerrarSesion", "GET", "authController", "exit");
 $r->addRoute("registrarse", "POST", "userController", "crearCuenta"); 
 $r->addRoute("Usuarios","GET","adminController","showUsuarios"); 
 $r->addRoute("eliminarUsuario/:ID","GET","adminController","eliminarUsuario"); 

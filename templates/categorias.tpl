@@ -1,7 +1,7 @@
 {include file="header.tpl"}
 <div class="container"> 
     <h1> Categorias </h1>   
-        <section class="container categorias">
+        <section class="categorias container">
             {foreach from=$categorias item=categoria}
                 <div class="animacion"> 
                 <a class="link" href="Categoria/{$categoria->name}">

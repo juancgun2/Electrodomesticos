@@ -2,12 +2,12 @@
 require_once "./View/view.php"; 
 require_once "./Model/modelProducto.php";
 require_once "./Model/modelCategorias.php";
-require_once "./Model/modelComentario.php";
+require_once "./Model/modelImagen.php";
+require_once "./Helper/helper.php";
 
 Class controller{ 
     private $modelProducto; 
     private $modelCategorias;
-    private $modelComentario;
     private $modelImagen;
     private $view;
     private $helper;
@@ -16,7 +16,6 @@ Class controller{
     function __construct(){ 
         $this->modelProducto = new modelProducto(); 
         $this->modelCategorias = new modelCategorias();
-        $this->modelComentario = new modelComentario();
         $this->cantidadProductos = $this->modelProducto->getCantidad()->cantidad;
         $this->modelImagen = new modelImagen();
         $this->view= new view(); 
@@ -35,31 +34,29 @@ Class controller{
         return $imagenes;
     }
 
-    function Home(){ // REVISAR LA PAGINACION, SI FUNCIONA BIEN, ESTA FUNCION ESTA DE MAS !!!!!!!!!!!
-        $productos = $this->modelProducto->getAllItems(); 
-        $imagenes = $this->getUniqImage($productos);
-        if($this->helper->getRol()) {
-            if($this->helper->getActivity()) {
-                $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), $this->helper->getRol(), $imagenes, $this->helper->getEmail());
-            } else 
-                $this->helper->caducoSesion();
-        } else
-            $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), false, $imagenes);    
+    private function getLimitProduct() { 
+        if(isset($_GET["cantidad"])) {
+            $limit = $_GET["cantidad"];
+        } else {
+            $limit = 4;
+        }
+        return $limit;
+    }
+
+    private function getPage() { 
+        if(isset($_GET["page"])) {
+            $pagina = $_GET["page"];
+        } else { 
+            $pagina = 1;
+        }
+        return $pagina;
     }
 
     function getPaginados() { 
         $nextPage = true;
-        if(isset($_GET["cantidad"]))
-            $limit = $_GET["cantidad"];
-        else
-            $limit = 4;
-        if(isset($_GET["page"])) {
-            $contador = $_GET["page"] - 1;
-            $pagina = $_GET["page"];
-        } else { 
-            $contador = 0;
-            $pagina = 1;
-        }
+        $limit = $this->getLimitProduct();
+        $pagina = $this->getPage();
+        $contador = $pagina - 1;
         $contador = $contador * $limit;
         if(($contador + $limit) > $this->cantidadProductos) 
             $nextPage = false;
@@ -74,20 +71,29 @@ Class controller{
             $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), false, $imagenes, null, $pagina, $nextPage);  
     }
     
-    /*
     function filtroAvanzado(){ 
-        if(isset($_POST["filtro_producto"])) && isset($_POST["filtro_categoria"]) && isset($_POST["filtro_precioMinimo"])
-            && isset($_POST["filtro_precioMaximo"]) { 
-            if(!empty($_POST["filtro_producto"]) && !empty($_POST["filtro_categoria"]) && !empty($_POST["filtro_precioMinimo"]) 
-                && !empty($_POST["filtro_precioMaximo"])) { 
-                    $produto = $this->modelProducto->getFiltrados($_POST["filtro_producto"], $_POST["filtro_categoria"], $_POST["filtro_precioMinimo"], $_POST["filtro_precioMaximo"]);
-                    $imagenes = $this->getUniqImage($productos);
-                    $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), $this->helper->getRol(), $imagenes, $this->helper->getEmail(), $pagina);
-            } elseif (!empty($_POST["filtro_producto"]) && !empty($_POST["filtro_categoria"]) && !empty($_POST["filtro_precioMinimo"]) 
-            && !empty($_POST["filtro_precioMaximo"]))) {
+        if( isset($_POST["filtro_precioMinimo"]) && isset($_POST["filtro_precioMaximo"])) { 
+            $nextPage = true;
+            $limit = $this->getLimitProduct();
+            $page = $this->getPage();
+            $contador = $page - 1; 
+            $contador = $contador * $limit;  
+            $productos = $this->modelProducto->getFiltrados($_POST["filtro_precioMinimo"], $_POST["filtro_precioMaximo"], $contador, $limit);
+            if( count($productos) < $limit)    
+                $nextPage = false; 
+            $imagenes = $this->getUniqImage($productos);
+            if($this->helper->getRol()) {
+                if($this->helper->getActivity())
+                    $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), $this->helper->getRol(), $imagenes, $this->helper->getEmail(), $page, $nextPage);
+                else 
+                    $this->helper->caducoSesion();
+            }else 
+                $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), false, $imagenes, null, $page, $nextPage);
                 
-            }
-    }*/
+        }else{ 
+            $this->view->home();
+        }
+    }
 
     function showDetalleItem($params=null){ 
         $id_producto = $params[':ID']; 
@@ -113,17 +119,25 @@ Class controller{
     }
 
     function filtrarPorCategorias($params=null){ 
+        $nextPage = true;
         $nombreCategoria = $params[":NOMBRE"];
+        $page = $this->getPage();
+        $limit = $this->getLimitProduct();
+        $contador = $page - 1;
+        $contador = $contador * $limit;
         $id_categoria = $this->modelCategorias->getIdCategoria($nombreCategoria);
-        $productosOrdenados = $this->modelProducto->getItemsInOrder($id_categoria->id); 
+        $productosOrdenados = $this->modelProducto->getItemsInCategorias($id_categoria->id, $contador, $limit); 
+        if(($contador + $limit) > count($productosOrdenados)) 
+            $nextPage = false;
         $imagenes = $this->getUniqImage($productosOrdenados);
         if($this->helper->getRol()){
             if($this->helper->getActivity())
-                $this->view->showAllItems($productosOrdenados, $this->modelCategorias->getCategorias(), $this->helper->getRol(), $imagenes, $this->helper->getEmail());
+                $this->view->showAllItems($productosOrdenados, $this->modelCategorias->getCategorias(), $this->helper->getRol(), $imagenes, $this->helper->getEmail(), $page, $nextPage);
             else 
                 $this->helper->caducoSesion();
-        } else 
-            $this->view->showAllItems($productosOrdenados, $this->modelCategorias->getCategorias(), false, $imagenes);
+        } else {
+            $this->view->showAllItems($productosOrdenados, $this->modelCategorias->getCategorias(), false, $imagenes, null, $page, $nextPage);
+        }
     }
 
     function showLogin(){ 

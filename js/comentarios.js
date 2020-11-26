@@ -23,7 +23,7 @@ let vueComentarios = new Vue({
   
 document.addEventListener("DOMContentLoaded",function(){
     getByProducto();
-    if(vueComentarios.rol === "admin"){
+    if(vueComentarios.rol === "admin" || vueComentarios.rol === "user"){
         document.querySelector("#submitComentario").addEventListener("click", e=> { 
             e.preventDefault();
             agregarComentario();
@@ -61,14 +61,21 @@ function agregarComentario(){
         "method":"post", 
         "headers": {"Content-Type":"application/json"}, 
         "body": JSON.stringify(comentario)
-    }).then(r => r.json())
-    .then(comentario => {
-        vueComentarios.comentarios.push(comentario); 
-        vueComentarios.promedioValoracion = getPromedioValoracion(vueComentarios.comentarios);
-        setCantidadEstrellas();
-        document.querySelector("#newPuntuacion").value=1;
-        document.querySelector("#newDescripcion").value="";
-    }).catch(error => console.log(error));
+    }).then(r => { 
+        if(r.ok)
+            return r.json(); 
+        else 
+            error("No se pudo agregar el comentario");
+    }).then( comentario => {
+                vueComentarios.comentarios.push(comentario); 
+                vueComentarios.promedioValoracion = getPromedioValoracion(vueComentarios.comentarios);
+                setCantidadEstrellas();
+                document.querySelector("#newPuntuacion").value=1;
+                document.querySelector("#newDescripcion").value="";
+                hideError();
+    }).catch( () => {
+        error("No se pudo agregar el comentario");
+    });
 }
 
 function getByProducto(){
@@ -80,23 +87,29 @@ function getByProducto(){
                  vueComentarios.comentarios = comentariosProd; 
                  vueComentarios.promedioValoracion = getPromedioValoracion(comentariosProd); 
                  setCantidadEstrellas();
+                 hideError();
                 })
-        .catch(error => console.log(error));
+                .catch( () => error("No se pudo obtener los comentarios"));
 }
 
 function eliminarComentario(id){
     fetch("apiv1/comentarios/" + id, {
         "method":"delete", 
     })
-    .then(r => { if(r.ok) 
-        vueComentarios.comentarios.forEach(element => {
-            if(element.idComentario===id){ 
-                vueComentarios.comentarios.splice(vueComentarios.comentarios.indexOf(element),1);
-            }
-            vueComentarios.promedioValoracion = getPromedioValoracion(vueComentarios.comentarios);
-            setCantidadEstrellas();
-        })
-    }).catch(error => console.log(error));
+    .then(r => { 
+        if(r.ok) {
+            vueComentarios.comentarios.forEach(element => {
+                if(element.idComentario===id){ 
+                    vueComentarios.comentarios.splice(vueComentarios.comentarios.indexOf(element),1);
+                }
+                vueComentarios.promedioValoracion = getPromedioValoracion(vueComentarios.comentarios);
+                setCantidadEstrellas();
+                hideError();
+            })
+        } else {
+            error("No se pudo eliminar el comentario");;
+        }
+    }).catch( error("No se pudo eliminar el comentario"));
 }
 
 function getPromedioValoracion(comentarios){ 
@@ -125,12 +138,6 @@ function cantidadEstrellas(numeroEstrellas){
     });
     return cantidad;
 }
-    /*for (let i = 0; i < vueComentarios.comentarios.length; i++) {
-        if(vueComentarios.comentarios[i].puntuacion === numeroEstrellas)
-            cantidad++;
-    }
-    return cantidad;
-}*/
 
 function setCantidadEstrellas(){ 
     vueComentarios.cantidadPorEstrellas=[];
@@ -140,6 +147,20 @@ function setCantidadEstrellas(){
             cantidad: cantidadEstrellas(i+1)
         };
         vueComentarios.cantidadPorEstrellas.push(json);
+    }
+}
+
+function showError(error) { 
+    document.querySelector("#errorComentario").innerHTML = error; 
+    if(document.querySelector("#containerErrorComentario").classList.contains("dontShow")){
+        document.querySelector("#containerErrorComentario").classList.toggle("dontShow");
+    }
+    return false;
+}
+
+function hideError(){
+    if(!document.querySelector("#containerErrorComentario").classList.contains("dontShow")){
+        document.querySelector("#containerErrorComentario").classList.toggle("dontShow");
     }
 }
 

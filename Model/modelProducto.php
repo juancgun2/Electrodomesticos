@@ -5,15 +5,7 @@ Class modelProducto{
 
     function __construct(){ 
         $this->db= new PDO('mysql:host=localhost;'.'dbname=electrodomesticos;charset=utf8', 'root', '');
-    } 
-
-    function getAllItems(){ 
-        $consulta=$this->db->prepare("SELECT producto.nombre,producto.precio,producto.stock,producto.id,
-        categoria.name,producto.id_categoria from producto join categoria 
-        on producto.id_categoria=categoria.id ORDER BY producto.nombre"); 
-        $consulta->execute(); 
-        return $consulta->fetchAll(PDO::FETCH_OBJ);
-    } 
+    }  
 
     function getCantidad(){ 
         $consulta=$this->db->prepare("SELECT COUNT(producto.id) as cantidad from producto"); 
@@ -21,12 +13,14 @@ Class modelProducto{
         return $consulta->fetch(PDO::FETCH_OBJ);
     }
 
-    function getFiltrados($nombre=null, $categoria=null, $precioMin=null, $precioMax=null){ 
+    function getFiltrados($precioMin, $precioMax, $contador, $limit){ 
         $consulta = $this->db->prepare("SELECT producto.nombre,producto.precio,producto.stock,producto.id,
         categoria.name,producto.id_categoria from producto join categoria 
-        on producto.id_categoria=categoria.id UNION SELECT producto.nombre,producto.precio,producto.stock,producto.id,
-        categoria.name,producto.id_categoria from producto join categoria 
-        on producto.id_categoria=categoria.id ORDER BY producto.nombre LIMIT :contador,:cantidadProductos");
+        on producto.id_categoria=categoria.id WHERE producto.precio BETWEEN :inicio AND :fin LIMIT :contador,:limite");
+        $consulta->bindValue(':inicio', (int) $precioMin, PDO::PARAM_INT);
+        $consulta->bindValue(':fin', (int) $precioMax, PDO::PARAM_INT);
+        $consulta->bindValue(':contador', (int) $contador, PDO::PARAM_INT);
+        $consulta->bindValue(':limite', (int) $limit, PDO::PARAM_INT);
         $consulta->execute(); 
         return $consulta->fetchAll(PDO::FETCH_OBJ);
     }
@@ -61,10 +55,13 @@ Class modelProducto{
         $consulta->execute(array($stock,$id));
     }
 
-    function getItemsInOrder($id_categoria){ 
+    function getItemsInCategorias($id_categoria, $contador, $limit){ 
         $consulta=$this->db->prepare("SELECT p.id,p.nombre,p.descripcion,p.precio,p.stock,p.id_categoria,
-        c.name from producto p JOIN categoria c WHERE p.id_categoria=? and c.id=? ORDER BY p.nombre"); 
-        $consulta->execute(array($id_categoria,$id_categoria)); 
+        c.name from producto p JOIN categoria c WHERE p.id_categoria=:id and c.id=:id ORDER BY p.nombre LIMIT :contador,:limite"); 
+        $consulta->bindValue(':id', (int) $id_categoria, PDO::PARAM_INT);
+        $consulta->bindValue(':contador', (int) $contador, PDO::PARAM_INT);
+        $consulta->bindValue(':limite', (int) $limit, PDO::PARAM_INT);
+        $consulta->execute();
         return $consulta->fetchAll(PDO::FETCH_OBJ);
     } 
 
