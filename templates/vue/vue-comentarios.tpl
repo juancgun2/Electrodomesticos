@@ -2,12 +2,12 @@
 <div class="container d-flex" id="vueComentarios">   
     <div class="col-md-10">
         <h4> Comentarios </h4>
-        <div class="col-md-10 mb-4">
-            <ul class="list-group" v-if="this.rol === 'admin'">
+        <div class="scrollComent col-md-10 mb-4">
+            <ul class="list-group list-coment" v-if="this.rol === 'admin'">
                 <li class="row mt-1 ml-1 border rounded-top" 
                     v-for="comentario in comentarios"
                     :idComentario="comentario.idComentario">
-                    <div class="col-md-10 px-2">
+                    <div class="descripcionComent col-md-10 px-2">
                         <small class="container d-flex">
                             <div v-for="p in estrellas(comentario.puntuacion)">
                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-star-fill mr-1" fill="red" xmlns="http://www.w3.org/2000/svg">
@@ -15,18 +15,18 @@
                                 </svg>
                             </div>
                         </small>
-                        <p>{{comentario.descripcion}}</p>
+                        <p class="ow-anywhere word-break ow-break-word" >{{comentario.descripcion}}</p>
                     </div>
                     <div class="col-md-2 d-flex align-baseline p-2">
                         <button class='btn btn-secondary' v-on:click="eliminar(comentario.idComentario)"> Eliminar </button>
                     </div>
                 </li>
             </ul>
-            <ul class="list-group" v-else>
+            <ul class="list-group list-coment" v-else>
                 <li class="row mt-1 ml-1 border rounded-top" 
                     v-for="comentario in comentarios"
                     :idComentario="comentario.idComentario">
-                    <div class="col-md-12 px-2">
+                    <div class="descripcionComent col-md-12 px-2">
                         <small class="container d-flex">
                             <div v-for="p in estrellas(comentario.puntuacion)">
                                 <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-star-fill mr-1" fill="red" xmlns="http://www.w3.org/2000/svg">
@@ -34,7 +34,7 @@
                                 </svg>
                             </div>
                         </small>
-                        <p>{{comentario.descripcion}}</p>
+                        <p class="ow-anywhere word-break ow-break-word" >{{comentario.descripcion}}</p>
                     </div>
                 </li>
             </ul>
