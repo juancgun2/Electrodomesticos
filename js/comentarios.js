@@ -35,7 +35,7 @@ function getComentarios(){
     fetch("/apiv1/comentarios")
         .then(response => Response.json())
         .then(comentarios => vueComentarios.comentarios=comentarios)
-        .catch(error => console.log(error));
+        .catch(() => showError("No se pudieron cargar los comentarios"));
 }
 
 function generarJSON(){ 
@@ -65,7 +65,7 @@ function agregarComentario(){
         if(r.ok)
             return r.json(); 
         else 
-            error("No se pudo agregar el comentario");
+        showError("No se pudo agregar el comentario");
     }).then( comentario => {
                 vueComentarios.comentarios.push(comentario); 
                 vueComentarios.promedioValoracion = getPromedioValoracion(vueComentarios.comentarios);
@@ -74,7 +74,7 @@ function agregarComentario(){
                 document.querySelector("#newDescripcion").value="";
                 hideError();
     }).catch( () => {
-        error("No se pudo agregar el comentario");
+        showError("No se pudo agregar el comentario");
     });
 }
 
@@ -89,7 +89,7 @@ function getByProducto(){
                  setCantidadEstrellas();
                  hideError();
                 })
-                .catch( () => error("No se pudo obtener los comentarios"));
+                .catch( () => showError("No se pudo obtener los comentarios"));
 }
 
 function eliminarComentario(id){
@@ -107,9 +107,9 @@ function eliminarComentario(id){
                 hideError();
             })
         } else {
-            error("No se pudo eliminar el comentario");;
+            showError("No se pudo eliminar el comentario");;
         }
-    }).catch( error("No se pudo eliminar el comentario"));
+    }).catch( showError("No se pudo eliminar el comentario"));
 }
 
 function getPromedioValoracion(comentarios){ 
@@ -129,9 +129,7 @@ function getPromedioValoracion(comentarios){
  */
 function cantidadEstrellas(numeroEstrellas){ 
     let cantidad = 0;
-    console.log(numeroEstrellas);
     vueComentarios.comentarios.forEach( e => { 
-        console.log(e.puntuacion);
         if(e.puntuacion == numeroEstrellas){ 
             cantidad = cantidad + 1;
         }

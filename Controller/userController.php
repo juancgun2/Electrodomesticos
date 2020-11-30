@@ -1,6 +1,7 @@
 <?php 
 require_once "View/view.php";
 require_once "Model/modelUsers.php";
+require_once "Helper/helper.php";
 
 class userController{ 
     private $modelUsers; 

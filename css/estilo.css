@@ -168,9 +168,10 @@ a.fa:hover{
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
-    overflow-x: wrap;
-    width:90%;          /*400px;*/ 
-    height:90%;        /*150px;*/
+    overflow-y: scroll;
+    width:90%;      
+    height: auto;              /*400px;*/ 
+    max-height:200px;        /*150px;*/
     margin: 2px;
 }
 
@@ -221,7 +222,8 @@ div.imgMediana{
 }
 
 img.pequeña{ 
-    width: 50%;
+    width: 150px;
+    max-height:150px;
     height: auto;
 }
 
@@ -231,7 +233,8 @@ img.mediana{
 }
 
 img.grande{ 
-    width:90%;
+    width:auto;
+    max-height: inherit;
     height: auto;
 }
 
@@ -265,15 +268,6 @@ h1.titleLogin {
     font-size: medium;
 }
 
-/*.descripcionComent{ 
-    display: flex;
-    width: 200px;
-    overflow-wrap: break-word!important;
-    /*word-wrap: break-word!important;*/
-    /*flex-wrap: wrap!important;
-    overflow-x: hidden;*/
-/*}*/
-
 .scrollComent{ 
     height: 500px!important;
     overflow-y: scroll!important;
@@ -284,24 +278,20 @@ h1.titleLogin {
 } 
 ::-webkit-scrollbar:hover {
     display: block;
-  }
-
+}
 
 .list-coment{ 
     padding-right: 10px;
     box-sizing:border-box;
 }
 
-/*div#vueComentarios div.col-md-10 div.scrollComent ul.list-group li div.descripcionComent */
-/*p.coment{ 
-    /*max-width: inherit!important;*/
-    /*word-wrap: break-word!important;*/
-    /*word-break: keep-all;*/
-/*}*/
- .word-break {
+.word-break {
     word-break: break-all;
- }
+}
 
+.paddingComent{ 
+    padding-left: 1%;
+}
 
 @media only screen and (min-width:500px){
     .nameLogo{ 

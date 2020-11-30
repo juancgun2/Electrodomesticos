@@ -16,8 +16,8 @@
                                     <path fill-rule="evenodd" d="M8 5.754a2.246 2.246 0 1 0 0 4.492 2.246 2.246 0 0 0 0-4.492zM4.754 8a3.246 3.246 0 1 1 6.492 0 3.246 3.246 0 0 1-6.492 0z"/>
                                     </svg>
                                 </a></button>
-                            <button class='btn dangerDelete'
-                                type='button'><a class='btn btn-danger'
+                            <button class="btn dangerDelete js-btn-tooltip" data-toggle="tooltip" data-placement="top" data-custom-class="tooltip-warning" title="Se eliminaran todos los productos que contengan esa categoria"
+                                type='button'><a class="btn btn-danger"
                                 href="eliminarCategoria/{$categoria->name}">Eliminar
                                     <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-exclamation-diamond" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                     <path fill-rule="evenodd" d="M6.95.435c.58-.58 1.52-.58 2.1 0l6.515 6.516c.58.58.58 1.519 0 2.098L9.05 15.565c-.58.58-1.519.58-2.098 0L.435 9.05a1.482 1.482 0 0 1 0-2.098L6.95.435zm1.4.7a.495.495 0 0 0-.7 0L1.134 7.65a.495.495 0 0 0 0 .7l6.516 6.516a.495.495 0 0 0 .7 0l6.516-6.516a.495.495 0 0 0 0-.7L8.35 1.134z"/>
