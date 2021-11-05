@@ -63,12 +63,13 @@ Class controller{
         $productos = $this->modelProducto->getProductosPaginados($contador, $limit); 
         $imagenes = $this->getUniqImage($productos);
         if($this->helper->getRol()) {
-            if($this->helper->getActivity())
+            if($this->helper->getActivity()) {
                 $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), $this->helper->getRol(), $imagenes, $this->helper->getEmail(), $pagina, $nextPage);
-            else 
+            }else 
                 $this->helper->caducoSesion();
-        } else 
+        } else{ 
             $this->view->showAllItems($productos, $this->modelCategorias->getCategorias(), false, $imagenes, null, $pagina, $nextPage);  
+        }
     }
     
     function filtroAvanzado(){ 

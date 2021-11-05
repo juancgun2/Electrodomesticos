@@ -4,8 +4,8 @@ Class modelProducto{
     private $db;
 
     function __construct(){ 
-        $this->db= new PDO('mysql:host=localhost;'.'dbname=electrodomesticos;charset=utf8', 'root', '');
-    }  
+      $this->db= new PDO('mysql:host=dbService;'.'dbname=electrodomesticos','root','password');
+    }
 
     function getCantidad(){ 
         $consulta=$this->db->prepare("SELECT COUNT(producto.id) as cantidad from producto"); 
